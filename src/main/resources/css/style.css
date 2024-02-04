@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+#textLabel {
+    -fx-font-family:'Montserrat', sans-serif;
+}
+
+#listTutorials {
+    -fx-control-inner-background: #f0e8ff; /* Background color of the list view */
+    -fx-font-size: 14px; /* Font size for the items in the list view */
+}
+
+#listTutorials .list-cell {
+    -fx-background-color: #d1c4ff; /* Background color of each list cell */
+    -fx-padding: 5px; /* Padding around each list cell */
+}
+
+#listTutorials .list-cell:hover {
+    -fx-background-color: #b39ddb; /* Background color when a list cell is hovered */
+}
+
+#listTutorials .list-cell:selected {
+    -fx-background-color: #7e57c2; /* Background color when a list cell is selected */
+    -fx-text-fill: #ffffff; /* Text color when a list cell is selected */
+}

@@ -39,6 +39,7 @@ public class MainController {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("TutorialMenu.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/style.css")).toExternalForm());
         stage.setScene(scene);
         stage.show();
     }

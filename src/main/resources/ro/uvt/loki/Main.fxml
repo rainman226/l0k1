@@ -4,10 +4,10 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.uvt.loki.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.uvt.loki.MainController">
    <children>
-      <Label fx:id="welcomeLabel" layoutX="251.0" layoutY="82.0" prefHeight="38.0" prefWidth="98.0" text="Welc0me t0 l0k1." />
-      <Button fx:id="btnNewFile" layoutX="145.0" layoutY="263.0" mnemonicParsing="false" onAction="#switchToNewFile" text="Empty file" />
-      <Button fx:id="btnTutorials" layoutX="386.0" layoutY="263.0" mnemonicParsing="false" onAction="#switchToTutorialMenu" text="Tutorials" />
+      <Label fx:id="welcomeLabel" layoutX="572.0" layoutY="126.0" prefHeight="38.0" prefWidth="133.0" text="Welc0me t0 l0k1." />
+      <Button fx:id="btnNewFile" layoutX="222.0" layoutY="582.0" mnemonicParsing="false" onAction="#switchToNewFile" prefHeight="70.0" prefWidth="137.0" text="Empty file" />
+      <Button fx:id="btnTutorials" layoutX="972.0" layoutY="584.0" mnemonicParsing="false" onAction="#switchToTutorialMenu" prefHeight="70.0" prefWidth="137.0" text="Tutorials" />
    </children>
 </AnchorPane>
