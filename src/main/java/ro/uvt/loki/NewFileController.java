@@ -5,18 +5,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.*;
 import javafx.stage.FileChooser;
-import org.bytedeco.javacpp.indexer.FloatIndexer;
-import org.bytedeco.javacpp.indexer.UByteIndexer;
-import org.bytedeco.opencv.opencv_core.Mat;
+import org.bytedeco.opencv.opencv_core.*;
+import ro.uvt.loki.services.EnchantmentService;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
-import static org.bytedeco.opencv.global.opencv_core.*;
-import static org.bytedeco.opencv.global.opencv_core.CV_8UC3;
 import static org.bytedeco.opencv.global.opencv_imgcodecs.imread;
-import static org.bytedeco.opencv.global.opencv_imgproc.filter2D;
+import static ro.uvt.loki.HelperFunctions.toFXImage;
 
 
 public class NewFileController {
@@ -29,6 +25,7 @@ public class NewFileController {
     @FXML
     private Button testButton;
 
+    private final EnchantmentService enchantmentService = new EnchantmentService();
     private String imagePath;
     @FXML
     public void openImage(ActionEvent event) throws IOException {
@@ -49,68 +46,78 @@ public class NewFileController {
         }
     }
 
-    @FXML
-    public void imageSegmentation(ActionEvent event) {
-        int[] WHITE = {255, 255, 255};
-        int[] BLACK = {0, 0, 0};
-
+    public void brightness(ActionEvent event) {
         Mat src = imread(imagePath);
-        // Check if everything was fine
+
         if (src.empty())
             return;
 
-        // Change the background from white to black, since that will help later to extract
-        // better results during the use of Distance Transform
-        UByteIndexer srcIndexer = src.createIndexer();
-        for (int x = 0; x < srcIndexer.rows(); x++) {
-            for (int y = 0; y < srcIndexer.cols(); y++) {
-                int[] values = new int[3];
-                srcIndexer.get(x, y, values);
-                if (Arrays.equals(values, WHITE)) {
-                    srcIndexer.put(x, y, BLACK);
-                }
-            }
-        }
-
-        Mat kernel = Mat.ones(3, 3, CV_32F).asMat();
-        FloatIndexer kernelIndexer = kernel.createIndexer();
-        kernelIndexer.put(1, 1, -8); // an approximation of second derivative, a quite strong kernel
-
-        // do the laplacian filtering as it is
-        // well, we need to convert everything in something more deeper then CV_8U
-        // because the kernel has some negative values,
-        // and we can expect in general to have a Laplacian image with negative values
-        // BUT a 8bits unsigned int (the one we are working with) can contain values from 0 to 255
-        // so the possible negative number will be truncated
-        Mat imgLaplacian = new Mat();
-        Mat sharp = src; // copy source image to another temporary one
-        filter2D(sharp, imgLaplacian, CV_32F, kernel);
-        src.convertTo(sharp, CV_32F);
-        Mat imgResult = subtract(sharp, imgLaplacian).asMat();
-        // convert back to 8bits gray scale
-        imgResult.convertTo(imgResult, CV_8UC3);
-        imgLaplacian.convertTo(imgLaplacian, CV_8UC3);
-        // imshow( "Laplace Filtered Image", imgLaplacian );
-
-
-        // Convert Mat to JavaFX Image
-        Image processedImage = mat2Image(src);
-
-        // Set the processed image to your ImageView
+        src = enchantmentService.increaseBrightness(src);
         if (myImageView != null) {
-            myImageView.setImage(processedImage);
+            Image editedImage = toFXImage(src);
+            myImageView.setImage(editedImage);
         }
     }
-
-    // Utility method to convert OpenCV Mat to JavaFX Image
-    private Image mat2Image(Mat mat) {
-        int width = mat.cols();
-        int height = mat.rows();
-        byte[] byteData = new byte[width * height * (int) mat.elemSize()];
-        mat.data().get(byteData);
-        WritableImage writableImage = new WritableImage(width, height);
-        PixelWriter pixelWriter = writableImage.getPixelWriter();
-        pixelWriter.setPixels(0, 0, width, height, PixelFormat.getByteRgbInstance(), byteData, 0, width * 3);
-        return writableImage;
-    }
+//    @FXML
+//    public void imageSegmentation(ActionEvent event) {
+//        int[] WHITE = {255, 255, 255};
+//        int[] BLACK = {0, 0, 0};
+//
+//        Mat src = imread(imagePath);
+//        // Check if everything was fine
+//        if (src.empty())
+//            return;
+//
+//        // Change the background from white to black, since that will help later to extract
+//        // better results during the use of Distance Transform
+//        UByteIndexer srcIndexer = src.createIndexer();
+//        for (int x = 0; x < srcIndexer.rows(); x++) {
+//            for (int y = 0; y < srcIndexer.cols(); y++) {
+//                int[] values = new int[3];
+//                srcIndexer.get(x, y, values);
+//                if (Arrays.equals(values, WHITE)) {
+//                    srcIndexer.put(x, y, BLACK);
+//                }
+//            }
+//        }
+//
+//        Mat kernel = Mat.ones(3, 3, CV_32F).asMat();
+//        FloatIndexer kernelIndexer = kernel.createIndexer();
+//        kernelIndexer.put(1, 1, -8); // an approximation of second derivative, a quite strong kernel
+//
+//        // Convert Mat to JavaFX Image
+//        //Image processedImage = mat2Image(src);
+//
+//        // Set the processed image to your ImageView
+//        if (myImageView != null) {
+//            //myImageView.setImage(processedImage);
+//            // Encode the JavaCV Mat to a byte array
+//            BytePointer bytePointer = new BytePointer();
+//            imencode(".png", src, bytePointer);
+//            byte[] byteArray = new byte[(int) bytePointer.capacity()];
+//            bytePointer.get(byteArray);
+//
+//            // Convert the byte array to a JavaFX Image
+//            try (ByteArrayInputStream inputStream = new ByteArrayInputStream(byteArray)) {
+//                Image processedImage = new Image(inputStream);
+//
+//                // Set the processed image to myImageView
+//                myImageView.setImage(processedImage);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
+//
+//    // Utility method to convert OpenCV Mat to JavaFX Image
+//    private Image mat2Image(Mat mat) {
+//        int width = mat.cols();
+//        int height = mat.rows();
+//        byte[] byteData = new byte[width * height * (int) mat.elemSize()];
+//        mat.data().get(byteData);
+//        WritableImage writableImage = new WritableImage(width, height);
+//        PixelWriter pixelWriter = writableImage.getPixelWriter();
+//        pixelWriter.setPixels(0, 0, width, height, PixelFormat.getByteRgbInstance(), byteData, 0, width * 3);
+//        return writableImage;
+//    }
 }

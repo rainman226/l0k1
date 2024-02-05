@@ -3,18 +3,21 @@ package ro.uvt.loki;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.*;
 
 import org.bytedeco.javacpp.indexer.FloatIndexer;
 import org.bytedeco.javacpp.indexer.IntIndexer;
 import org.bytedeco.javacpp.indexer.UByteIndexer;
-import org.bytedeco.javacv.CanvasFrame;
-import org.bytedeco.javacv.OpenCVFrameConverter;
+import org.bytedeco.javacv.*;
+//import org.bytedeco.javacv.CanvasFrame;
+//import org.bytedeco.javacv.OpenCVFrameConverter;
 
 import org.bytedeco.opencv.opencv_core.*;
 import org.bytedeco.opencv.opencv_imgproc.*;
 import static org.bytedeco.opencv.global.opencv_core.*;
 import static org.bytedeco.opencv.global.opencv_imgcodecs.*;
 import static org.bytedeco.opencv.global.opencv_imgproc.*;
+import static ro.uvt.loki.HelperFunctions.imshow;
 
 public class Demo {
     private static final int[] WHITE = {255, 255, 255};
@@ -139,11 +142,5 @@ public class Demo {
     }
 
     //I wrote a custom imshow method for problems using the OpenCV original one
-    private static void imshow(String txt, Mat img) {
-        CanvasFrame canvasFrame = new CanvasFrame(txt);
-        canvasFrame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-        canvasFrame.setCanvasSize(img.cols(), img.rows());
-        canvasFrame.showImage(new OpenCVFrameConverter.ToMat().convert(img));
-    }
 
 }
