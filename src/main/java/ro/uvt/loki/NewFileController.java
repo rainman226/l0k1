@@ -29,6 +29,8 @@ public class NewFileController {
     @FXML
     private Button testButton;
 
+    @FXML
+    private ImageView histogramImage;
     private final EnchantmentService enchantmentService = new EnchantmentService();
     private String imagePath;
     @FXML
@@ -50,7 +52,7 @@ public class NewFileController {
         }
     }
 
-    public void brightness(ActionEvent event) {
+    public void setHistogramImage(ActionEvent event) {
         Mat src = Imgcodecs.imread(imagePath);
 
         if (src.empty()) {
@@ -58,10 +60,15 @@ public class NewFileController {
             System.exit(0);
         }
 
-        src = enchantmentService.increaseBrightness(src);
+        Mat histogramMat = enchantmentService.calculateHistogram(src);
+        src = enchantmentService.equaliseHistogram(src);
+
         if (myImageView != null) {
             Image editedImage = toFXImage(src);
             myImageView.setImage(editedImage);
+
+            Image histogram = toFXImage(histogramMat);
+            histogramImage.setImage(histogram);
         }
     }
 //    @FXML
