@@ -5,13 +5,17 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.*;
 import javafx.stage.FileChooser;
-import org.bytedeco.opencv.opencv_core.*;
 import ro.uvt.loki.services.EnchantmentService;
+
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
 
 import java.io.File;
 import java.io.IOException;
 
-import static org.bytedeco.opencv.global.opencv_imgcodecs.imread;
+
 import static ro.uvt.loki.HelperFunctions.toFXImage;
 
 
@@ -47,10 +51,12 @@ public class NewFileController {
     }
 
     public void brightness(ActionEvent event) {
-        Mat src = imread(imagePath);
+        Mat src = Imgcodecs.imread(imagePath);
 
-        if (src.empty())
-            return;
+        if (src.empty()) {
+            System.err.println("Cannot read image: " + imagePath);
+            System.exit(0);
+        }
 
         src = enchantmentService.increaseBrightness(src);
         if (myImageView != null) {

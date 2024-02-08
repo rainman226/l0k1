@@ -4,7 +4,8 @@ import org.bytedeco.javacv.CanvasFrame;
 import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.JavaFXFrameConverter;
 import org.bytedeco.javacv.OpenCVFrameConverter;
-import org.bytedeco.opencv.opencv_core.Mat;
+import org.opencv.core.Mat;
+//import org.bytedeco.opencv.opencv_core.Mat;
 
 public class HelperFunctions {
     public static javafx.scene.image.Image toFXImage(Mat mat) {

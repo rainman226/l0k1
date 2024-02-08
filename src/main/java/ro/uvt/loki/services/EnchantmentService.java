@@ -1,18 +1,20 @@
 package ro.uvt.loki.services;
 
 import javafx.scene.image.Image;
-import org.bytedeco.opencv.opencv_core.Mat;
-import org.bytedeco.opencv.opencv_core.Size;
 
-import static org.bytedeco.opencv.global.opencv_core.addWeighted;
-import static org.bytedeco.opencv.global.opencv_imgproc.GaussianBlur;
-import static ro.uvt.loki.HelperFunctions.imshow;
+import org.opencv.core.Mat;
+import org.opencv.core.Size;
+
+import static org.opencv.core.Core.addWeighted;
+import static org.opencv.imgproc.Imgproc.GaussianBlur;
+
 
 
 public class EnchantmentService {
     public Mat increaseBrightness(Mat source) {
-        source.convertTo(source, -1, 5, 25);
-        //imshow("Test", source);
+        source.convertTo(source, -1, 1, 100);
+        //HighGui.imshow("Test", source);
+
         return source;
     }
 
