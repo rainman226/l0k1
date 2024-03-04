@@ -3,6 +3,7 @@ package ro.uvt.loki;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.*;
 import javafx.stage.FileChooser;
 import ro.uvt.loki.services.EnchantmentService;
@@ -16,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 
 
+import static ro.uvt.loki.HelperFunctions.showInputDialog;
 import static ro.uvt.loki.HelperFunctions.toFXImage;
 
 
@@ -31,6 +33,9 @@ public class NewFileController {
 
     @FXML
     private ImageView histogramImage;
+
+    TextInputDialog dialog;
+
     private final EnchantmentService enchantmentService = new EnchantmentService();
     private String imagePath;
     @FXML
@@ -70,6 +75,32 @@ public class NewFileController {
             Image histogram = toFXImage(histogramMat);
             histogramImage.setImage(histogram);
         }
+    }
+
+    public void increaseBrightness(ActionEvent event) {
+        Mat src = Imgcodecs.imread(imagePath);
+
+        if (src.empty()) {
+            System.err.println("Cannot read image: " + imagePath);
+            System.exit(0);
+        }
+
+        String[] values = showInputDialog();
+        double alpha = Double.parseDouble(values[0]);
+        double beta = Double.parseDouble(values[1]);
+        src = enchantmentService.increaseBrightness(src,alpha,beta);
+
+        if (myImageView != null) {
+            Image editedImage = toFXImage(src);
+            myImageView.setImage(editedImage);
+
+            Image histogram = toFXImage(src);
+            histogramImage.setImage(histogram);
+        }
+    }
+
+    public void dialog(ActionEvent event) {
+        HelperFunctions.showInputDialog();
     }
 //    @FXML
 //    public void imageSegmentation(ActionEvent event) {

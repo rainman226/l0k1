@@ -2,6 +2,9 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
@@ -12,5 +15,26 @@
       <Button id="uploadButton" fx:id="uploadButton" layoutX="1062.0" layoutY="612.0" mnemonicParsing="false" onAction="#openImage" prefHeight="55.0" prefWidth="118.0" text="Select" />
       <Button id="testButton" fx:id="testButton" layoutX="1060.0" layoutY="327.0" mnemonicParsing="false" onAction="#setHistogramImage" prefHeight="55.0" prefWidth="118.0" text="Do something" />
       <ImageView fx:id="histogramImage" fitHeight="200.0" fitWidth="256.0" layoutX="1013.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true" />
+      <MenuBar layoutX="-5.0" layoutY="2.0" prefHeight="26.0" prefWidth="960.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#openImage" text="Open file" />
+                  <MenuItem mnemonicParsing="false" onAction="#dialog" text="Test" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Enchantement">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#increaseBrightness" text="Increase Brightness" />
+                  <MenuItem mnemonicParsing="false" onAction="#setHistogramImage" text="Equilise Histogram" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
    </children>
 </AnchorPane>

@@ -24,10 +24,8 @@ public class Demo2 {
             return;
 
         EnchantmentService service = new EnchantmentService();
-//        Imgcodecs.imwrite("C:\\Users\\dota2\\Desktop\\resources\\output\\output.jpg",
-//                destination);
-
-
-
+        //destination = service.contrastStretch(src);
+        Imgcodecs.imwrite("C:\\Users\\dota2\\Desktop\\resources\\output\\output.jpg",
+                destination);
     }
 }

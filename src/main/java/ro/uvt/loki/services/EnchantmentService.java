@@ -15,8 +15,8 @@ import static org.opencv.imgproc.Imgproc.GaussianBlur;
 
 
 public class EnchantmentService {
-    public Mat increaseBrightness(Mat source) {
-        source.convertTo(source, -1, 1, 100);
+    public Mat increaseBrightness(Mat source, double alpha, double beta) {
+        source.convertTo(source, -1, alpha, beta);
         //HighGui.imshow("Test", source);
 
         return source;

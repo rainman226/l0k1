@@ -14,7 +14,7 @@ public class Main extends Application {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Main.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Hello!");
+        stage.setTitle("Loki");
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
