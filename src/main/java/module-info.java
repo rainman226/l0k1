@@ -7,6 +7,7 @@ module ro.uvt.loki {
 
 
     opens ro.uvt.loki to javafx.fxml;
+    opens ro.uvt.loki.dialogControllers to javafx.fxml;
     exports ro.uvt.loki;
 }
 

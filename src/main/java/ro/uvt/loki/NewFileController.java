@@ -2,10 +2,16 @@ package ro.uvt.loki;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextInputDialog;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Modality;
 import javafx.scene.image.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import ro.uvt.loki.dialogControllers.ColorBalanceController;
 import ro.uvt.loki.services.EnchantmentService;
 
 import org.opencv.core.Core;
@@ -15,6 +21,7 @@ import org.opencv.imgproc.Imgproc;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 
 import static ro.uvt.loki.HelperFunctions.showInputDialog;
@@ -22,6 +29,9 @@ import static ro.uvt.loki.HelperFunctions.toFXImage;
 
 
 public class NewFileController {
+    @FXML
+    private AnchorPane anchorPane;
+
     @FXML
     private ImageView myImageView;
 
@@ -94,13 +104,105 @@ public class NewFileController {
             Image editedImage = toFXImage(src);
             myImageView.setImage(editedImage);
 
-            Image histogram = toFXImage(src);
-            histogramImage.setImage(histogram);
         }
     }
 
+    public void blurImage(ActionEvent event) {
+        Mat src = Imgcodecs.imread(imagePath);
+
+        if (src.empty()) {
+            System.err.println("Cannot read image: " + imagePath);
+            System.exit(0);
+        }
+
+        src = enchantmentService.blur(src);
+
+        if (myImageView != null) {
+            Image editedImage = toFXImage(src);
+            myImageView.setImage(editedImage);
+        }
+    }
+
+    public void colorBalanceAdjust(ActionEvent event) {
+        Mat src = Imgcodecs.imread(imagePath);
+
+        if (src.empty()) {
+            System.err.println("Cannot read image: " + imagePath);
+            System.exit(0);
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ColorBalanceEditor.fxml"));
+            DialogPane dialogPane = loader.load();
+
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.setTitle("Color Balance Adjustment");
+
+            dialog.getDialogPane().setContent(dialogPane);
+
+            ColorBalanceController colorBalanceController = loader.getController();
+            colorBalanceController.setDialogStage((Stage) dialog.getDialogPane().getScene().getWindow());
+
+            dialog.showAndWait();  // This will wait for the dialog to close
+
+            // Once the dialog is closed, you can directly access the values from the controller
+            if (colorBalanceController.isOkClicked()) {
+                float redGain = colorBalanceController.getRedGain();
+                float greenGain = colorBalanceController.getGreenGain();
+                float blueGain = colorBalanceController.getBlueGain();
+
+                System.out.println("Red Gain: " + redGain + " Green Gain: " + greenGain + " Blue Gain: " + blueGain);
+                src = enchantmentService.colourBalanceAdjustment(src, redGain, greenGain, blueGain);
+            }
+
+            //dialog.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //src = enchantmentService.colourBalanceAdjustment(src);
+
+        if (myImageView != null) {
+            Image editedImage = toFXImage(src);
+            myImageView.setImage(editedImage);
+        }
+    }
+
+//    public void contrastStretch(ActionEvent event) {
+//        Mat src = Imgcodecs.imread(imagePath);
+//
+//        if (src.empty()) {
+//            System.err.println("Cannot read image: " + imagePath);
+//            System.exit(0);
+//        }
+//
+//        src = enchantmentService.contrastStretch(src);
+//
+//        if (myImageView != null) {
+//            Image editedImage = toFXImage(src);
+//            myImageView.setImage(editedImage);
+//        }
+//    }
     public void dialog(ActionEvent event) {
         HelperFunctions.showInputDialog();
+    }
+
+    public void switchToMain(ActionEvent event) throws IOException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) anchorPane.getScene().getWindow();
+            stage.setScene(new Scene(root));
+
+            // Access the MainController if needed
+            MainController mainController = loader.getController();
+            // Add any logic or data passing between controllers
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle exception
+        }
     }
 //    @FXML
 //    public void imageSegmentation(ActionEvent event) {

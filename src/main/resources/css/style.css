@@ -12,10 +12,13 @@
 #listTutorials .list-cell {
     -fx-background-color: #d1c4ff; /* Background color of each list cell */
     -fx-padding: 5px; /* Padding around each list cell */
+    -fx-font-size: 18px;
+    -fx-text-fill: #000000; /* Text color of each list cell */
 }
 
 #listTutorials .list-cell:hover {
     -fx-background-color: #b39ddb; /* Background color when a list cell is hovered */
+    -fx-text-fill: #ffffff; /* Text color when a list cell is hovered */
 }
 
 #listTutorials .list-cell:selected {

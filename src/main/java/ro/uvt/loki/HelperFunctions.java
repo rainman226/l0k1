@@ -57,15 +57,15 @@ public class HelperFunctions {
         TextField param2Field = new TextField();
 
         // Add labels and fields to the grid
-        grid.add(new Label("Parameter 1:"), 0, 0);
+        grid.add(new Label("Alpha:"), 0, 0);
         grid.add(param1Field, 1, 0);
-        grid.add(new Label("Parameter 2:"), 0, 1);
+        grid.add(new Label("Beta:"), 0, 1);
         grid.add(param2Field, 1, 1);
 
         // Create the dialog
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Input Dialog");
-        dialog.setHeaderText("Enter parameters");
+        dialog.setHeaderText("Enter alpha and beta values:");
         dialog.getDialogPane().setContent(grid);
 
         // Traditional way to get the response value.

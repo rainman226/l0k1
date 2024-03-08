@@ -2,7 +2,9 @@ package ro.uvt.loki.services;
 
 import javafx.scene.image.Image;
 
+import org.bytedeco.opencv.opencv_core.MatVector;
 import org.opencv.core.*;
+import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
@@ -10,8 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.opencv.core.Core.addWeighted;
+import static org.opencv.core.CvType.CV_32F;
 import static org.opencv.imgproc.Imgproc.GaussianBlur;
-
+import static ro.uvt.loki.HelperFunctions.imshow;
 
 
 public class EnchantmentService {
@@ -31,6 +34,22 @@ public class EnchantmentService {
         //imshow("test", destination);
         return destination;
     }
+
+//    public Mat contrastStretch(Mat source) {
+//        Mat destination
+//                = new Mat(source.rows(), source.cols(),
+//                source.type());
+//        if (source.empty())
+//            return source;
+//        List<Mat> bgrPlanes = new ArrayList<>();
+//        Core.split(source, bgrPlanes);
+//        for (int i = 0; i < bgrPlanes.size(); i++) {
+//            Core.normalize(bgrPlanes.get(i), bgrPlanes.get(i), 0, 255, Core.NORM_MINMAX);
+//        }
+//        Core.merge(bgrPlanes, destination);
+//        imshow("test", destination);
+//        return destination;
+//    }
 
     public Mat calculateHistogram(Mat source) {
 
@@ -90,4 +109,42 @@ public class EnchantmentService {
                 dst);
         return dst;
     }
+
+    public Mat blur(Mat src) {
+        Mat destination
+                = new Mat(src.rows(), src.cols(),
+                src.type());
+        Imgproc.blur(src, destination, new Size(250, 250));
+        return destination;
+    }
+
+    public Mat colourBalanceAdjustment(Mat src, float redGain, float greenGain, float blueGain) {
+        Mat destination
+                = new Mat(src.rows(), src.cols(),
+                src.type());
+        src.convertTo(destination, CV_32F);
+
+//        float redGain = 3.0f; 3.0390685
+//        float greenGain = 6.0f; 2.0354838
+//        float blueGain = 4.0f; 3.9709682
+
+        for (int i = 0; i < src.rows(); i++) {
+            for (int j = 0; j < src.cols(); j++) {
+                double[] pixel = src.get(i, j);
+                double blue = pixel[0] * blueGain;
+                double green = pixel[1] * greenGain;
+                double red = pixel[2] * redGain;
+
+                // Ensure pixel values are within the valid range [0, 255]
+                blue = Math.min(255, Math.max(0, blue));
+                green = Math.min(255, Math.max(0, green));
+                red = Math.min(255, Math.max(0, red));
+
+                destination.put(i, j, blue, green, red);
+            }
+        }
+
+        return destination;
+    }
+
 }

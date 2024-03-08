@@ -34,7 +34,6 @@ public class MainController {
         stage.show();
     }
 
-
     public void switchToTutorialMenu(ActionEvent event) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("TutorialMenu.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
