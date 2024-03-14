@@ -9,6 +9,7 @@ import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.opencv.core.Core.addWeighted;
@@ -147,4 +148,30 @@ public class EnchantmentService {
         return destination;
     }
 
+    public Mat saturation(Mat src, double saturationAdjustment) {
+        // Convert image from BGR to HSV color space
+        Mat hsvImage = new Mat();
+        Imgproc.cvtColor(src, hsvImage, Imgproc.COLOR_BGR2HSV);
+
+        // Split the HSV image into separate channels
+        List<Mat> hsvChannels = new ArrayList<>(3);
+        Core.split(hsvImage, hsvChannels);
+
+        // Adjust the saturation channel (index 1)
+        // You can adjust the saturation factor here (e.g., multiply by a scalar)
+        Mat saturationChannel = hsvChannels.get(1);
+
+        double saturationFactor = (100.0 + saturationAdjustment) / 100.0;
+        System.out.println(saturationFactor);
+        saturationChannel.convertTo(saturationChannel, -1, saturationFactor, 0);
+
+        // Merge the channels back into the HSV image
+        Core.merge(hsvChannels, hsvImage);
+
+        // Convert the image from HSV back to BGR color space
+        Mat result = new Mat();
+        Imgproc.cvtColor(hsvImage, result, Imgproc.COLOR_HSV2BGR);
+
+        return result;
+    }
 }

@@ -26,6 +26,7 @@ import java.util.Optional;
 
 import static ro.uvt.loki.HelperFunctions.showInputDialog;
 import static ro.uvt.loki.HelperFunctions.toFXImage;
+import static ro.uvt.loki.dialogControllers.SimpleInputController.saturationInputDialog;
 
 
 public class NewFileController {
@@ -116,6 +117,24 @@ public class NewFileController {
         }
 
         src = enchantmentService.blur(src);
+
+        if (myImageView != null) {
+            Image editedImage = toFXImage(src);
+            myImageView.setImage(editedImage);
+        }
+    }
+
+    public void changeSaturation(ActionEvent event) {
+        Mat src = Imgcodecs.imread(imagePath);
+
+        if (src.empty()) {
+            System.err.println("Cannot read image: " + imagePath);
+            System.exit(0);
+        }
+
+        String value = saturationInputDialog();
+        double saturationAdjustment = Double.parseDouble(value);
+        src = enchantmentService.saturation(src, saturationAdjustment);
 
         if (myImageView != null) {
             Image editedImage = toFXImage(src);
