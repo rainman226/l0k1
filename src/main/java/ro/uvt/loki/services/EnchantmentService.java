@@ -174,4 +174,25 @@ public class EnchantmentService {
 
         return result;
     }
+
+    public Mat whiteBalance(Mat src) {
+        // Calculate the average values for each color channel
+        Scalar avg = Core.mean(src);
+        double avg_B = avg.val[0];
+        double avg_G = avg.val[1];
+        double avg_R = avg.val[2];
+
+        // Calculate the average grayscale value
+        double avg_gray = (avg_B + avg_G + avg_R) / 3;
+
+        // Compute scaling factors for each channel
+        double scale_B = avg_gray / avg_B;
+        double scale_G = avg_gray / avg_G;
+        double scale_R = avg_gray / avg_R;
+
+        // Apply the scaling factors to each channel
+        Core.multiply(src, new Scalar(scale_B, scale_G, scale_R), src);
+
+        return src;
+    }
 }

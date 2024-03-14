@@ -19,7 +19,7 @@
             <items>
               <MenuItem mnemonicParsing="false" onAction="#openImage" text="Open file" />
                   <MenuItem mnemonicParsing="false" onAction="#switchToMain" text="Return to menu" />
-                  <MenuItem mnemonicParsing="false" text="Test" />
+                  <MenuItem mnemonicParsing="false" onAction="#whiteBalance" text="Test" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Enchantement">
@@ -28,6 +28,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#setHistogramImage" text="Equilise Histogram" />
                   <MenuItem mnemonicParsing="false" onAction="#colorBalanceAdjust" text="Color Balance" />
                   <MenuItem mnemonicParsing="false" onAction="#changeSaturation" text="Saturation" />
+                  <MenuItem mnemonicParsing="false" onAction="#whiteBalance" text="Auto white balance" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
