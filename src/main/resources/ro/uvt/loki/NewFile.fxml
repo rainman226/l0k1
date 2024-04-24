@@ -29,6 +29,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#colorBalanceAdjust" text="Color Balance" />
                   <MenuItem mnemonicParsing="false" onAction="#changeSaturation" text="Saturation" />
                   <MenuItem mnemonicParsing="false" onAction="#whiteBalance" text="Auto white balance" />
+                  <MenuItem mnemonicParsing="false" onAction="#gammaCorection" text="Gamma correction" />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Filtering">

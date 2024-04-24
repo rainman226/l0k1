@@ -203,6 +203,21 @@ public class NewFileController {
         }
     }
 
+    public void gammaCorection(ActionEvent event) {
+        Mat src = Imgcodecs.imread(imagePath);
+
+        if (src.empty()) {
+            System.err.println("Cannot read image: " + imagePath);
+            System.exit(0);
+        }
+
+        src = enchantmentService.gammaCorrection(src, 0.4);
+
+        if (myImageView != null) {
+            Image editedImage = toFXImage(src);
+            myImageView.setImage(editedImage);
+        }
+    }
 //    public void contrastStretch(ActionEvent event) {
 //        Mat src = Imgcodecs.imread(imagePath);
 //

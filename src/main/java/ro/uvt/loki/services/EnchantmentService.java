@@ -20,21 +20,22 @@ import static ro.uvt.loki.HelperFunctions.imshow;
 
 public class EnchantmentService {
     public Mat increaseBrightness(Mat source, double alpha, double beta) {
+        //alpha contrast, beta brightness
         source.convertTo(source, -1, alpha, beta);
         //HighGui.imshow("Test", source);
 
         return source;
     }
 
-    public Mat sharpen(Mat source) {
-        Mat destination
-                = new Mat(source.rows(), source.cols(),
-                source.type());
-        GaussianBlur(source, destination, new Size(0, 0), 10);
-        addWeighted(source, 1.5, destination, -0.5, 0, destination);
-        //imshow("test", destination);
-        return destination;
-    }
+//    public Mat sharpen(Mat source) {
+//        Mat destination
+//                = new Mat(source.rows(), source.cols(),
+//                source.type());
+//        GaussianBlur(source, destination, new Size(0, 0), 10);
+//        addWeighted(source, 1.5, destination, -0.5, 0, destination);
+//        //imshow("test", destination);
+//        return destination;
+//    }
 
 //    public Mat contrastStretch(Mat source) {
 //        Mat destination
@@ -171,6 +172,24 @@ public class EnchantmentService {
         // Convert the image from HSV back to BGR color space
         Mat result = new Mat();
         Imgproc.cvtColor(hsvImage, result, Imgproc.COLOR_HSV2BGR);
+
+        return result;
+    }
+
+    public Mat gammaCorrection(Mat src, double gamma) {
+        // Create a lookup table for gamma correction
+        Mat lut = new Mat(1, 256, CvType.CV_8U);
+        lut.setTo(new Scalar(0));
+
+        byte[] lutData = new byte[(int)lut.total() * lut.channels()];
+        for (int i = 0; i < 256; i++) {
+            lutData[i] = (byte) Math.round(255 * Math.pow(i / 255.0, gamma));
+        }
+        lut.put(0, 0, lutData);
+
+        // Apply the lookup table to the source image
+        Mat result = new Mat();
+        Core.LUT(src, lut, result);
 
         return result;
     }
