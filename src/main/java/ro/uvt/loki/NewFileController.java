@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ro.uvt.loki.dialogControllers.ColorBalanceController;
+import ro.uvt.loki.services.EdgeDetectionService;
 import ro.uvt.loki.services.EnchantmentService;
 
 import org.opencv.core.Core;
@@ -53,6 +54,8 @@ public class NewFileController {
     private final EnchantmentService enchantmentService = new EnchantmentService();
 
     private final FilterService filterService = new FilterService();
+
+    private final EdgeDetectionService edgeDetectionService = new EdgeDetectionService();
     private String imagePath;
     @FXML
     public void openImage(ActionEvent event) throws IOException {
@@ -237,6 +240,38 @@ public class NewFileController {
         double amount = Double.parseDouble(values[1]);
 
         src = filterService.sharpen(src, radius, amount);
+
+        if (myImageView != null) {
+            Image editedImage = toFXImage(src);
+            myImageView.setImage(editedImage);
+        }
+    }
+
+    public void sobelEdgeDetection(ActionEvent event) {
+        Mat src = Imgcodecs.imread(imagePath);
+
+        if (src.empty()) {
+            System.err.println("Cannot read image: " + imagePath);
+            System.exit(0);
+        }
+
+        src = edgeDetectionService.sobel(src, 2);
+
+        if (myImageView != null) {
+            Image editedImage = toFXImage(src);
+            myImageView.setImage(editedImage);
+        }
+    }
+
+    public void prewittEdgeDetection(ActionEvent event) {
+        Mat src = Imgcodecs.imread(imagePath);
+
+        if (src.empty()) {
+            System.err.println("Cannot read image: " + imagePath);
+            System.exit(0);
+        }
+
+        src = edgeDetectionService.prewitt(src, 2);
 
         if (myImageView != null) {
             Image editedImage = toFXImage(src);

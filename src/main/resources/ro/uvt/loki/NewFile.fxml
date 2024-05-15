@@ -19,7 +19,7 @@
             <items>
               <MenuItem mnemonicParsing="false" onAction="#openImage" text="Open file" />
                   <MenuItem mnemonicParsing="false" onAction="#switchToMain" text="Return to menu" />
-                  <MenuItem mnemonicParsing="false" onAction="#sharpen" text="Test" />
+                  <MenuItem mnemonicParsing="false" text="Test" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Enchantement">
@@ -40,8 +40,8 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Edge Detection">
               <items>
-                <MenuItem mnemonicParsing="false" text="Edge" />
-                  <MenuItem mnemonicParsing="false" text="Gaussian" />
+                <MenuItem mnemonicParsing="false" onAction="#sobelEdgeDetection" text="Sobel" />
+                  <MenuItem mnemonicParsing="false" onAction="#prewittEdgeDetection" text="Prewitt" />
                   <MenuItem mnemonicParsing="false" text="Laplacian" />
               </items>
             </Menu>
