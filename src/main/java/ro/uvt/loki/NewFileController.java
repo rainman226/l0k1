@@ -28,6 +28,7 @@ import java.util.Optional;
 
 import static ro.uvt.loki.HelperFunctions.showInputDialog;
 import static ro.uvt.loki.HelperFunctions.toFXImage;
+import static ro.uvt.loki.dialogControllers.SaturationInputController.showSaturationInputDialog;
 import static ro.uvt.loki.dialogControllers.SimpleInputController.saturationInputDialog;
 
 
@@ -216,6 +217,26 @@ public class NewFileController {
         }
 
         src = enchantmentService.gammaCorrection(src, 0.4);
+
+        if (myImageView != null) {
+            Image editedImage = toFXImage(src);
+            myImageView.setImage(editedImage);
+        }
+    }
+
+    public void sharpen(ActionEvent event) {
+        Mat src = Imgcodecs.imread(imagePath);
+
+        if (src.empty()) {
+            System.err.println("Cannot read image: " + imagePath);
+            System.exit(0);
+        }
+
+        String[] values = showSaturationInputDialog();
+        double radius = Double.parseDouble(values[0]);
+        double amount = Double.parseDouble(values[1]);
+
+        src = filterService.sharpen(src, radius, amount);
 
         if (myImageView != null) {
             Image editedImage = toFXImage(src);

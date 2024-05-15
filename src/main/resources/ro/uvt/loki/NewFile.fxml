@@ -19,7 +19,7 @@
             <items>
               <MenuItem mnemonicParsing="false" onAction="#openImage" text="Open file" />
                   <MenuItem mnemonicParsing="false" onAction="#switchToMain" text="Return to menu" />
-                  <MenuItem mnemonicParsing="false" onAction="#whiteBalance" text="Test" />
+                  <MenuItem mnemonicParsing="false" onAction="#sharpen" text="Test" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Enchantement">
@@ -35,7 +35,7 @@
             <Menu mnemonicParsing="false" text="Filtering">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#blurImage" text="Gaussian Blur" />
-                  <MenuItem mnemonicParsing="false" text="Sharpen (Laplacian)" />
+                  <MenuItem mnemonicParsing="false" onAction="#sharpen" text="Sharpen (Umask)" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Edge Detection">
