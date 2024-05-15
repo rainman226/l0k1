@@ -169,4 +169,37 @@ public class EdgeDetectionService {
 
         return edges;
     }
+
+    public Mat differenceOfGaussians(Mat src, double radius1, double radius2, double amount) {
+        // Convert the source image to grayscale if it is not already
+        Mat gray = new Mat();
+        if (src.channels() > 1) {
+            Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
+        } else {
+            gray = src.clone();
+        }
+
+        // Apply Gaussian blur with the first radius
+        Mat blurred1 = new Mat();
+        Imgproc.GaussianBlur(gray, blurred1, new Size(0, 0), radius1);
+
+        // Apply Gaussian blur with the second radius
+        Mat blurred2 = new Mat();
+        Imgproc.GaussianBlur(gray, blurred2, new Size(0, 0), radius2);
+
+        // Subtract the two blurred images to get the DoG result
+        Mat dog = new Mat();
+        Core.subtract(blurred1, blurred2, dog);
+
+        // Normalize the result to enhance visibility
+        Core.normalize(dog, dog, 0, 255, Core.NORM_MINMAX);
+
+        // Convert to absolute values to emphasize edges
+        Core.convertScaleAbs(dog, dog);
+
+//        // Apply the "amount" parameter to scale the edge intensities
+//        Core.multiply(dog, new Mat(dog.size(), dog.type(), new Scalar(amount)), dog);
+
+        return dog;
+    }
 }

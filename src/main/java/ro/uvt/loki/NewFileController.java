@@ -290,6 +290,21 @@ public class NewFileController {
         }
     }
 
+    public void differenceOfGaussians(ActionEvent event) {
+        Mat src = Imgcodecs.imread(imagePath);
+
+        if (src.empty()) {
+            System.err.println("Cannot read image: " + imagePath);
+            System.exit(0);
+        }
+
+        src = edgeDetectionService.differenceOfGaussians(src, 2, 4, 1);
+
+        if (myImageView != null) {
+            Image editedImage = toFXImage(src);
+            myImageView.setImage(editedImage);
+        }
+    }
 
 
     public void dialog(ActionEvent event) {
