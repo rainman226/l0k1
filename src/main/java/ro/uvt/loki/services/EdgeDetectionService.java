@@ -112,4 +112,61 @@ public class EdgeDetectionService {
 
         return edges;
     }
+
+    public Mat robertsCross(Mat src, double amount) {
+        // Define fixed parameters
+        boolean applyBlur = true;
+        Size blurKernelSize = new Size(3, 3);
+        double blurSigmaX = 0;
+
+        // Convert the source image to grayscale if it is not already
+        Mat gray = new Mat();
+        if (src.channels() > 1) {
+            Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
+        } else {
+            gray = src.clone();
+        }
+
+        // Apply Gaussian blur to reduce noise and improve edge detection
+        Mat blurred = new Mat();
+        if (applyBlur) {
+            Imgproc.GaussianBlur(gray, blurred, blurKernelSize, blurSigmaX);
+        } else {
+            blurred = gray.clone();
+        }
+
+        // Define Roberts Cross kernels
+        Mat kernelX = new Mat(2, 2, CvType.CV_32F) {
+            {
+                put(0, 0, 1); put(0, 1, 0);
+                put(1, 0, 0); put(1, 1, -1);
+            }
+        };
+
+        Mat kernelY = new Mat(2, 2, CvType.CV_32F) {
+            {
+                put(0, 0, 0); put(0, 1, 1);
+                put(1, 0, -1); put(1, 1, 0);
+            }
+        };
+
+        // Calculate gradients in the x and y directions using Roberts Cross kernels
+        Mat gradX = new Mat();
+        Mat gradY = new Mat();
+        Imgproc.filter2D(blurred, gradX, CvType.CV_64F, kernelX);
+        Imgproc.filter2D(blurred, gradY, CvType.CV_64F, kernelY);
+
+        // Convert gradients to absolute values
+        Core.convertScaleAbs(gradX, gradX);
+        Core.convertScaleAbs(gradY, gradY);
+
+        // Combine gradients to get the overall edge strength
+        Mat edges = new Mat();
+        Core.addWeighted(gradX, 0.5, gradY, 0.5, 0, edges);
+
+        // Apply the "amount" parameter to scale the edge intensities
+        Core.multiply(edges, new Mat(edges.size(), edges.type(), new Scalar(amount)), edges);
+
+        return edges;
+    }
 }

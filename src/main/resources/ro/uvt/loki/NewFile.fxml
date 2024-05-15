@@ -42,7 +42,7 @@
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#sobelEdgeDetection" text="Sobel" />
                   <MenuItem mnemonicParsing="false" onAction="#prewittEdgeDetection" text="Prewitt" />
-                  <MenuItem mnemonicParsing="false" text="Laplacian" />
+                  <MenuItem mnemonicParsing="false" onAction="#robertsEdgeDetection" text="Roberts" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Segmentation">

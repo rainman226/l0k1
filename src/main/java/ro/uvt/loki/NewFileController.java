@@ -266,13 +266,31 @@ public class NewFileController {
             System.exit(0);
         }
 
-        src = edgeDetectionService.prewitt(src, 2);
+        src = edgeDetectionService.prewitt(src, 10);
 
         if (myImageView != null) {
             Image editedImage = toFXImage(src);
             myImageView.setImage(editedImage);
         }
     }
+
+    public void robertsEdgeDetection(ActionEvent event) {
+        Mat src = Imgcodecs.imread(imagePath);
+
+        if (src.empty()) {
+            System.err.println("Cannot read image: " + imagePath);
+            System.exit(0);
+        }
+
+        src = edgeDetectionService.robertsCross(src, 2);
+
+        if (myImageView != null) {
+            Image editedImage = toFXImage(src);
+            myImageView.setImage(editedImage);
+        }
+    }
+
+
 
     public void dialog(ActionEvent event) {
         HelperFunctions.showInputDialog();
