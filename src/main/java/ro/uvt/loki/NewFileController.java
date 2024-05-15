@@ -6,26 +6,21 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Modality;
-import javafx.scene.image.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.opencv.core.Mat;
+import org.opencv.imgcodecs.Imgcodecs;
 import ro.uvt.loki.dialogControllers.ColorBalanceController;
 import ro.uvt.loki.services.EdgeDetectionService;
 import ro.uvt.loki.services.EnchantmentService;
-
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.imgproc.Imgproc;
 import ro.uvt.loki.services.FilterService;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.util.Optional;
-
 
 import static ro.uvt.loki.HelperFunctions.showInputDialog;
 import static ro.uvt.loki.HelperFunctions.toFXImage;

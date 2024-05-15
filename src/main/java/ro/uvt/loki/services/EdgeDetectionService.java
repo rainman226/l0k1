@@ -4,13 +4,6 @@ import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 
 public class EdgeDetectionService {
-
-    public Mat cannyEdgeDetection(Mat source) {
-        Mat destination = new Mat();
-        org.opencv.imgproc.Imgproc.Canny(source, destination, 100, 200);
-        return destination;
-    }
-
     public Mat sobel(Mat source, double amount) {
         // Define fixed parameters
         int kernelSize = 3;
@@ -54,29 +47,7 @@ public class EdgeDetectionService {
         // Apply the "amount" parameter to scale the edge intensities
         Core.multiply(edges, new Mat(edges.size(), edges.type(), new Scalar(amount)), edges);
 
-//        // Convert edges to color image
-//        Mat edgesColor = new Mat();
-//        Imgproc.applyColorMap(edges, edgesColor, Imgproc.COLORMAP_JET);
-//
-//        // Convert edgesColor to float for blending
-//        Mat edgesColorFloat = new Mat();
-//        edgesColor.convertTo(edgesColorFloat, CvType.CV_32F, 1.0 / 255.0);
-//
-//        // Convert original image to float for blending
-//        Mat srcFloat = new Mat();
-//        source.convertTo(srcFloat, CvType.CV_32F, 1.0 / 255.0);
-//
-//        // Add the edges to the original image
-//        Mat blended = new Mat();
-//        Core.addWeighted(srcFloat, 1.0, edgesColorFloat, 1.0, 0, blended);
-//
-//        // Convert back to 8-bit image
-//        blended.convertTo(blended, CvType.CV_8UC3, 255.0);
-//
-//        return blended;
-
         return edges;
-
     }
 
     public Mat prewitt(Mat src, double amount) {
