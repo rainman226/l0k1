@@ -1,5 +1,6 @@
 package ro.uvt.loki;
 
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.bytedeco.javacv.CanvasFrame;
@@ -14,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import org.opencv.imgcodecs.Imgcodecs;
 
 
 import java.io.ByteArrayInputStream;
@@ -81,5 +83,19 @@ public class HelperFunctions {
         else return null;
     }
 
+    public static Mat loadImage(String imagePath) {
+        Mat src = Imgcodecs.imread(imagePath);
+
+        return src;
+    }
+
+    public static void noImageSelectedAlert() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Image Load Error");
+        alert.setHeaderText(null);
+        alert.setContentText("Please select an image first.");
+
+        alert.showAndWait();
+    }
 
 }

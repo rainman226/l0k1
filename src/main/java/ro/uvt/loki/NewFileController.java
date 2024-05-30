@@ -1,5 +1,6 @@
 package ro.uvt.loki;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,12 +19,12 @@ import ro.uvt.loki.dialogControllers.ColorBalanceController;
 import ro.uvt.loki.services.EdgeDetectionService;
 import ro.uvt.loki.services.EnchantmentService;
 import ro.uvt.loki.services.FilterService;
+import ro.uvt.loki.services.SegmentationService;
 
 import java.io.File;
 import java.io.IOException;
 
-import static ro.uvt.loki.HelperFunctions.showInputDialog;
-import static ro.uvt.loki.HelperFunctions.toFXImage;
+import static ro.uvt.loki.HelperFunctions.*;
 import static ro.uvt.loki.dialogControllers.SaturationInputController.showSaturationInputDialog;
 import static ro.uvt.loki.dialogControllers.SimpleInputController.saturationInputDialog;
 
@@ -51,6 +52,8 @@ public class NewFileController {
     private final FilterService filterService = new FilterService();
 
     private final EdgeDetectionService edgeDetectionService = new EdgeDetectionService();
+
+    private final SegmentationService segmentationService = new SegmentationService();
     private String imagePath;
     @FXML
     public void openImage(ActionEvent event) throws IOException {
@@ -144,12 +147,7 @@ public class NewFileController {
     }
 
     public void changeSaturation(ActionEvent event) {
-        Mat src = Imgcodecs.imread(imagePath);
-
-        if (src.empty()) {
-            System.err.println("Cannot read image: " + imagePath);
-            System.exit(0);
-        }
+        Mat src = loadImage(imagePath);
 
         String value = saturationInputDialog();
         double saturationAdjustment = Double.parseDouble(value);
@@ -194,11 +192,9 @@ public class NewFileController {
                 src = enchantmentService.colourBalanceAdjustment(src, redGain, greenGain, blueGain);
             }
 
-            //dialog.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //src = enchantmentService.colourBalanceAdjustment(src);
 
         if (myImageView != null) {
             Image editedImage = toFXImage(src);
@@ -299,6 +295,22 @@ public class NewFileController {
         }
 
         src = edgeDetectionService.differenceOfGaussians(src, 2, 4, 1);
+
+        if (myImageView != null) {
+            Image editedImage = toFXImage(src);
+            myImageView.setImage(editedImage);
+        }
+    }
+
+    public void watershedSegmentation(ActionEvent event) {
+        Mat src = Imgcodecs.imread(imagePath);
+
+        if (src.empty()) {
+            System.err.println("Cannot read image: " + imagePath);
+            System.exit(0);
+        }
+
+        src = segmentationService.applyWatershed(src);
 
         if (myImageView != null) {
             Image editedImage = toFXImage(src);

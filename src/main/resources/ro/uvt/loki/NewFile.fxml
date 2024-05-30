@@ -19,7 +19,7 @@
             <items>
               <MenuItem mnemonicParsing="false" onAction="#openImage" text="Open file" />
                   <MenuItem mnemonicParsing="false" onAction="#switchToMain" text="Return to menu" />
-                  <MenuItem mnemonicParsing="false" text="Test" />
+                  <MenuItem mnemonicParsing="false" onAction="#watershedSegmentation" text="Test" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Enchantement">

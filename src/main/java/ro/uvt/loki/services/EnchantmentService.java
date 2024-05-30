@@ -10,7 +10,7 @@ import java.util.List;
 import static org.opencv.core.CvType.CV_32F;
 
 
-public class EnchantmentService {
+public class    EnchantmentService {
     public Mat increaseBrightness(Mat source, double alpha, double beta) {
         //alpha contrast, beta brightness
         source.convertTo(source, -1, alpha, beta);
