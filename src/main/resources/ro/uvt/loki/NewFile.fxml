@@ -36,6 +36,7 @@
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#blurImage" text="Gaussian Blur" />
                   <MenuItem mnemonicParsing="false" onAction="#sharpen" text="Sharpen (Umask)" />
+                  <MenuItem mnemonicParsing="false" onAction="#medianFilter" text="Median Filter" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Edge Detection">
@@ -48,7 +49,7 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Segmentation">
               <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" onAction="#watershedSegmentation" text="Watershed" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Restoration">

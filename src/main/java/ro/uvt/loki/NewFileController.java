@@ -318,6 +318,22 @@ public class NewFileController {
         }
     }
 
+    public void medianFilter(ActionEvent event) {
+        Mat src = Imgcodecs.imread(imagePath);
+
+        if (src.empty()) {
+            System.err.println("Cannot read image: " + imagePath);
+            System.exit(0);
+        }
+
+        src = filterService.medianFilter(src);
+
+        if (myImageView != null) {
+            Image editedImage = toFXImage(src);
+            myImageView.setImage(editedImage);
+        }
+    }
+
 
     public void dialog(ActionEvent event) {
         HelperFunctions.showInputDialog();

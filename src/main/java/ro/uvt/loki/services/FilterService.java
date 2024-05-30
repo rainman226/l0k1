@@ -27,4 +27,12 @@ public class FilterService {
 
         return dst;
     }
+
+    public Mat medianFilter(Mat source) {
+        Mat destination
+                = new Mat(source.rows(), source.cols(),
+                source.type());
+        Imgproc.medianBlur(source, destination, 15);
+        return destination;
+    }
 }
