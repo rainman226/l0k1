@@ -11,14 +11,26 @@ import static org.opencv.core.CvType.CV_32F;
 
 
 public class    EnchantmentService {
+    /**
+     * Increase the contrast of the image
+     * @param source the source image
+     * @param alpha the brightness factor
+     * @param beta the contrast factor
+     * @return the image with increased contrast
+     */
     public Mat increaseBrightness(Mat source, double alpha, double beta) {
-        //alpha contrast, beta brightness
+
+        // first value is the brightness, second is the contrast
         source.convertTo(source, -1, alpha, beta);
-        //HighGui.imshow("Test", source);
 
         return source;
     }
 
+    /**
+     * Calculate the histogram of the image
+     * @param source the source image
+     * @return the histogram of the image
+     */
     public Mat calculateHistogram(Mat source) {
 
         List<Mat> bgrPlanes = new ArrayList<>();
@@ -69,10 +81,18 @@ public class    EnchantmentService {
         return histImage;
     }
 
+    /**
+     * Equalise the histogram of the image
+     * @param src the source image
+     * @return the image with equalised histogram
+     */
     public Mat equaliseHistogram(Mat src) {
-        Imgproc.cvtColor(src, src, Imgproc.COLOR_BGR2GRAY);
+        Mat destination
+                = new Mat(src.rows(), src.cols(),
+                src.type());
+        Imgproc.cvtColor(src, destination, Imgproc.COLOR_BGR2GRAY);
         Mat dst = new Mat();
-        Imgproc.equalizeHist( src, dst );
+        Imgproc.equalizeHist( destination, dst);
         Imgcodecs.imwrite("C:\\Users\\dota2\\Desktop\\resources\\output\\output.jpg",
                 dst);
         return dst;
@@ -86,6 +106,14 @@ public class    EnchantmentService {
         return destination;
     }
 
+    /**
+     * Adjust the colour balance of the image
+     * @param src the source image
+     * @param redGain the red gain factor
+     * @param greenGain the green gain factor
+     * @param blueGain the blue gain factor
+     * @return the image with adjusted colour balance
+     */
     public Mat colourBalanceAdjustment(Mat src, float redGain, float greenGain, float blueGain) {
         Mat destination
                 = new Mat(src.rows(), src.cols(),
@@ -111,6 +139,12 @@ public class    EnchantmentService {
         return destination;
     }
 
+    /**
+     * Adjust the saturation of the image
+     * @param src the source image
+     * @param saturationAdjustment the saturation adjustment factor
+     * @return the image with adjusted saturation
+     */
     public Mat saturation(Mat src, double saturationAdjustment) {
         // Convert image from BGR to HSV color space
         Mat hsvImage = new Mat();
@@ -138,6 +172,12 @@ public class    EnchantmentService {
         return result;
     }
 
+    /**
+     * Apply gamma correction to the image
+     * @param src the source image
+     * @param gamma the gamma correction factor
+     * @return the image with gamma correction applied
+     */
     public Mat gammaCorrection(Mat src, double gamma) {
         // Create a lookup table for gamma correction
         Mat lut = new Mat(1, 256, CvType.CV_8U);
@@ -156,7 +196,15 @@ public class    EnchantmentService {
         return result;
     }
 
+    /**
+     * Apply white balance to the image
+     * @param src the source image
+     * @return the image with white balance applied
+     */
     public Mat whiteBalance(Mat src) {
+        Mat destination
+                = new Mat(src.rows(), src.cols(),
+                src.type());
         // Calculate the average values for each color channel
         Scalar avg = Core.mean(src);
         double avg_B = avg.val[0];
@@ -172,8 +220,8 @@ public class    EnchantmentService {
         double scale_R = avg_gray / avg_R;
 
         // Apply the scaling factors to each channel
-        Core.multiply(src, new Scalar(scale_B, scale_G, scale_R), src);
+        Core.multiply(src, new Scalar(scale_B, scale_G, scale_R), destination);
 
-        return src;
+        return destination;
     }
 }
