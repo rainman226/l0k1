@@ -1,6 +1,5 @@
 package ro.uvt.loki;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -113,39 +112,28 @@ public class NewFileController {
     }
 
     public void setHistogramImage(ActionEvent event) {
-        Mat src = Imgcodecs.imread(imagePath);
+        initializeImages();
 
-        if (src.empty()) {
-            System.err.println("Cannot read image: " + imagePath);
-            System.exit(0);
-        }
-
-        Mat histogramMat = enchantmentService.calculateHistogram(src);
-        src = enchantmentService.equaliseHistogram(src);
+        Mat histogramMat = enchantmentService.calculateHistogram(processedImage);
+        processedImage = enchantmentService.equaliseHistogram(processedImage);
 
         if (myImageView != null) {
-            Image editedImage = toFXImage(src);
+            Image editedImage = toFXImage(processedImage);
             myImageView.setImage(editedImage);
 
             Image histogram = toFXImage(histogramMat);
             histogramImage.setImage(histogram);
+
+            showingOriginal = false;
         }
     }
 
     public void increaseBrightness(ActionEvent event) {
-        Mat originalImage = Imgcodecs.imread(imagePath);
-
-        if (originalImage.empty()) {
-            System.err.println("Cannot read image: " + imagePath);
-            System.exit(0);
-        }
+        initializeImages();
 
         String[] values = showInputDialog();
         double alpha = Double.parseDouble(values[0]);
         double beta = Double.parseDouble(values[1]);
-        if (processedImage == null) {
-            processedImage = originalImage.clone();
-        }
 
         processedImage = enchantmentService.increaseBrightness(processedImage, alpha, beta);
 
@@ -156,57 +144,45 @@ public class NewFileController {
     }
 
     public void blurImage(ActionEvent event) {
-        Mat src = Imgcodecs.imread(imagePath);
+        initializeImages();
 
-        if (src.empty()) {
-            System.err.println("Cannot read image: " + imagePath);
-            System.exit(0);
-        }
-
-        src = filterService.gaussianBlur(src);
+        processedImage = filterService.gaussianBlur(processedImage);
 
         if (myImageView != null) {
-            Image editedImage = toFXImage(src);
+            Image editedImage = toFXImage(processedImage);
             myImageView.setImage(editedImage);
+            showingOriginal = false;
         }
     }
 
     public void whiteBalance(ActionEvent event) {
-        Mat src = Imgcodecs.imread(imagePath);
+        initializeImages();
 
-        if (src.empty()) {
-            System.err.println("Cannot read image: " + imagePath);
-            System.exit(0);
-        }
-
-        src = enchantmentService.whiteBalance(src);
+        processedImage = enchantmentService.whiteBalance(processedImage);
 
         if (myImageView != null) {
-            Image editedImage = toFXImage(src);
+            Image editedImage = toFXImage(processedImage);
             myImageView.setImage(editedImage);
+            showingOriginal = false;
         }
     }
 
     public void changeSaturation(ActionEvent event) {
-        Mat src = loadImage(imagePath);
+        initializeImages();
 
         String value = saturationInputDialog();
         double saturationAdjustment = Double.parseDouble(value);
-        src = enchantmentService.saturation(src, saturationAdjustment);
+        processedImage = enchantmentService.saturation(processedImage, saturationAdjustment);
 
         if (myImageView != null) {
-            Image editedImage = toFXImage(src);
+            Image editedImage = toFXImage(processedImage);
             myImageView.setImage(editedImage);
+            showingOriginal = false;
         }
     }
 
     public void colorBalanceAdjust(ActionEvent event) {
-        Mat src = Imgcodecs.imread(imagePath);
-
-        if (src.empty()) {
-            System.err.println("Cannot read image: " + imagePath);
-            System.exit(0);
-        }
+        initializeImages();
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ColorBalanceEditor.fxml"));
@@ -230,7 +206,7 @@ public class NewFileController {
                 float blueGain = colorBalanceController.getBlueGain();
 
                 System.out.println("Red Gain: " + redGain + " Green Gain: " + greenGain + " Blue Gain: " + blueGain);
-                src = enchantmentService.colourBalanceAdjustment(src, redGain, greenGain, blueGain);
+                processedImage = enchantmentService.colourBalanceAdjustment(processedImage, redGain, greenGain, blueGain);
             }
 
         } catch (IOException e) {
@@ -238,146 +214,130 @@ public class NewFileController {
         }
 
         if (myImageView != null) {
-            Image editedImage = toFXImage(src);
+            Image editedImage = toFXImage(processedImage);
             myImageView.setImage(editedImage);
+            showingOriginal = false;
         }
     }
 
     public void gammaCorection(ActionEvent event) {
-        Mat src = Imgcodecs.imread(imagePath);
+        initializeImages();
 
-        if (src.empty()) {
-            System.err.println("Cannot read image: " + imagePath);
-            System.exit(0);
-        }
-
-        src = enchantmentService.gammaCorrection(src, 0.4);
+        processedImage = enchantmentService.gammaCorrection(processedImage, 0.4);
 
         if (myImageView != null) {
-            Image editedImage = toFXImage(src);
+            Image editedImage = toFXImage(processedImage);
             myImageView.setImage(editedImage);
+            showingOriginal = false;
         }
     }
 
     public void sharpen(ActionEvent event) {
-        Mat src = Imgcodecs.imread(imagePath);
-
-        if (src.empty()) {
-            System.err.println("Cannot read image: " + imagePath);
-            System.exit(0);
-        }
+        initializeImages();
 
         String[] values = showSaturationInputDialog();
         double radius = Double.parseDouble(values[0]);
         double amount = Double.parseDouble(values[1]);
 
-        src = filterService.sharpen(src, radius, amount);
+        processedImage = filterService.sharpen(processedImage, radius, amount);
 
         if (myImageView != null) {
-            Image editedImage = toFXImage(src);
+            Image editedImage = toFXImage(processedImage);
             myImageView.setImage(editedImage);
+            showingOriginal = false;
         }
     }
 
     public void sobelEdgeDetection(ActionEvent event) {
-        Mat src = Imgcodecs.imread(imagePath);
+        initializeImages();
 
-        if (src.empty()) {
-            System.err.println("Cannot read image: " + imagePath);
-            System.exit(0);
-        }
-
-        src = edgeDetectionService.sobel(src, 2);
+        processedImage = edgeDetectionService.sobel(processedImage, 2);
 
         if (myImageView != null) {
-            Image editedImage = toFXImage(src);
+            Image editedImage = toFXImage(processedImage);
             myImageView.setImage(editedImage);
+            showingOriginal = false;
         }
     }
 
     public void prewittEdgeDetection(ActionEvent event) {
-        Mat src = Imgcodecs.imread(imagePath);
+        initializeImages();
 
-        if (src.empty()) {
-            System.err.println("Cannot read image: " + imagePath);
-            System.exit(0);
-        }
-
-        src = edgeDetectionService.prewitt(src, 10);
+        processedImage = edgeDetectionService.prewitt(processedImage, 10);
 
         if (myImageView != null) {
-            Image editedImage = toFXImage(src);
+            Image editedImage = toFXImage(processedImage);
             myImageView.setImage(editedImage);
+            showingOriginal = false;
         }
     }
 
     public void robertsEdgeDetection(ActionEvent event) {
-        Mat src = Imgcodecs.imread(imagePath);
+        initializeImages();
 
-        if (src.empty()) {
-            System.err.println("Cannot read image: " + imagePath);
-            System.exit(0);
-        }
-
-        src = edgeDetectionService.robertsCross(src, 2);
+        processedImage = edgeDetectionService.robertsCross(processedImage, 2);
 
         if (myImageView != null) {
-            Image editedImage = toFXImage(src);
+            Image editedImage = toFXImage(processedImage);
             myImageView.setImage(editedImage);
+            showingOriginal = false;
         }
     }
 
     public void differenceOfGaussians(ActionEvent event) {
-        Mat src = Imgcodecs.imread(imagePath);
+        initializeImages();
 
-        if (src.empty()) {
-            System.err.println("Cannot read image: " + imagePath);
-            System.exit(0);
-        }
-
-        src = edgeDetectionService.differenceOfGaussians(src, 2, 4, 1);
+        processedImage = edgeDetectionService.differenceOfGaussians(processedImage, 2, 4, 1);
 
         if (myImageView != null) {
-            Image editedImage = toFXImage(src);
+            Image editedImage = toFXImage(processedImage);
             myImageView.setImage(editedImage);
+            showingOriginal = false;
         }
     }
 
     public void watershedSegmentation(ActionEvent event) {
-        Mat src = Imgcodecs.imread(imagePath);
+        initializeImages();
 
-        if (src.empty()) {
-            System.err.println("Cannot read image: " + imagePath);
-            System.exit(0);
-        }
-
-        src = segmentationService.applyWatershed(src);
+        processedImage = segmentationService.applyWatershed(processedImage);
 
         if (myImageView != null) {
-            Image editedImage = toFXImage(src);
+            Image editedImage = toFXImage(processedImage);
             myImageView.setImage(editedImage);
+            showingOriginal = false;
         }
     }
 
     public void medianFilter(ActionEvent event) {
-        Mat src = Imgcodecs.imread(imagePath);
+        initializeImages();
 
-        if (src.empty()) {
-            System.err.println("Cannot read image: " + imagePath);
-            System.exit(0);
-        }
-
-        src = filterService.medianFilter(src);
+        processedImage = filterService.medianFilter(processedImage);
 
         if (myImageView != null) {
-            Image editedImage = toFXImage(src);
+            Image editedImage = toFXImage(processedImage);
             myImageView.setImage(editedImage);
+            showingOriginal = false;
         }
     }
 
 
     public void dialog(ActionEvent event) {
         HelperFunctions.showInputDialog();
+    }
+
+    private void initializeImages() {
+        if (originalImage == null) {
+            originalImage = Imgcodecs.imread(imagePath);
+
+            if (originalImage.empty()) {
+                System.err.println("Cannot read image: " + imagePath);
+                System.exit(0);
+            }
+        }
+
+        if (processedImage == null) {
+            processedImage = originalImage.clone();
+        }
     }
 
     public void switchToMain(ActionEvent event) throws IOException {
