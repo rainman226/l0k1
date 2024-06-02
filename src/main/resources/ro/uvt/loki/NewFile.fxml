@@ -66,6 +66,6 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Button id="uploadButton" fx:id="uploadButton1" layoutX="1080.0" layoutY="507.0" mnemonicParsing="false" onAction="#openImage" prefHeight="55.0" prefWidth="118.0" text="Something" />
+      <Button id="uploadButton" fx:id="toggleButton" layoutX="1080.0" layoutY="507.0" mnemonicParsing="false" onAction="#toggleImage" prefHeight="55.0" prefWidth="118.0" text="Show original" />
    </children>
 </AnchorPane>

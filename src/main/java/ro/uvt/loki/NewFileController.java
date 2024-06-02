@@ -43,9 +43,17 @@ public class NewFileController {
     private Button testButton;
 
     @FXML
+    private Button toggleButton;
+    @FXML
     private ImageView histogramImage;
 
     TextInputDialog dialog;
+
+    private Mat originalImage;
+
+    private Mat processedImage;
+
+    private boolean showingOriginal = true;
 
     private final EnchantmentService enchantmentService = new EnchantmentService();
 
@@ -72,6 +80,36 @@ public class NewFileController {
             imagePath = selectedFile.toURI().getPath().substring(1);;
             System.out.println(imagePath);
         }
+
+        // Initialize original and processed images
+        originalImage = Imgcodecs.imread(imagePath);
+        if (originalImage.empty()) {
+            System.err.println("Cannot read image: " + imagePath);
+            System.exit(0);
+        }
+        processedImage = originalImage.clone(); // Initialize processedImage as a clone of originalImage
+
+        // Show the original image initially
+        myImageView.setImage(toFXImage(originalImage));
+        showingOriginal = true; // Ensure the flag is correctly set
+    }
+
+    @FXML
+    private void toggleImage(ActionEvent event) {
+        if (showingOriginal) {
+            if (processedImage != null) {
+                myImageView.setImage(toFXImage(processedImage));
+            } else {
+                System.err.println("Processed image is not available.");
+            }
+        } else {
+            if (originalImage != null) {
+                myImageView.setImage(toFXImage(originalImage));
+            } else {
+                System.err.println("Original image is not available.");
+            }
+        }
+        showingOriginal = !showingOriginal;
     }
 
     public void setHistogramImage(ActionEvent event) {
@@ -95,9 +133,9 @@ public class NewFileController {
     }
 
     public void increaseBrightness(ActionEvent event) {
-        Mat src = Imgcodecs.imread(imagePath);
+        Mat originalImage = Imgcodecs.imread(imagePath);
 
-        if (src.empty()) {
+        if (originalImage.empty()) {
             System.err.println("Cannot read image: " + imagePath);
             System.exit(0);
         }
@@ -105,12 +143,15 @@ public class NewFileController {
         String[] values = showInputDialog();
         double alpha = Double.parseDouble(values[0]);
         double beta = Double.parseDouble(values[1]);
-        src = enchantmentService.increaseBrightness(src,alpha,beta);
+        if (processedImage == null) {
+            processedImage = originalImage.clone();
+        }
+
+        processedImage = enchantmentService.increaseBrightness(processedImage, alpha, beta);
 
         if (myImageView != null) {
-            Image editedImage = toFXImage(src);
-            myImageView.setImage(editedImage);
-
+            myImageView.setImage(toFXImage(processedImage));
+            showingOriginal = false;  // Switch to processed image
         }
     }
 
