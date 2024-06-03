@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<Menu xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.uvt.loki.controllers.EdgeDetectionController" text="Edge Detection">
+    <items>
+        <MenuItem mnemonicParsing="false" onAction="#sobelEdgeDetection" text="Sobel" />
+        <MenuItem mnemonicParsing="false" onAction="#prewittEdgeDetection" text="Prewitt" />
+        <MenuItem mnemonicParsing="false" onAction="#robertsEdgeDetection" text="Roberts" />
+        <MenuItem mnemonicParsing="false" onAction="#differenceOfGaussians" text="Difference of Gaussians" />
+    </items>
+</Menu>

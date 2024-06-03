@@ -8,64 +8,31 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../../../css/newfilestyle.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.uvt.loki.NewFileController">
-   <children>
-      <ImageView id="myImageView" fx:id="myImageView" fitHeight="630.0" fitWidth="999.0" layoutX="12.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
-      <Button id="uploadButton" fx:id="uploadButton" layoutX="1080.0" layoutY="421.0" mnemonicParsing="false" onAction="#openImage" prefHeight="55.0" prefWidth="118.0" text="Select" />
-      <Button id="testButton" fx:id="testButton" layoutX="1080.0" layoutY="332.0" mnemonicParsing="false" onAction="#undo" prefHeight="55.0" prefWidth="118.0" text="Undo" />
-      <ImageView id="histogramImage" fx:id="histogramImage" fitHeight="200.0" fitWidth="256.0" layoutX="1011.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true" />
-      <MenuBar layoutX="-5.0" layoutY="2.0" prefHeight="26.0" prefWidth="1282.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" onAction="#openImage" text="Open file" />
-                  <MenuItem mnemonicParsing="false" onAction="#switchToMain" text="Return to menu" />
-                  <MenuItem mnemonicParsing="false" onAction="#watershedSegmentation" text="Test" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Enchantement">
-            <items>
-              <MenuItem mnemonicParsing="false" onAction="#increaseBrightness" text="Increase Brightness" />
-                  <MenuItem mnemonicParsing="false" onAction="#setHistogramImage" text="Equilise Histogram" />
-                  <MenuItem mnemonicParsing="false" onAction="#colorBalanceAdjust" text="Color Balance" />
-                  <MenuItem mnemonicParsing="false" onAction="#changeSaturation" text="Saturation" />
-                  <MenuItem mnemonicParsing="false" onAction="#whiteBalance" text="Auto white balance" />
-                  <MenuItem mnemonicParsing="false" onAction="#gammaCorection" text="Gamma correction" />
-            </items>
-          </Menu>
-            <Menu mnemonicParsing="false" text="Filtering">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#blurImage" text="Gaussian Blur" />
-                  <MenuItem mnemonicParsing="false" onAction="#sharpen" text="Sharpen (Umask)" />
-                  <MenuItem mnemonicParsing="false" onAction="#medianFilter" text="Median Filter" />
-              </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Edge Detection">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#sobelEdgeDetection" text="Sobel" />
-                  <MenuItem mnemonicParsing="false" onAction="#prewittEdgeDetection" text="Prewitt" />
-                  <MenuItem mnemonicParsing="false" onAction="#robertsEdgeDetection" text="Roberts" />
-                  <MenuItem mnemonicParsing="false" onAction="#differenceOfGaussians" text="Difference of Gaussians" />
-              </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Segmentation">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#watershedSegmentation" text="Watershed" />
-              </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Restoration">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Noise removal" />
-                  <MenuItem mnemonicParsing="false" text="Adaptive Treshholding" />
-                  <MenuItem mnemonicParsing="false" text="Space conversion" />
-              </items>
-            </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-      <Button id="uploadButton" fx:id="toggleButton" layoutX="1080.0" layoutY="507.0" mnemonicParsing="false" onAction="#toggleImage" prefHeight="55.0" prefWidth="118.0" text="Show original" />
-   </children>
+    <children>
+        <ImageView fx:id="myImageView" fitHeight="630.0" fitWidth="999.0" layoutX="12.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
+        <Button fx:id="uploadButton" layoutX="1080.0" layoutY="421.0" mnemonicParsing="false" onAction="#openImage" prefHeight="55.0" prefWidth="118.0" text="Select" />
+        <Button fx:id="testButton" layoutX="1080.0" layoutY="332.0" mnemonicParsing="false" onAction="#undo" prefHeight="55.0" prefWidth="118.0" text="Undo" />
+        <ImageView fx:id="histogramImage" fitHeight="200.0" fitWidth="256.0" layoutX="1011.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true" />
+        <MenuBar fx:id="menuBar" layoutX="-5.0" layoutY="2.0" prefHeight="26.0" prefWidth="1282.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#openImage" text="Open file" />
+                        <MenuItem mnemonicParsing="false" onAction="#switchToMain" text="Return to menu" />
+                    </items>
+                </Menu>
+                <!-- Include other views for modularity -->
+                <fx:include source="EnchantmentMenu.fxml" fx:id="enchantmentMenu" />
+                <fx:include source="FilterMenu.fxml" fx:id="filterMenu" />
+                <fx:include source="EdgeDetectionMenu.fxml" fx:id="edgeDetectionMenu" />
+                <fx:include source="SegmentationMenu.fxml" fx:id="segmentationMenu" />
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <Button fx:id="toggleButton" layoutX="1080.0" layoutY="507.0" mnemonicParsing="false" onAction="#toggleImage" prefHeight="55.0" prefWidth="118.0" text="Show original" />
+    </children>
 </AnchorPane>

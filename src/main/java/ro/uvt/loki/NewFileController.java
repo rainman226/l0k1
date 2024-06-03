@@ -14,11 +14,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
+import ro.uvt.loki.controllers.EdgeDetectionController;
+import ro.uvt.loki.controllers.EnchantmentController;
+import ro.uvt.loki.controllers.FilterController;
+import ro.uvt.loki.controllers.SegmentationController;
 import ro.uvt.loki.dialogControllers.ColorBalanceController;
-import ro.uvt.loki.services.EdgeDetectionService;
-import ro.uvt.loki.services.EnchantmentService;
-import ro.uvt.loki.services.FilterService;
-import ro.uvt.loki.services.SegmentationService;
+import ro.uvt.loki.services.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,16 +43,61 @@ public class NewFileController {
     private Button toggleButton;
     @FXML
     private ImageView histogramImage;
-    TextInputDialog dialog;
-    private Mat originalImage;
-    private Mat processedImage;
+    @FXML
+    private MenuBar menuBar;
+
     private boolean showingOriginal = true;
-    private final EnchantmentService enchantmentService = new EnchantmentService();
-    private final FilterService filterService = new FilterService();
-    private final EdgeDetectionService edgeDetectionService = new EdgeDetectionService();
-    private final SegmentationService segmentationService = new SegmentationService();
-    private String imagePath;
-    private Stack<Mat> historyStack = new Stack<>();
+
+    private StateService stateService = new StateService();
+
+    private EnchantmentController enchantmentController;
+    private FilterController filterController;
+    private EdgeDetectionController edgeDetectionController;
+    private SegmentationController segmentationController;
+
+    @FXML
+    public void initialize() {
+        initializeControllers();
+    }
+
+    private void initializeControllers() {
+        try {
+            FXMLLoader loader;
+
+            // Load EnchantmentMenu
+            loader = new FXMLLoader(getClass().getResource("EnchantmentMenu.fxml"));
+            Menu enchantmentMenu = loader.load();
+            enchantmentController = loader.getController();
+            enchantmentController.setStateService(stateService);
+            menuBar.getMenus().add(enchantmentMenu);
+
+            // Load FilterMenu
+            loader = new FXMLLoader(getClass().getResource("FilterMenu.fxml"));
+            Menu filterMenu = loader.load();
+            filterController = loader.getController();
+            filterController.setStateService(stateService);
+            menuBar.getMenus().add(filterMenu);
+
+            // Load EdgeDetectionMenu
+            loader = new FXMLLoader(getClass().getResource("EdgeDetectionMenu.fxml"));
+            Menu edgeDetectionMenu = loader.load();
+            edgeDetectionController = loader.getController();
+            edgeDetectionController.setStateService(stateService);
+            menuBar.getMenus().add(edgeDetectionMenu);
+
+            // Load SegmentationMenu
+            loader = new FXMLLoader(getClass().getResource("SegmentationMenu.fxml"));
+            Menu segmentationMenu = loader.load();
+            segmentationController = loader.getController();
+            segmentationController.setStateService(stateService);
+            menuBar.getMenus().add(segmentationMenu);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     public void openImage(ActionEvent event) throws IOException {
         FileChooser fileChooser = new FileChooser();
@@ -63,254 +109,38 @@ public class NewFileController {
         File selectedFile = fileChooser.showOpenDialog(null);
 
         if (selectedFile != null) {
-            // Load the selected image into the ImageView
             Image selectedImage = new Image(selectedFile.toURI().toString());
             myImageView.setImage(selectedImage);
-            imagePath = selectedFile.toURI().getPath().substring(1);;
-            System.out.println(imagePath);
+            String imagePath = selectedFile.toURI().getPath().substring(1);
+            Mat originalImage = Imgcodecs.imread(imagePath);
+            if (originalImage.empty()) {
+                System.err.println("Cannot read image: " + imagePath);
+                System.exit(0);
+            }
+            stateService.setOriginalImage(originalImage);
+            initialize();
+            myImageView.setImage(toFXImage(originalImage));
+            showingOriginal = true;
         }
-
-        // Initialize original and processed images
-        originalImage = Imgcodecs.imread(imagePath);
-        if (originalImage.empty()) {
-            System.err.println("Cannot read image: " + imagePath);
-            System.exit(0);
-        }
-        processedImage = originalImage.clone(); // Initialize processedImage as a clone of originalImage
-
-        // Show the original image initially
-        myImageView.setImage(toFXImage(originalImage));
-        showingOriginal = true; // Ensure the flag is correctly set
     }
 
     @FXML
     public void undo(ActionEvent event) {
-        if (!historyStack.isEmpty()) {
-            // Revert to the previous state
-            processedImage = historyStack.pop();
-
-            // Display the reverted image
-            if (myImageView != null) {
-                myImageView.setImage(toFXImage(processedImage));
-                showingOriginal = false; // Switch to processed image
-            }
-        } else {
-            System.out.println("No more steps to undo.");
-        }
+        stateService.undo();
+        myImageView.setImage(toFXImage(stateService.getProcessedImage()));
+        showingOriginal = false;
     }
 
     @FXML
     private void toggleImage(ActionEvent event) {
         if (showingOriginal) {
-            if (processedImage != null) {
-                myImageView.setImage(toFXImage(processedImage));
-            } else {
-                System.err.println("Processed image is not available.");
-            }
+            myImageView.setImage(toFXImage(stateService.getProcessedImage()));
         } else {
-            if (originalImage != null) {
-                myImageView.setImage(toFXImage(originalImage));
-            } else {
-                System.err.println("Original image is not available.");
-            }
+            myImageView.setImage(toFXImage(stateService.getOriginalImage()));
         }
         showingOriginal = !showingOriginal;
     }
 
-    public void setHistogramImage(ActionEvent event) {
-        initializeImages();
-
-        Mat histogramMat = enchantmentService.calculateHistogram(processedImage);
-        Mat transformedImage = enchantmentService.equaliseHistogram(processedImage);
-
-        applyTransformation(transformedImage);
-        Image histogram = toFXImage(histogramMat);
-        histogramImage.setImage(histogram);
-    }
-
-    public void increaseBrightness(ActionEvent event) {
-        initializeImages();
-
-        String[] values = showInputDialog();
-        double alpha = Double.parseDouble(values[0]);
-        double beta = Double.parseDouble(values[1]);
-
-        Mat transformedImage = enchantmentService.increaseBrightness(processedImage, alpha, beta);
-        applyTransformation(transformedImage);
-    }
-
-    public void blurImage(ActionEvent event) {
-        initializeImages();
-
-        Mat transformedImage = filterService.gaussianBlur(processedImage);
-        applyTransformation(transformedImage);
-    }
-
-    public void whiteBalance(ActionEvent event) {
-        initializeImages();
-
-        Mat transformedImage = enchantmentService.whiteBalance(processedImage);
-        applyTransformation(transformedImage);
-    }
-
-    public void changeSaturation(ActionEvent event) {
-        initializeImages();
-
-        String value = saturationInputDialog();
-        double saturationAdjustment = Double.parseDouble(value);
-        Mat transformedImage = enchantmentService.saturation(processedImage, saturationAdjustment);
-        applyTransformation(transformedImage);
-    }
-
-    public void colorBalanceAdjust(ActionEvent event) {
-        initializeImages();
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ColorBalanceEditor.fxml"));
-            DialogPane dialogPane = loader.load();
-
-            Dialog<ButtonType> dialog = new Dialog<>();
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.setTitle("Color Balance Adjustment");
-
-            dialog.getDialogPane().setContent(dialogPane);
-
-            ColorBalanceController colorBalanceController = loader.getController();
-            colorBalanceController.setDialogStage((Stage) dialog.getDialogPane().getScene().getWindow());
-
-            dialog.showAndWait();  // This will wait for the dialog to close
-
-            // Once the dialog is closed, you can directly access the values from the controller
-            if (colorBalanceController.isOkClicked()) {
-                float redGain = colorBalanceController.getRedGain();
-                float greenGain = colorBalanceController.getGreenGain();
-                float blueGain = colorBalanceController.getBlueGain();
-
-                System.out.println("Red Gain: " + redGain + " Green Gain: " + greenGain + " Blue Gain: " + blueGain);
-//                Mat transformedImage = filterService.gaussianBlur(processedImage);
-//                applyTransformation(transformedImage);
-                  Mat transformedImage = enchantmentService.colourBalanceAdjustment(processedImage, redGain, greenGain, blueGain);
-                  applyTransformation(transformedImage);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (myImageView != null) {
-            Image editedImage = toFXImage(processedImage);
-            myImageView.setImage(editedImage);
-            showingOriginal = false;
-        }
-    }
-
-    public void gammaCorection(ActionEvent event) {
-        initializeImages();
-
-        Mat transformedImage = enchantmentService.gammaCorrection(processedImage, 0.4);
-        applyTransformation(transformedImage);
-    }
-
-    public void sharpen(ActionEvent event) {
-        initializeImages();
-
-        String[] values = showSaturationInputDialog();
-        double radius = Double.parseDouble(values[0]);
-        double amount = Double.parseDouble(values[1]);
-
-        Mat transformedImage = filterService.sharpen(processedImage, radius, amount);
-        applyTransformation(transformedImage);
-    }
-
-    public void sobelEdgeDetection(ActionEvent event) {
-        initializeImages();
-
-        //TODO: add input for amount
-        Mat transformedImage = edgeDetectionService.sobel(processedImage, 2);
-        applyTransformation(transformedImage);
-    }
-
-    public void prewittEdgeDetection(ActionEvent event) {
-        initializeImages();
-
-        //TODO: add input for amount
-        Mat transformedImage = edgeDetectionService.prewitt(processedImage, 10);
-        applyTransformation(transformedImage);
-    }
-
-    public void robertsEdgeDetection(ActionEvent event) {
-        initializeImages();
-
-        //TODO: add input for amount
-        Mat transformedImage = edgeDetectionService.robertsCross(processedImage, 2);
-        applyTransformation(transformedImage);
-    }
-
-    public void differenceOfGaussians(ActionEvent event) {
-        initializeImages();
-
-        //TODO: add input for amount
-        Mat transformedImage = edgeDetectionService.differenceOfGaussians(processedImage, 2, 4, 1);
-        applyTransformation(transformedImage);
-    }
-
-    public void watershedSegmentation(ActionEvent event) {
-        initializeImages();
-
-        Mat transformedImage = segmentationService.applyWatershed(processedImage);
-        applyTransformation(transformedImage);
-    }
-
-    public void medianFilter(ActionEvent event) {
-        initializeImages();
-        //TODO: add input for kernel size
-        Mat transformedImage = filterService.medianFilter(processedImage);
-        applyTransformation(transformedImage);
-    }
-
-    /**
-     * Initialize the original and processed images
-     */
-    private void initializeImages() {
-        if (originalImage == null) {
-            originalImage = Imgcodecs.imread(imagePath);
-
-            if (originalImage.empty()) {
-                System.err.println("Cannot read image: " + imagePath);
-                System.exit(0);
-            }
-        }
-
-        if (processedImage == null) {
-            processedImage = originalImage.clone();
-        }
-    }
-
-    /**
-     * Apply the transformation to the image and update the display
-     * @param transformedImage
-     */
-    private void applyTransformation(Mat transformedImage) {
-        // Push the current state to the stack
-        if (processedImage != null) {
-            historyStack.push(processedImage.clone());
-        }
-
-        // Update the processed image with the new transformation
-        processedImage = transformedImage;
-
-        // Display the transformed image
-        if (myImageView != null) {
-            myImageView.setImage(toFXImage(processedImage));
-            showingOriginal = false; // Switch to processed image
-        }
-    }
-
-    /**
-     * Switch to the main view
-     * @param event
-     * @throws IOException
-     */
     public void switchToMain(ActionEvent event) throws IOException {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
@@ -328,5 +158,4 @@ public class NewFileController {
             // Handle exception
         }
     }
-
 }
