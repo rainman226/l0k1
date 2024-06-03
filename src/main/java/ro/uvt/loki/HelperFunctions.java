@@ -1,22 +1,16 @@
 package ro.uvt.loki;
 
-import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import org.bytedeco.javacv.CanvasFrame;
-import org.bytedeco.javacv.Frame;
-import org.bytedeco.javacv.JavaFXFrameConverter;
-import org.opencv.highgui.HighGui;
 import org.bytedeco.javacv.OpenCVFrameConverter;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
-
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 import org.opencv.imgcodecs.Imgcodecs;
-
 
 import java.io.ByteArrayInputStream;
 import java.util.Optional;
