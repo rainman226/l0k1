@@ -268,7 +268,9 @@ public class NewFileController {
         applyTransformation(transformedImage);
     }
 
-
+    /**
+     * Initialize the original and processed images
+     */
     private void initializeImages() {
         if (originalImage == null) {
             originalImage = Imgcodecs.imread(imagePath);
@@ -284,6 +286,10 @@ public class NewFileController {
         }
     }
 
+    /**
+     * Apply the transformation to the image and update the display
+     * @param transformedImage
+     */
     private void applyTransformation(Mat transformedImage) {
         // Push the current state to the stack
         if (processedImage != null) {
@@ -300,6 +306,11 @@ public class NewFileController {
         }
     }
 
+    /**
+     * Switch to the main view
+     * @param event
+     * @throws IOException
+     */
     public void switchToMain(ActionEvent event) throws IOException {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
