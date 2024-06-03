@@ -1,16 +1,19 @@
 package ro.uvt.loki;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -18,16 +21,12 @@ import ro.uvt.loki.controllers.EdgeDetectionController;
 import ro.uvt.loki.controllers.EnchantmentController;
 import ro.uvt.loki.controllers.FilterController;
 import ro.uvt.loki.controllers.SegmentationController;
-import ro.uvt.loki.dialogControllers.ColorBalanceController;
-import ro.uvt.loki.services.*;
+import ro.uvt.loki.services.StateService;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Stack;
 
-import static ro.uvt.loki.HelperFunctions.*;
-import static ro.uvt.loki.dialogControllers.SaturationInputController.showSaturationInputDialog;
-import static ro.uvt.loki.dialogControllers.SimpleInputController.saturationInputDialog;
+import static ro.uvt.loki.HelperFunctions.toFXImage;
 
 
 public class NewFileController {
@@ -48,48 +47,44 @@ public class NewFileController {
 
     private boolean showingOriginal = true;
 
-    private StateService stateService = new StateService();
-
-    private EnchantmentController enchantmentController;
-    private FilterController filterController;
-    private EdgeDetectionController edgeDetectionController;
-    private SegmentationController segmentationController;
+    private StateService stateService = StateService.getInstance();
 
     @FXML
     public void initialize() {
+        stateService.processedImageProperty().addListener(new ChangeListener<Mat>() {
+            @Override
+            public void changed(ObservableValue<? extends Mat> observable, Mat oldValue, Mat newValue) {
+                myImageView.setImage(toFXImage(newValue));
+                showingOriginal = false;
+            }
+        });
         initializeControllers();
     }
 
     private void initializeControllers() {
         try {
-            FXMLLoader loader;
-
             // Load EnchantmentMenu
-            loader = new FXMLLoader(getClass().getResource("EnchantmentMenu.fxml"));
-            Menu enchantmentMenu = loader.load();
-            enchantmentController = loader.getController();
-            enchantmentController.setStateService(stateService);
+            FXMLLoader enchantmentLoader = new FXMLLoader(getClass().getResource("EnchantmentMenu.fxml"));
+            Menu enchantmentMenu = enchantmentLoader.load();
+            EnchantmentController enchantmentController = enchantmentLoader.getController();
             menuBar.getMenus().add(enchantmentMenu);
 
             // Load FilterMenu
-            loader = new FXMLLoader(getClass().getResource("FilterMenu.fxml"));
-            Menu filterMenu = loader.load();
-            filterController = loader.getController();
-            filterController.setStateService(stateService);
+            FXMLLoader filterLoader = new FXMLLoader(getClass().getResource("FilterMenu.fxml"));
+            Menu filterMenu = filterLoader.load();
+            FilterController filterController = filterLoader.getController();
             menuBar.getMenus().add(filterMenu);
 
             // Load EdgeDetectionMenu
-            loader = new FXMLLoader(getClass().getResource("EdgeDetectionMenu.fxml"));
-            Menu edgeDetectionMenu = loader.load();
-            edgeDetectionController = loader.getController();
-            edgeDetectionController.setStateService(stateService);
+            FXMLLoader edgeDetectionLoader = new FXMLLoader(getClass().getResource("EdgeDetectionMenu.fxml"));
+            Menu edgeDetectionMenu = edgeDetectionLoader.load();
+            EdgeDetectionController edgeDetectionController = edgeDetectionLoader.getController();
             menuBar.getMenus().add(edgeDetectionMenu);
 
             // Load SegmentationMenu
-            loader = new FXMLLoader(getClass().getResource("SegmentationMenu.fxml"));
-            Menu segmentationMenu = loader.load();
-            segmentationController = loader.getController();
-            segmentationController.setStateService(stateService);
+            FXMLLoader segmentationLoader = new FXMLLoader(getClass().getResource("SegmentationMenu.fxml"));
+            Menu segmentationMenu = segmentationLoader.load();
+            SegmentationController segmentationController = segmentationLoader.getController();
             menuBar.getMenus().add(segmentationMenu);
 
 

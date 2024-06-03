@@ -9,21 +9,9 @@ import ro.uvt.loki.services.StateService;
 import static ro.uvt.loki.dialogControllers.SaturationInputController.showSaturationInputDialog;
 
 public class FilterController {
-    private StateService stateService;
+    private final StateService stateService = StateService.getInstance();
     private final FilterService filterService = new FilterService();
 
-    public void setStateService(StateService stateService) {
-
-        this.stateService = stateService;
-        System.out.println("Am setat stateService in FilterController" + stateService.getOriginalImage());
-    }
-
-//    public void blurImage() {
-//        Mat processedImage = stateService.getProcessedImage();
-//        Mat transformedImage = filterService.gaussianBlur(processedImage);
-//        stateService.setProcessedImage(transformedImage);
-//    }
-//
     @FXML
     public void blurImage(ActionEvent event) {
         if (stateService == null) {
@@ -35,12 +23,7 @@ public class FilterController {
             stateService.setProcessedImage(transformedImage);
         }
     }
-//    public void medianFilter() {
-//        Mat processedImage = stateService.getProcessedImage();
-//        Mat transformedImage = filterService.medianFilter(processedImage);
-//        stateService.setProcessedImage(transformedImage);
-//    }
-//
+
     @FXML
     public void medianFilter(ActionEvent event) {
         Mat processedImage = stateService.getProcessedImage();
@@ -48,11 +31,7 @@ public class FilterController {
         Mat transformedImage = filterService.medianFilter(processedImage);
         stateService.setProcessedImage(transformedImage);
     }
-//    public void sharpen(double radius, double amount) {
-//        Mat processedImage = stateService.getProcessedImage();
-//        Mat transformedImage = filterService.sharpen(processedImage, radius, amount);
-//        stateService.setProcessedImage(transformedImage);
-//    }
+
     @FXML
     public void sharpen(ActionEvent event) {
         Mat processedImage = stateService.getProcessedImage();

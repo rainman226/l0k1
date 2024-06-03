@@ -22,16 +22,13 @@ import static ro.uvt.loki.HelperFunctions.toFXImage;
 import static ro.uvt.loki.dialogControllers.SimpleInputController.saturationInputDialog;
 
 public class EnchantmentController {
-    private StateService stateService;
+    private final StateService stateService = StateService.getInstance();
     private final EnchantmentService enchantmentService = new EnchantmentService();
 
     @FXML
     private ImageView histogramImage;
 
-    public void setStateService(StateService stateService) {
-        this.stateService = stateService;
-    }
-
+    @FXML
     public void setHistogramImage(ActionEvent event) {
         Mat processedImage = stateService.getProcessedImage();
 
@@ -43,6 +40,7 @@ public class EnchantmentController {
         histogramImage.setImage(histogram);
     }
 
+    @FXML
     public void increaseBrightness(ActionEvent event) {
         Mat processedImage = stateService.getProcessedImage();
 
@@ -54,24 +52,15 @@ public class EnchantmentController {
         stateService.setProcessedImage(transformedImage);
     }
 
-//    public void whiteBalance() {
-//        Mat processedImage = stateService.getProcessedImage();
-//        Mat transformedImage = enchantmentService.whiteBalance(processedImage);
-//        stateService.setProcessedImage(transformedImage);
-//    }
-//
+    @FXML
     public void whiteBalance(ActionEvent event) {
         Mat processedImage = stateService.getProcessedImage();
 
         Mat transformedImage = enchantmentService.whiteBalance(processedImage);
         stateService.setProcessedImage(transformedImage);
     }
-//    public void changeSaturation(double saturationAdjustment) {
-//        Mat processedImage = stateService.getProcessedImage();
-//        Mat transformedImage = enchantmentService.saturation(processedImage, saturationAdjustment);
-//        stateService.setProcessedImage(transformedImage);
-//    }
-//
+
+    @FXML
     public void changeSaturation(ActionEvent event) {
         Mat processedImage = stateService.getProcessedImage();
 
@@ -80,12 +69,8 @@ public class EnchantmentController {
         Mat transformedImage = enchantmentService.saturation(processedImage, saturationAdjustment);
         stateService.setProcessedImage(transformedImage);
     }
-//    public void colorBalanceAdjust(float redGain, float greenGain, float blueGain) {
-//        Mat processedImage = stateService.getProcessedImage();
-//        Mat transformedImage = enchantmentService.colourBalanceAdjustment(processedImage, redGain, greenGain, blueGain);
-//        stateService.setProcessedImage(transformedImage);
-//    }
-//
+
+    @FXML
     public void colorBalanceAdjust(ActionEvent event) {
         Mat processedImage = stateService.getProcessedImage();
 
@@ -111,8 +96,6 @@ public class EnchantmentController {
                 float blueGain = colorBalanceController.getBlueGain();
 
                 System.out.println("Red Gain: " + redGain + " Green Gain: " + greenGain + " Blue Gain: " + blueGain);
-    //                Mat transformedImage = filterService.gaussianBlur(processedImage);
-    //                applyTransformation(transformedImage);
                 Mat transformedImage = enchantmentService.colourBalanceAdjustment(processedImage, redGain, greenGain, blueGain);
                 stateService.setProcessedImage(transformedImage);
             }
@@ -122,19 +105,13 @@ public class EnchantmentController {
         }
 
     }
-//    public void gammaCorrection(double gamma) {
-//        Mat processedImage = stateService.getProcessedImage();
-//        Mat transformedImage = enchantmentService.gammaCorrection(processedImage, gamma);
-//        stateService.setProcessedImage(transformedImage);
-//    }
+
+    @FXML
     public void gammaCorection(ActionEvent event) {
         Mat processedImage = stateService.getProcessedImage();
 
         Mat transformedImage = enchantmentService.gammaCorrection(processedImage, 0.4);
         stateService.setProcessedImage(transformedImage);
     }
-//    private Image toFXImage(Mat mat) {
-//        // Convert Mat to Image
-//    }
 }
 
