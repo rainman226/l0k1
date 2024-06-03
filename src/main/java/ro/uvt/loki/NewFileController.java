@@ -22,6 +22,7 @@ import ro.uvt.loki.services.SegmentationService;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Stack;
 
 import static ro.uvt.loki.HelperFunctions.*;
 import static ro.uvt.loki.dialogControllers.SaturationInputController.showSaturationInputDialog;
@@ -31,37 +32,26 @@ import static ro.uvt.loki.dialogControllers.SimpleInputController.saturationInpu
 public class NewFileController {
     @FXML
     private AnchorPane anchorPane;
-
     @FXML
     private ImageView myImageView;
-
     @FXML
     private Button uploadButton;
-
     @FXML
     private Button testButton;
-
     @FXML
     private Button toggleButton;
     @FXML
     private ImageView histogramImage;
-
     TextInputDialog dialog;
-
     private Mat originalImage;
-
     private Mat processedImage;
-
     private boolean showingOriginal = true;
-
     private final EnchantmentService enchantmentService = new EnchantmentService();
-
     private final FilterService filterService = new FilterService();
-
     private final EdgeDetectionService edgeDetectionService = new EdgeDetectionService();
-
     private final SegmentationService segmentationService = new SegmentationService();
     private String imagePath;
+    private Stack<Mat> historyStack = new Stack<>();
     @FXML
     public void openImage(ActionEvent event) throws IOException {
         FileChooser fileChooser = new FileChooser();
@@ -94,6 +84,22 @@ public class NewFileController {
     }
 
     @FXML
+    public void undo(ActionEvent event) {
+        if (!historyStack.isEmpty()) {
+            // Revert to the previous state
+            processedImage = historyStack.pop();
+
+            // Display the reverted image
+            if (myImageView != null) {
+                myImageView.setImage(toFXImage(processedImage));
+                showingOriginal = false; // Switch to processed image
+            }
+        } else {
+            System.out.println("No more steps to undo.");
+        }
+    }
+
+    @FXML
     private void toggleImage(ActionEvent event) {
         if (showingOriginal) {
             if (processedImage != null) {
@@ -115,17 +121,11 @@ public class NewFileController {
         initializeImages();
 
         Mat histogramMat = enchantmentService.calculateHistogram(processedImage);
-        processedImage = enchantmentService.equaliseHistogram(processedImage);
+        Mat transformedImage = enchantmentService.equaliseHistogram(processedImage);
 
-        if (myImageView != null) {
-            Image editedImage = toFXImage(processedImage);
-            myImageView.setImage(editedImage);
-
-            Image histogram = toFXImage(histogramMat);
-            histogramImage.setImage(histogram);
-
-            showingOriginal = false;
-        }
+        applyTransformation(transformedImage);
+        Image histogram = toFXImage(histogramMat);
+        histogramImage.setImage(histogram);
     }
 
     public void increaseBrightness(ActionEvent event) {
@@ -135,36 +135,22 @@ public class NewFileController {
         double alpha = Double.parseDouble(values[0]);
         double beta = Double.parseDouble(values[1]);
 
-        processedImage = enchantmentService.increaseBrightness(processedImage, alpha, beta);
-
-        if (myImageView != null) {
-            myImageView.setImage(toFXImage(processedImage));
-            showingOriginal = false;  // Switch to processed image
-        }
+        Mat transformedImage = enchantmentService.increaseBrightness(processedImage, alpha, beta);
+        applyTransformation(transformedImage);
     }
 
     public void blurImage(ActionEvent event) {
         initializeImages();
 
-        processedImage = filterService.gaussianBlur(processedImage);
-
-        if (myImageView != null) {
-            Image editedImage = toFXImage(processedImage);
-            myImageView.setImage(editedImage);
-            showingOriginal = false;
-        }
+        Mat transformedImage = filterService.gaussianBlur(processedImage);
+        applyTransformation(transformedImage);
     }
 
     public void whiteBalance(ActionEvent event) {
         initializeImages();
 
-        processedImage = enchantmentService.whiteBalance(processedImage);
-
-        if (myImageView != null) {
-            Image editedImage = toFXImage(processedImage);
-            myImageView.setImage(editedImage);
-            showingOriginal = false;
-        }
+        Mat transformedImage = enchantmentService.whiteBalance(processedImage);
+        applyTransformation(transformedImage);
     }
 
     public void changeSaturation(ActionEvent event) {
@@ -172,13 +158,8 @@ public class NewFileController {
 
         String value = saturationInputDialog();
         double saturationAdjustment = Double.parseDouble(value);
-        processedImage = enchantmentService.saturation(processedImage, saturationAdjustment);
-
-        if (myImageView != null) {
-            Image editedImage = toFXImage(processedImage);
-            myImageView.setImage(editedImage);
-            showingOriginal = false;
-        }
+        Mat transformedImage = enchantmentService.saturation(processedImage, saturationAdjustment);
+        applyTransformation(transformedImage);
     }
 
     public void colorBalanceAdjust(ActionEvent event) {
@@ -206,7 +187,10 @@ public class NewFileController {
                 float blueGain = colorBalanceController.getBlueGain();
 
                 System.out.println("Red Gain: " + redGain + " Green Gain: " + greenGain + " Blue Gain: " + blueGain);
-                processedImage = enchantmentService.colourBalanceAdjustment(processedImage, redGain, greenGain, blueGain);
+//                Mat transformedImage = filterService.gaussianBlur(processedImage);
+//                applyTransformation(transformedImage);
+                  Mat transformedImage = enchantmentService.colourBalanceAdjustment(processedImage, redGain, greenGain, blueGain);
+                  applyTransformation(transformedImage);
             }
 
         } catch (IOException e) {
@@ -223,13 +207,8 @@ public class NewFileController {
     public void gammaCorection(ActionEvent event) {
         initializeImages();
 
-        processedImage = enchantmentService.gammaCorrection(processedImage, 0.4);
-
-        if (myImageView != null) {
-            Image editedImage = toFXImage(processedImage);
-            myImageView.setImage(editedImage);
-            showingOriginal = false;
-        }
+        Mat transformedImage = enchantmentService.gammaCorrection(processedImage, 0.4);
+        applyTransformation(transformedImage);
     }
 
     public void sharpen(ActionEvent event) {
@@ -239,91 +218,56 @@ public class NewFileController {
         double radius = Double.parseDouble(values[0]);
         double amount = Double.parseDouble(values[1]);
 
-        processedImage = filterService.sharpen(processedImage, radius, amount);
-
-        if (myImageView != null) {
-            Image editedImage = toFXImage(processedImage);
-            myImageView.setImage(editedImage);
-            showingOriginal = false;
-        }
+        Mat transformedImage = filterService.sharpen(processedImage, radius, amount);
+        applyTransformation(transformedImage);
     }
 
     public void sobelEdgeDetection(ActionEvent event) {
         initializeImages();
 
-        processedImage = edgeDetectionService.sobel(processedImage, 2);
-
-        if (myImageView != null) {
-            Image editedImage = toFXImage(processedImage);
-            myImageView.setImage(editedImage);
-            showingOriginal = false;
-        }
+        //TODO: add input for amount
+        Mat transformedImage = edgeDetectionService.sobel(processedImage, 2);
+        applyTransformation(transformedImage);
     }
 
     public void prewittEdgeDetection(ActionEvent event) {
         initializeImages();
 
-        processedImage = edgeDetectionService.prewitt(processedImage, 10);
-
-        if (myImageView != null) {
-            Image editedImage = toFXImage(processedImage);
-            myImageView.setImage(editedImage);
-            showingOriginal = false;
-        }
+        //TODO: add input for amount
+        Mat transformedImage = edgeDetectionService.prewitt(processedImage, 10);
+        applyTransformation(transformedImage);
     }
 
     public void robertsEdgeDetection(ActionEvent event) {
         initializeImages();
 
-        processedImage = edgeDetectionService.robertsCross(processedImage, 2);
-
-        if (myImageView != null) {
-            Image editedImage = toFXImage(processedImage);
-            myImageView.setImage(editedImage);
-            showingOriginal = false;
-        }
+        //TODO: add input for amount
+        Mat transformedImage = edgeDetectionService.robertsCross(processedImage, 2);
+        applyTransformation(transformedImage);
     }
 
     public void differenceOfGaussians(ActionEvent event) {
         initializeImages();
 
-        processedImage = edgeDetectionService.differenceOfGaussians(processedImage, 2, 4, 1);
-
-        if (myImageView != null) {
-            Image editedImage = toFXImage(processedImage);
-            myImageView.setImage(editedImage);
-            showingOriginal = false;
-        }
+        //TODO: add input for amount
+        Mat transformedImage = edgeDetectionService.differenceOfGaussians(processedImage, 2, 4, 1);
+        applyTransformation(transformedImage);
     }
 
     public void watershedSegmentation(ActionEvent event) {
         initializeImages();
 
-        processedImage = segmentationService.applyWatershed(processedImage);
-
-        if (myImageView != null) {
-            Image editedImage = toFXImage(processedImage);
-            myImageView.setImage(editedImage);
-            showingOriginal = false;
-        }
+        Mat transformedImage = segmentationService.applyWatershed(processedImage);
+        applyTransformation(transformedImage);
     }
 
     public void medianFilter(ActionEvent event) {
         initializeImages();
-
-        processedImage = filterService.medianFilter(processedImage);
-
-        if (myImageView != null) {
-            Image editedImage = toFXImage(processedImage);
-            myImageView.setImage(editedImage);
-            showingOriginal = false;
-        }
+        //TODO: add input for kernel size
+        Mat transformedImage = filterService.medianFilter(processedImage);
+        applyTransformation(transformedImage);
     }
 
-
-    public void dialog(ActionEvent event) {
-        HelperFunctions.showInputDialog();
-    }
 
     private void initializeImages() {
         if (originalImage == null) {
@@ -337,6 +281,22 @@ public class NewFileController {
 
         if (processedImage == null) {
             processedImage = originalImage.clone();
+        }
+    }
+
+    private void applyTransformation(Mat transformedImage) {
+        // Push the current state to the stack
+        if (processedImage != null) {
+            historyStack.push(processedImage.clone());
+        }
+
+        // Update the processed image with the new transformation
+        processedImage = transformedImage;
+
+        // Display the transformed image
+        if (myImageView != null) {
+            myImageView.setImage(toFXImage(processedImage));
+            showingOriginal = false; // Switch to processed image
         }
     }
 

@@ -11,7 +11,7 @@
    <children>
       <ImageView id="myImageView" fx:id="myImageView" fitHeight="630.0" fitWidth="999.0" layoutX="12.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
       <Button id="uploadButton" fx:id="uploadButton" layoutX="1080.0" layoutY="421.0" mnemonicParsing="false" onAction="#openImage" prefHeight="55.0" prefWidth="118.0" text="Select" />
-      <Button id="testButton" fx:id="testButton" layoutX="1080.0" layoutY="332.0" mnemonicParsing="false" onAction="#setHistogramImage" prefHeight="55.0" prefWidth="118.0" text="Do something" />
+      <Button id="testButton" fx:id="testButton" layoutX="1080.0" layoutY="332.0" mnemonicParsing="false" onAction="#undo" prefHeight="55.0" prefWidth="118.0" text="Undo" />
       <ImageView id="histogramImage" fx:id="histogramImage" fitHeight="200.0" fitWidth="256.0" layoutX="1011.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true" />
       <MenuBar layoutX="-5.0" layoutY="2.0" prefHeight="26.0" prefWidth="1282.0">
         <menus>

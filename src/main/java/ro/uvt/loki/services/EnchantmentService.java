@@ -13,17 +13,19 @@ import static org.opencv.core.CvType.CV_32F;
 public class    EnchantmentService {
     /**
      * Increase the contrast of the image
-     * @param source the source image
+     * @param src the source image
      * @param alpha the brightness factor
      * @param beta the contrast factor
      * @return the image with increased contrast
      */
-    public Mat increaseBrightness(Mat source, double alpha, double beta) {
-
+    public Mat increaseBrightness(Mat src, double alpha, double beta) {
+        Mat destination
+                = new Mat(src.rows(), src.cols(),
+                src.type());
         // first value is the brightness, second is the contrast
-        source.convertTo(source, -1, alpha, beta);
+        src.convertTo(destination, -1, alpha, beta);
 
-        return source;
+        return destination;
     }
 
     /**
