@@ -1,6 +1,7 @@
 package ro.uvt.loki.controllers;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import org.opencv.core.Mat;
 import ro.uvt.loki.services.EdgeDetectionService;
 import ro.uvt.loki.services.StateService;
@@ -9,6 +10,7 @@ public class EdgeDetectionController {
     private final StateService stateService = StateService.getInstance();
     private final EdgeDetectionService edgeDetectionService = new EdgeDetectionService();
 
+    @FXML
     public void sobelEdgeDetection(ActionEvent event) {
         Mat processedImage = stateService.getProcessedImage();
 
@@ -17,6 +19,7 @@ public class EdgeDetectionController {
         stateService.setProcessedImage(transformedImage);
     }
 
+    @FXML
     public void prewittEdgeDetection(ActionEvent event) {
         Mat processedImage = stateService.getProcessedImage();
 
@@ -25,6 +28,7 @@ public class EdgeDetectionController {
         stateService.setProcessedImage(transformedImage);
     }
 
+    @FXML
     public void robertsEdgeDetection(ActionEvent event) {
         Mat processedImage = stateService.getProcessedImage();
 
@@ -33,6 +37,7 @@ public class EdgeDetectionController {
         stateService.setProcessedImage(transformedImage);
     }
 
+    @FXML
     public void differenceOfGaussians(ActionEvent event) {
         Mat processedImage = stateService.getProcessedImage();
 

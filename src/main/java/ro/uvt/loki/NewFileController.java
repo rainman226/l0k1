@@ -113,7 +113,7 @@ public class NewFileController {
                 System.exit(0);
             }
             stateService.setOriginalImage(originalImage);
-            initialize();
+            //initialize();
             myImageView.setImage(toFXImage(originalImage));
             showingOriginal = true;
         }
