@@ -22,6 +22,7 @@ import ro.uvt.loki.services.StateService;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 import static ro.uvt.loki.HelperFunctions.toFXImage;
 
@@ -151,6 +152,7 @@ public class NewFileController {
             // Access the MainController if needed
             MainController mainController = loader.getController();
             // Add any logic or data passing between controllers
+            root.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/main.css")).toExternalForm());
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -8,6 +8,7 @@ import org.bytedeco.javacpp.Loader;
 import org.bytedeco.opencv.opencv_java;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class Main extends Application {
     @Override
@@ -16,6 +17,7 @@ public class Main extends Application {
         //System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Main.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/main.css")).toExternalForm());
         stage.setTitle("Loki");
         stage.setResizable(false);
         stage.setScene(scene);

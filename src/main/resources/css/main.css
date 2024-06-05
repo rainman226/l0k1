@@ -1,0 +1,32 @@
+.root {
+    -fx-font-family: 'Arial';
+    -fx-background-color: #f0f0f0;
+}
+
+.anchor-pane {
+    -fx-background-image: url('../images/background.jpg');
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+}
+
+.label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+.button {
+    -fx-background-color: linear-gradient(#4a67d6, #3958b5);
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 15 30 15 30;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(#6b85d8, #4a67d6);
+}
