@@ -89,15 +89,24 @@ public class    EnchantmentService {
      * @return the image with equalised histogram
      */
     public Mat equaliseHistogram(Mat src) {
-        Mat destination
-                = new Mat(src.rows(), src.cols(),
-                src.type());
-        Imgproc.cvtColor(src, destination, Imgproc.COLOR_BGR2GRAY);
-        Mat dst = new Mat();
-        Imgproc.equalizeHist( destination, dst);
-        Imgcodecs.imwrite("C:\\Users\\dota2\\Desktop\\resources\\output\\output.jpg",
-                dst);
-        return dst;
+        List<Mat> channels = new ArrayList<>(3);
+        Core.split(src, channels);
+
+        // Histogram equalization on each channel
+        for (int i = 0; i < channels.size(); i++) {
+            Imgproc.equalizeHist(channels.get(i), channels.get(i));
+        }
+
+        // Merge the channels back
+        Mat outputImage = new Mat();
+        Core.merge(channels, outputImage);
+
+        // Release resources
+        for (Mat mat : channels) {
+            mat.release();
+        }
+
+        return outputImage;
     }
 
     public Mat blur(Mat src) {

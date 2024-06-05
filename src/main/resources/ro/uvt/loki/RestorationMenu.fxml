@@ -12,5 +12,6 @@
     <items>
         <MenuItem mnemonicParsing="false" onAction="#inpaintImageMaskSelected" text="Inpaint" />
         <MenuItem mnemonicParsing="false" onAction="#inpaintImageMaskComputed" text="Inpaint (compute mask)" />
+
     </items>
 </Menu>

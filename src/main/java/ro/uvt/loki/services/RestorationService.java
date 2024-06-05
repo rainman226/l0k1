@@ -1,15 +1,14 @@
 package ro.uvt.loki.services;
 
 import javafx.stage.FileChooser;
-import org.opencv.core.CvType;
-import org.opencv.core.Mat;
-import org.opencv.core.Scalar;
-import org.opencv.core.Size;
+import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.photo.Photo;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import static ro.uvt.loki.HelperFunctions.imshow;
 
@@ -27,6 +26,7 @@ public class RestorationService {
         if (maskFile != null) {
             String maskPath = maskFile.toURI().getPath().substring(1);
             Mat mask = Imgcodecs.imread(maskPath, Imgcodecs.IMREAD_GRAYSCALE);
+            imshow("Mask", mask);
             if (mask.empty()) {
                 System.err.println("Cannot read image: " + maskPath );
                 System.exit(0);
@@ -69,7 +69,6 @@ public class RestorationService {
                 grayData[i] = 0;
             }
         }
-
         mask.put(0, 0, grayData);
         //imshow("Mask", mask);
         return mask;
