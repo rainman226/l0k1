@@ -18,4 +18,11 @@ public class RestorationController {
         Mat transformedImage = restorationService.inpaintImageMaskSelected(processedImage);
         stateService.setProcessedImage(transformedImage);
     }
+
+    public void inpaintImageMaskComputed(ActionEvent event) {
+        Mat processedImage = stateService.getProcessedImage();
+
+        Mat transformedImage = restorationService.inpaintImageComputeMask(processedImage);
+        stateService.setProcessedImage(transformedImage);
+    }
 }
