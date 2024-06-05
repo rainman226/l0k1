@@ -17,10 +17,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
-import ro.uvt.loki.controllers.EdgeDetectionController;
-import ro.uvt.loki.controllers.EnchantmentController;
-import ro.uvt.loki.controllers.FilterController;
-import ro.uvt.loki.controllers.SegmentationController;
+import ro.uvt.loki.controllers.*;
 import ro.uvt.loki.services.StateService;
 
 import java.io.File;
@@ -86,6 +83,13 @@ public class NewFileController {
             Menu segmentationMenu = segmentationLoader.load();
             SegmentationController segmentationController = segmentationLoader.getController();
             menuBar.getMenus().add(segmentationMenu);
+
+            // Load RestorationMenu
+            FXMLLoader restorationLoader = new FXMLLoader(getClass().getResource("RestorationMenu.fxml"));
+            Menu restorationMenu = restorationLoader.load();
+            RestorationController restorationController = restorationLoader.getController();
+            menuBar.getMenus().add(restorationMenu);
+
 
 
         } catch (IOException e) {

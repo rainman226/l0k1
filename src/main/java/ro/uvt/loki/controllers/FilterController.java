@@ -43,4 +43,11 @@ public class FilterController {
         Mat transformedImage = filterService.sharpen(processedImage, radius, amount);
         stateService.setProcessedImage(transformedImage);
     }
+
+    public void anisotropicDiffusion(ActionEvent event) {
+        Mat processedImage = stateService.getProcessedImage();
+
+        Mat transformedImage = filterService.anisotropicDiffusion(processedImage, 1, 50, 0.05);
+        stateService.setProcessedImage(transformedImage);
+    }
 }

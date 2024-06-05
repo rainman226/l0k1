@@ -6,5 +6,6 @@
         <MenuItem mnemonicParsing="false" onAction="#blurImage" text="Gaussian Blur" />
         <MenuItem mnemonicParsing="false" onAction="#sharpen" text="Sharpen (Unmask)" />
         <MenuItem mnemonicParsing="false" onAction="#medianFilter" text="Median Filter" />
+        <MenuItem mnemonicParsing="false" onAction="#anisotropicDiffusion" text="Anisotropic Diffusion" />
     </items>
 </Menu>

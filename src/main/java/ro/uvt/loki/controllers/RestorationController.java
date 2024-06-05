@@ -1,0 +1,21 @@
+package ro.uvt.loki.controllers;
+
+import javafx.event.ActionEvent;
+import org.opencv.core.Mat;
+import ro.uvt.loki.services.FilterService;
+import ro.uvt.loki.services.RestorationService;
+import ro.uvt.loki.services.StateService;
+
+import javax.swing.*;
+
+public class RestorationController {
+    private final StateService stateService = StateService.getInstance();
+    private final RestorationService restorationService = new RestorationService();
+
+    public void inpaintImageMaskSelected(ActionEvent event) {
+        Mat processedImage = stateService.getProcessedImage();
+
+        Mat transformedImage = restorationService.inpaintImageMaskSelected(processedImage);
+        stateService.setProcessedImage(transformedImage);
+    }
+}
