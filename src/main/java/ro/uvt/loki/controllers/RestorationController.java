@@ -25,4 +25,18 @@ public class RestorationController {
         Mat transformedImage = restorationService.inpaintImageComputeMask(processedImage);
         stateService.setProcessedImage(transformedImage);
     }
+
+    public void applyCLAHE(ActionEvent event) {
+        Mat processedImage = stateService.getProcessedImage();
+
+        Mat transformedImage = restorationService.applyCLAHE(processedImage);
+        stateService.setProcessedImage(transformedImage);
+    }
+
+    public void adaptiveThresholding(ActionEvent event) {
+        Mat processedImage = stateService.getProcessedImage();
+
+        Mat transformedImage = restorationService.applyAdaptiveThreshold(processedImage);
+        stateService.setProcessedImage(transformedImage);
+    }
 }

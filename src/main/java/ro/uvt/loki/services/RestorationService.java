@@ -3,6 +3,7 @@ package ro.uvt.loki.services;
 import javafx.stage.FileChooser;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.CLAHE;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.photo.Photo;
 
@@ -72,5 +73,67 @@ public class RestorationService {
         mask.put(0, 0, grayData);
         //imshow("Mask", mask);
         return mask;
+    }
+
+    public Mat applyCLAHE(Mat sourceImage) {
+        // Split the image into RGB channels
+        List<Mat> channels = new ArrayList<>();
+        Core.split(sourceImage, channels);
+
+        // Apply CLAHE to each channel
+        CLAHE clahe = Imgproc.createCLAHE();
+        // TODO Adjust the clip limit and tile grid size as needed
+        clahe.setClipLimit(2.0);
+        clahe.setTilesGridSize(new Size(8, 8));
+
+        for (int i = 0; i < channels.size(); i++) {
+            Mat channel = channels.get(i);
+            clahe.apply(channel, channel);
+        }
+
+        // Merge the channels back to form the final image
+        Mat outputImage = new Mat();
+        Core.merge(channels, outputImage);
+
+        // Clean up
+        for (Mat mat : channels) {
+            mat.release();
+        }
+
+        return outputImage;
+    }
+
+    /**
+     * Applies adaptive thresholding to an image.
+     *
+     * @param sourceImage The source image as a Mat object, expected to be in grayscale.
+     * @return The thresholded image as a Mat object.
+     */
+    public Mat applyAdaptiveThreshold(Mat sourceImage) {
+        Mat grayImage = new Mat();
+
+        // Check if the image is already in grayscale
+        if (sourceImage.channels() > 1) {
+            Imgproc.cvtColor(sourceImage, grayImage, Imgproc.COLOR_BGR2GRAY);
+        } else {
+            grayImage = sourceImage.clone(); // Use the original if it's already grayscale
+        }
+
+        Mat outputImage = new Mat();
+        // Apply adaptive threshold
+        /*
+            * Parameters:
+            * 1. Source image
+            * 2. Destination image
+            * 3. Maximum intensity value
+            * 4. Adaptive method
+            * 5. Threshold type
+            * 6. Block size
+            * 7. Constant subtracted from the mean
+         */
+        Imgproc.adaptiveThreshold(grayImage, outputImage, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C,
+                Imgproc.THRESH_BINARY, 11, 2);
+
+        return outputImage;
     }
 }
