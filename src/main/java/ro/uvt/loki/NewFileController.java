@@ -199,4 +199,9 @@ public class NewFileController {
     private void loadFilter() {
         loadFXML("FilterView.fxml");
     }
+
+    @FXML
+    private void loadEdgeDetection() {
+        loadFXML("EdgeDetectionView.fxml");
+    }
 }

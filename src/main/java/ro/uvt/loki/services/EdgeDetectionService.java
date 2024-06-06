@@ -4,6 +4,13 @@ import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 
 public class EdgeDetectionService {
+    /**
+     * Applies the Sobel edge detection algorithm to the input image.
+     *
+     * @param source The input image to process.
+     * @param amount The scaling factor to apply to the edge intensities.
+     * @return The processed image with the edges highlighted.
+     */
     public Mat sobel(Mat source, double amount) {
         // Define fixed parameters
         int kernelSize = 3;
@@ -50,6 +57,13 @@ public class EdgeDetectionService {
         return edges;
     }
 
+    /**
+     * Applies the Prewitt edge detection algorithm to the input image.
+     *
+     * @param src The input image to process.
+     * @param amount The scaling factor to apply to the edge intensities.
+     * @return The processed image with the edges highlighted.
+     */
     public Mat prewitt(Mat src, double amount) {
         // Define fixed parameters
         int kernelSize = 3;
@@ -113,6 +127,13 @@ public class EdgeDetectionService {
         return edges;
     }
 
+    /**
+     * Applies the Roberts Cross edge detection algorithm to the input image.
+     *
+     * @param src The input image to process.
+     * @param amount The scaling factor to apply to the edge intensities.
+     * @return The processed image with the edges highlighted.
+     */
     public Mat robertsCross(Mat src, double amount) {
         // Define fixed parameters
         boolean applyBlur = true;
@@ -170,7 +191,15 @@ public class EdgeDetectionService {
         return edges;
     }
 
-    public Mat differenceOfGaussians(Mat src, double radius1, double radius2, double amount) {
+    /**
+     * Applies the Difference of Gaussians edge detection algorithm to the input image.
+     *
+     * @param src The input image to process.
+     * @param radius1 The radius of the first Gaussian blur.
+     * @param radius2 The radius of the second Gaussian blur.
+     * @return The processed image with the edges highlighted.
+     */
+    public Mat differenceOfGaussians(Mat src, double radius1, double radius2) {
         // Convert the source image to grayscale if it is not already
         Mat gray = new Mat();
         if (src.channels() > 1) {
