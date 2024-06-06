@@ -4,7 +4,12 @@ import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 
 public class FilterService {
-
+    /**
+     * Apply Gaussian blur to the source image
+     * @param source the source image
+     * @param size the size of the kernel
+     * @return the blurred image
+     */
     public Mat gaussianBlur(Mat source, double size) {
         Mat destination
                 = new Mat(source.rows(), source.cols(),
@@ -13,6 +18,13 @@ public class FilterService {
         return destination;
     }
 
+    /**
+     * Apply sharpening to the source image
+     * @param source the source image
+     * @param radius the radius of the Gaussian blur
+     * @param amount the amount of sharpening
+     * @return the sharpened image
+     */
     public Mat sharpen(Mat source, double radius, double amount) {
         Mat blurred = new Mat();
         Mat dst = new Mat();
@@ -26,6 +38,12 @@ public class FilterService {
         return dst;
     }
 
+    /**
+     * Apply median filter to the source image
+     * @param source the source image
+     * @param ksize the kernel size
+     * @return the filtered image
+     */
     public Mat medianFilter(Mat source, int ksize) {
         Mat destination
                 = new Mat(source.rows(), source.cols(),
