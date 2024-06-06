@@ -70,31 +70,31 @@ public class NewFileController {
             Menu enchantmentMenu = enchantmentLoader.load();
             EnchantmentController enchantmentController = enchantmentLoader.getController();
             enchantmentController.setHistogramImage(histogramImage);
-            menuBar.getMenus().add(enchantmentMenu);
+            //menuBar.getMenus().add(enchantmentMenu);
 
             // Load FilterMenu
             FXMLLoader filterLoader = new FXMLLoader(getClass().getResource("FilterMenu.fxml"));
             Menu filterMenu = filterLoader.load();
             FilterController filterController = filterLoader.getController();
-            menuBar.getMenus().add(filterMenu);
+            //menuBar.getMenus().add(filterMenu);
 
             // Load EdgeDetectionMenu
             FXMLLoader edgeDetectionLoader = new FXMLLoader(getClass().getResource("EdgeDetectionMenu.fxml"));
             Menu edgeDetectionMenu = edgeDetectionLoader.load();
             EdgeDetectionController edgeDetectionController = edgeDetectionLoader.getController();
-            menuBar.getMenus().add(edgeDetectionMenu);
+            //menuBar.getMenus().add(edgeDetectionMenu);
 
             // Load SegmentationMenu
             FXMLLoader segmentationLoader = new FXMLLoader(getClass().getResource("SegmentationMenu.fxml"));
             Menu segmentationMenu = segmentationLoader.load();
             SegmentationController segmentationController = segmentationLoader.getController();
-            menuBar.getMenus().add(segmentationMenu);
+            //menuBar.getMenus().add(segmentationMenu);
 
             // Load RestorationMenu
             FXMLLoader restorationLoader = new FXMLLoader(getClass().getResource("RestorationMenu.fxml"));
             Menu restorationMenu = restorationLoader.load();
             RestorationController restorationController = restorationLoader.getController();
-            menuBar.getMenus().add(restorationMenu);
+            //menuBar.getMenus().add(restorationMenu);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -128,6 +128,37 @@ public class NewFileController {
             Mat histogramMat = EnchantmentService.calculateHistogram(stateService.getOriginalImage());
             Image histogram = toFXImage(histogramMat);
             histogramImage.setImage(histogram);
+        }
+    }
+
+    @FXML
+    public void saveImage(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Image File");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("PNG", "*.png"),
+                new FileChooser.ExtensionFilter("JPEG", "*.jpg"),
+                new FileChooser.ExtensionFilter("BMP", "*.bmp")
+        );
+
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            Mat processedImage = stateService.getProcessedImage();
+            String filePath = file.getAbsolutePath();
+
+            // Ensure the file extension matches the chosen filter
+            if (!filePath.endsWith(".png") && !filePath.endsWith(".jpg") && !filePath.endsWith(".bmp")) {
+                FileChooser.ExtensionFilter selectedExtensionFilter = fileChooser.getSelectedExtensionFilter();
+                if (selectedExtensionFilter != null) {
+                    String extension = selectedExtensionFilter.getExtensions().get(0).substring(1);
+                    filePath += extension;
+                }
+            }
+
+            boolean result = Imgcodecs.imwrite(filePath, processedImage);
+            if (!result) {
+                System.err.println("Failed to save image to: " + filePath);
+            }
         }
     }
 
