@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
 import ro.uvt.loki.controllers.*;
+import ro.uvt.loki.services.EnchantmentService;
 import ro.uvt.loki.services.StateService;
 
 import java.io.File;
@@ -123,6 +124,10 @@ public class NewFileController {
             //initialize();
             myImageView.setImage(toFXImage(originalImage));
             showingOriginal = true;
+
+            Mat histogramMat = EnchantmentService.calculateHistogram(stateService.getOriginalImage());
+            Image histogram = toFXImage(histogramMat);
+            histogramImage.setImage(histogram);
         }
     }
 
@@ -130,6 +135,7 @@ public class NewFileController {
     public void undo(ActionEvent event) {
         stateService.undo();
         myImageView.setImage(toFXImage(stateService.getProcessedImage()));
+
         showingOriginal = false;
     }
 

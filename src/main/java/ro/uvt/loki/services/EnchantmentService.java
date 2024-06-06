@@ -1,7 +1,6 @@
 package ro.uvt.loki.services;
 
 import org.opencv.core.*;
-import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
@@ -10,9 +9,9 @@ import java.util.List;
 import static org.opencv.core.CvType.CV_32F;
 
 
-public class    EnchantmentService {
+public class EnchantmentService {
     /**
-     * Increase the contrast of the image
+     * Increase the brightness and/or contrast of the image
      * @param src the source image
      * @param alpha the brightness factor
      * @param beta the contrast factor
@@ -30,13 +29,13 @@ public class    EnchantmentService {
 
     /**
      * Calculate the histogram of the image
-     * @param source the source image
+     * @param src the source image
      * @return the histogram of the image
      */
-    public Mat calculateHistogram(Mat source) {
+    public static Mat calculateHistogram(Mat src) {
 
         List<Mat> bgrPlanes = new ArrayList<>();
-        Core.split(source, bgrPlanes);
+        Core.split(src, bgrPlanes);
 
         int histSize = 256;
 
@@ -74,12 +73,6 @@ public class    EnchantmentService {
                     new Point(binW * (i), histH - Math.round(rHistData[i])), new Scalar(0, 0, 255), 2);
         }
 
-        Imgcodecs.imwrite("C:\\Users\\dota2\\Desktop\\resources\\output\\original.jpg",
-                source);
-
-        Imgcodecs.imwrite("C:\\Users\\dota2\\Desktop\\resources\\output\\hist.jpg",
-                histImage);
-
         return histImage;
     }
 
@@ -93,8 +86,8 @@ public class    EnchantmentService {
         Core.split(src, channels);
 
         // Histogram equalization on each channel
-        for (int i = 0; i < channels.size(); i++) {
-            Imgproc.equalizeHist(channels.get(i), channels.get(i));
+        for (Mat channel : channels) {
+            Imgproc.equalizeHist(channel, channel);
         }
 
         // Merge the channels back
@@ -109,14 +102,6 @@ public class    EnchantmentService {
         return outputImage;
     }
 
-    public Mat blur(Mat src) {
-        Mat destination
-                = new Mat(src.rows(), src.cols(),
-                src.type());
-        Imgproc.blur(src, destination, new Size(250, 250));
-        return destination;
-    }
-
     /**
      * Adjust the colour balance of the image
      * @param src the source image
@@ -126,10 +111,10 @@ public class    EnchantmentService {
      * @return the image with adjusted colour balance
      */
     public Mat colourBalanceAdjustment(Mat src, float redGain, float greenGain, float blueGain) {
-        Mat destination
+        Mat result
                 = new Mat(src.rows(), src.cols(),
                 src.type());
-        src.convertTo(destination, CV_32F);
+        src.convertTo(result, CV_32F);
 
         for (int i = 0; i < src.rows(); i++) {
             for (int j = 0; j < src.cols(); j++) {
@@ -143,11 +128,11 @@ public class    EnchantmentService {
                 green = Math.min(255, Math.max(0, green));
                 red = Math.min(255, Math.max(0, red));
 
-                destination.put(i, j, blue, green, red);
+                result.put(i, j, blue, green, red);
             }
         }
 
-        return destination;
+        return result;
     }
 
     /**
@@ -213,7 +198,7 @@ public class    EnchantmentService {
      * @return the image with white balance applied
      */
     public Mat whiteBalance(Mat src) {
-        Mat destination
+        Mat result
                 = new Mat(src.rows(), src.cols(),
                 src.type());
         // Calculate the average values for each color channel
@@ -231,8 +216,8 @@ public class    EnchantmentService {
         double scale_R = avg_gray / avg_R;
 
         // Apply the scaling factors to each channel
-        Core.multiply(src, new Scalar(scale_B, scale_G, scale_R), destination);
+        Core.multiply(src, new Scalar(scale_B, scale_G, scale_R), result);
 
-        return destination;
+        return result;
     }
 }
