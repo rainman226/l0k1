@@ -34,7 +34,7 @@ public class RestorationService {
         if (maskFile != null) {
             String maskPath = maskFile.toURI().getPath().substring(1);      // Get the path of the selected file
             Mat mask = Imgcodecs.imread(maskPath, Imgcodecs.IMREAD_GRAYSCALE);        // Read the mask file
-            imshow("Mask", mask);
+            //imshow("Mask", mask);
             if (mask.empty()) {
                 System.err.println("Cannot read image: " + maskPath );
                 System.exit(0);

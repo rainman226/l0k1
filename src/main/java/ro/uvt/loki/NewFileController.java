@@ -204,4 +204,9 @@ public class NewFileController {
     private void loadEdgeDetection() {
         loadFXML("EdgeDetectionView.fxml");
     }
+
+    @FXML
+    private void loadRestoration() {
+        loadFXML("RestorationView.fxml");
+    }
 }

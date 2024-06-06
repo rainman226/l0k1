@@ -25,6 +25,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#loadEnchantment" text="Load Enchantment" />
                         <MenuItem mnemonicParsing="false" onAction="#loadFilter" text="Load Filter" />
                         <MenuItem mnemonicParsing="false" onAction="#loadEdgeDetection" text="Load Edge Detection" />
+                        <MenuItem mnemonicParsing="false" onAction="#loadRestoration" text="Load Restoration" />
                     </items>
                 </Menu>
                 <!-- Include other views for modularity -->
