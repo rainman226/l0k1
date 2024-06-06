@@ -5,11 +5,11 @@ import org.opencv.imgproc.Imgproc;
 
 public class FilterService {
 
-    public Mat gaussianBlur(Mat source) {
+    public Mat gaussianBlur(Mat source, double size) {
         Mat destination
                 = new Mat(source.rows(), source.cols(),
                 source.type());
-        Imgproc.GaussianBlur(source, destination, new org.opencv.core.Size(15, 15), 0);
+        Imgproc.GaussianBlur(source, destination, new org.opencv.core.Size(size, size), 0);
         return destination;
     }
 
@@ -26,11 +26,13 @@ public class FilterService {
         return dst;
     }
 
-    public Mat medianFilter(Mat source) {
+    public Mat medianFilter(Mat source, int ksize) {
         Mat destination
                 = new Mat(source.rows(), source.cols(),
                 source.type());
-        Imgproc.medianBlur(source, destination, 15);
+
+        //try 15
+        Imgproc.medianBlur(source, destination, ksize);
         return destination;
     }
 

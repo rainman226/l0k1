@@ -194,4 +194,9 @@ public class NewFileController {
     private void loadEnchantment() {
         loadFXML("EnchantmentView.fxml");
     }
+
+    @FXML
+    private void loadFilter() {
+        loadFXML("FilterView.fxml");
+    }
 }

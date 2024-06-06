@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="367.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.uvt.loki.controllers.FilterController">
+   <children>
+      <Text layoutX="27.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Blur:" />
+      <TextField fx:id="inputBlur" layoutX="59.0" layoutY="20.0" prefHeight="26.0" prefWidth="109.0" />
+      <Text layoutX="11.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sharpen (Umask)" />
+      <Text layoutX="16.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Radius:" />
+      <TextField fx:id="inputSharpenRadius" layoutX="61.0" layoutY="98.0" prefHeight="26.0" prefWidth="109.0" />
+      <Text layoutX="6.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ammount" />
+      <TextField fx:id="inputSharpenAmount" layoutX="61.0" layoutY="132.0" prefHeight="26.0" prefWidth="109.0" />
+      <Button fx:id="btnBlur" layoutX="193.0" layoutY="21.0" mnemonicParsing="false" onAction="#blurImage" text="Apply" />
+      <Button fx:id="btnSharpen" layoutX="193.0" layoutY="117.0" mnemonicParsing="false" onAction="#sharpen" text="Apply" />
+      <Text layoutX="13.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Median filter" />
+      <Text layoutX="14.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kernel size:" />
+      <TextField fx:id="inputKsize" layoutX="75.0" layoutY="210.0" prefHeight="26.0" prefWidth="109.0" />
+      <Button fx:id="btnMedianFilter" layoutX="196.0" layoutY="209.0" mnemonicParsing="false" onAction="#medianFilter" text="Apply" />
+   </children>
+</AnchorPane>
