@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Button?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="367.0" prefWidth="250.0" fx:controller="ro.uvt.loki.controllers.EnchantmentController">
+    <children>
+        <Label layoutX="10.0" layoutY="10.0" text="Enchantment Controls"/>
+        <!-- Add more components here -->
+        <Button layoutX="10.0" layoutY="40.0" text="Enchantment Action 1"/>
+        <Button layoutX="10.0" layoutY="80.0" text="Enchantment Action 2"/>
+    </children>
+</AnchorPane>

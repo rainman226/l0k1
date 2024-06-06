@@ -65,6 +65,7 @@ public class NewFileController {
             FXMLLoader enchantmentLoader = new FXMLLoader(getClass().getResource("EnchantmentMenu.fxml"));
             Menu enchantmentMenu = enchantmentLoader.load();
             EnchantmentController enchantmentController = enchantmentLoader.getController();
+            enchantmentController.setHistogramImage(histogramImage);
             menuBar.getMenus().add(enchantmentMenu);
 
             // Load FilterMenu
@@ -90,8 +91,6 @@ public class NewFileController {
             Menu restorationMenu = restorationLoader.load();
             RestorationController restorationController = restorationLoader.getController();
             menuBar.getMenus().add(restorationMenu);
-
-
 
         } catch (IOException e) {
             e.printStackTrace();

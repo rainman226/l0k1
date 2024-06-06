@@ -3,29 +3,37 @@
     -fx-border-style: solid;
     -fx-border-color: red;
 }
+#anchorPane {
+    -fx-background-image: url('../images/background.jpg');
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center center;
 
+}
 #myImageView {
-    -fx-background-color: white;
-    -fx-border-style: solid;
     -fx-border-color: red;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
 }
 
-#uploadButton {
-    -fx-background-color: #f0e8ff; /* Background color */
-    -fx-font-size: 14px; /* Font size */
-    -fx-text-fill: #000000; /* Text color */
-    -fx-border-color: #000000; /* Border color */
-    -fx-border-width: 2px; /* Border width */
-    -fx-border-radius: 5px; /* Border radius */
-    -fx-padding: 5px; /* Padding */
+#undoButton {
+    -fx-background-color: linear-gradient(#4a67d6, #3958b5);
+    -fx-text-fill: white;
+
+    -fx-font-weight: bold;
+
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
 }
 
-#testButton {
-    -fx-background-color: #f0e8ff; /* Background color */
-    -fx-font-size: 14px; /* Font size */
-    -fx-text-fill: #000000; /* Text color */
-    -fx-border-color: #000000; /* Border color */
-    -fx-border-width: 2px; /* Border width */
-    -fx-border-radius: 5px; /* Border radius */
-    -fx-padding: 5px; /* Padding */
+#toggleButton {
+    -fx-background-color: linear-gradient(#4a67d6, #3958b5);
+    -fx-text-fill: white;
+
+    -fx-font-weight: bold;
+
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
 }

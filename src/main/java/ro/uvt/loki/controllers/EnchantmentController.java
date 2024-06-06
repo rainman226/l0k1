@@ -25,8 +25,12 @@ public class EnchantmentController {
     private final StateService stateService = StateService.getInstance();
     private final EnchantmentService enchantmentService = new EnchantmentService();
 
-    @FXML
     private ImageView histogramImage;
+
+    public void setHistogramImage(ImageView histogramImage) {
+        this.histogramImage = histogramImage;
+        System.out.println("Am legat imaginile sefule");
+    }
 
     @FXML
     public void setHistogramImage(ActionEvent event) {
