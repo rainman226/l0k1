@@ -209,4 +209,9 @@ public class NewFileController {
     private void loadRestoration() {
         loadFXML("RestorationView.fxml");
     }
+
+    @FXML
+    private void loadOther() {
+        loadFXML("OthersView.fxml");
+    }
 }
