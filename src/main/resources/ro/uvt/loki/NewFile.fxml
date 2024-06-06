@@ -22,6 +22,7 @@
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#openImage" text="Open file" />
                         <MenuItem mnemonicParsing="false" onAction="#switchToMain" text="Return to menu" />
+                        <MenuItem mnemonicParsing="false" onAction="#loadEnchantment" text="Load Enchantment" />
                     </items>
                 </Menu>
                 <!-- Include other views for modularity -->

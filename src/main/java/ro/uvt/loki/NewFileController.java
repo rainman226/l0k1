@@ -13,6 +13,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.opencv.core.Mat;
@@ -38,6 +39,8 @@ public class NewFileController {
     private Button testButton;
     @FXML
     private Button toggleButton;
+    @FXML
+    private AnchorPane categoryContainer;
     @FXML
     private ImageView histogramImage;
     @FXML
@@ -140,6 +143,7 @@ public class NewFileController {
         showingOriginal = !showingOriginal;
     }
 
+    @FXML
     public void switchToMain(ActionEvent event) throws IOException {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
@@ -157,5 +161,31 @@ public class NewFileController {
             e.printStackTrace();
             // Handle exception
         }
+    }
+
+    private void loadFXML(String fxmlPath) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Pane newLoadedPane = loader.load();
+            categoryContainer.getChildren().clear();
+            categoryContainer.getChildren().add(newLoadedPane);
+
+            // Get the controller instance
+            Object controller = loader.getController();
+
+            // EnchentmentController needs the histogram image
+            if (controller instanceof EnchantmentController) {
+                EnchantmentController enchantmentController = (EnchantmentController) controller;
+                
+                enchantmentController.setHistogramImage(histogramImage);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void loadEnchantment() {
+        loadFXML("EnchantmentView.fxml");
     }
 }

@@ -25,6 +25,7 @@ public class EnchantmentController {
     private final StateService stateService = StateService.getInstance();
     private final EnchantmentService enchantmentService = new EnchantmentService();
 
+
     private ImageView histogramImage;
 
     public void setHistogramImage(ImageView histogramImage) {
