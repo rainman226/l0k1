@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="367.0" prefWidth="250.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="ro.uvt.loki.controllers.EnchantmentController">
+<AnchorPane prefHeight="367.0" prefWidth="250.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"  stylesheets="@../../../css/views.css" fx:controller="ro.uvt.loki.controllers.EnchantmentController">
    <children>
       <TextField fx:id="inputBrightness1" layoutX="71.0" layoutY="10.0" prefHeight="20.0" prefWidth="88.0" />
       <TextField fx:id="inputBrightness2" layoutX="71.0" layoutY="46.0" prefHeight="20.0" prefWidth="88.0" />

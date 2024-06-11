@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="367.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.uvt.loki.controllers.FilterController">
+<AnchorPane prefHeight="367.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../../../css/views.css" fx:controller="ro.uvt.loki.controllers.FilterController">
    <children>
       <Text layoutX="27.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Blur:" />
       <TextField fx:id="inputBlur" layoutX="59.0" layoutY="20.0" prefHeight="26.0" prefWidth="109.0" />
@@ -20,5 +20,6 @@
       <Text layoutX="14.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kernel size:" />
       <TextField fx:id="inputKsize" layoutX="75.0" layoutY="210.0" prefHeight="26.0" prefWidth="109.0" />
       <Button fx:id="btnMedianFilter" layoutX="196.0" layoutY="209.0" mnemonicParsing="false" onAction="#medianFilter" text="Apply" />
+      <Button layoutX="13.0" layoutY="255.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="119.0" text="Billateral filter" />
    </children>
 </AnchorPane>

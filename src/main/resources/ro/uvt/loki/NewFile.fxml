@@ -50,6 +50,11 @@
                 <MenuItem mnemonicParsing="false" text="Action 1" />
               </items>
             </Menu>
+            <Menu mnemonicParsing="false" onAction="#loadCodeRunner" text="Run custom code">
+                <items>
+                    <MenuItem mnemonicParsing="false" text="Action 1" />
+                </items>
+            </Menu>
                 <!-- Include other views for modularity -->
                 <!--
                 <fx:include fx:id="enchantmentMenu" source="EnchantmentMenu.fxml" />

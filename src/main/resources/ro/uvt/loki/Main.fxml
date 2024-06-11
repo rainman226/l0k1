@@ -11,10 +11,5 @@
       <Label fx:id="welcomeLabel" layoutX="552.0" layoutY="434.0" prefHeight="38.0" prefWidth="133.0" text="Welc0me t0 l0k1." />
       <Button fx:id="btnNewFile" layoutX="242.0" layoutY="489.0" mnemonicParsing="false" onAction="#switchToNewFile" prefHeight="141.0" prefWidth="253.0" text="Empty file" />
       <Button fx:id="btnTutorials" layoutX="725.0" layoutY="496.0" mnemonicParsing="false" onAction="#switchToTutorialMenu" prefHeight="141.0" prefWidth="253.0" text="Tutorials" />
-      <ImageView fitHeight="393.0" fitWidth="395.0" layoutX="402.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../images/main%20menu%20header.jpg" />
-         </image>
-      </ImageView>
    </children>
 </AnchorPane>
