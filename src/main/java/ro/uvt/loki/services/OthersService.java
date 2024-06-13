@@ -3,7 +3,7 @@ package ro.uvt.loki.services;
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 
-public class SegmentationService {
+public class OthersService {
     public Mat applyWatershed(Mat source) {
         Mat destination
                 = new Mat(source.rows(), source.cols(),
@@ -66,5 +66,14 @@ public class SegmentationService {
         }
 
         return destination;
+    }
+
+    public Mat convertRGBtoHSV(Mat source) {
+        Mat hsvImage = new Mat(source.size(), CvType.CV_8UC3);
+
+        // Convert the RGB image to HSV
+        Imgproc.cvtColor(source, hsvImage, Imgproc.COLOR_RGB2HSV);
+
+        return hsvImage;
     }
 }

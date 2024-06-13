@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<Menu xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.uvt.loki.controllers.SegmentationController" text="Segmentation">
+<Menu xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.uvt.loki.controllers.OthersController" text="Segmentation">
     <items>
         <MenuItem mnemonicParsing="false" onAction="#watershedSegmentation" text="Watershed" />
     </items>
