@@ -74,4 +74,11 @@ public class FilterController {
         Mat transformedImage = filterService.gaussianBlur(processedImage, 25);
         stateService.setProcessedImage(transformedImage);
     }
+
+    @FXML
+    public void applyBilateralFilter(ActionEvent event) {
+        Mat processedImage = stateService.getProcessedImage();
+        Mat transformedImage = filterService.applyBilateralFilter(processedImage);
+        stateService.setProcessedImage(transformedImage);
+    }
 }

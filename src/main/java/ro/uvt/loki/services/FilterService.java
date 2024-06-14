@@ -79,4 +79,14 @@ public class FilterService {
         }
         return dest;
     }
+
+    public Mat applyBilateralFilter(Mat src) {
+        // Parameters for Bilateral Filtering
+        int d = 15;  // Diameter of each pixel neighborhood
+        double sigmaColor = 75;  // Filter sigma in the color space
+        double sigmaSpace = 75;  // Filter sigma in the coordinate space
+        Mat dst = new Mat();
+        Imgproc.bilateralFilter(src, dst, d, sigmaColor, sigmaSpace, Core.BORDER_DEFAULT);
+        return dst;
+    }
 }
