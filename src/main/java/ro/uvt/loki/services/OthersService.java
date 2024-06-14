@@ -133,7 +133,13 @@ public class OthersService {
      * @param src The source image as a Mat object.
      * @return A Mat object containing the image with detected corners highlighted.
      */
-    public Mat applyHarrisCorner(Mat src) {
+    public static Mat applyHarrisCorner(Mat src) {
+        // Parameters for Harris Corner Detection
+        int blockSize = 2;  // Neighborhood size
+        int kSize = 3;      // Aperture parameter for Sobel operator
+        double k = 0.04;    // Harris detector free parameter
+        double threshold = 150;  // Threshold for detecting corners
+
         // Convert the source image to grayscale
         Mat gray = new Mat();
         Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
@@ -144,7 +150,7 @@ public class OthersService {
 
         // Apply the Harris corner detector
         Mat harrisCorners = new Mat();
-        Imgproc.cornerHarris(grayFloat, harrisCorners, 2, 3, 0.04);
+        Imgproc.cornerHarris(grayFloat, harrisCorners, blockSize, kSize, k);
 
         // Normalize the result to [0, 255]
         Mat harrisCornersNorm = new Mat();
@@ -158,11 +164,10 @@ public class OthersService {
         Mat dst = src.clone();
 
         // Threshold for an optimal value; it may vary depending on the image.
-        double threshold = 200;
         for (int j = 0; j < harrisCornersNorm.rows(); j++) {
             for (int i = 0; i < harrisCornersNorm.cols(); i++) {
                 if ((int) harrisCornersNorm.get(j, i)[0] > threshold) {
-                    Imgproc.circle(dst, new org.opencv.core.Point(i, j), 5, new Scalar(0, 0, 255), 2);
+                    Imgproc.circle(dst, new Point(i, j), 5, new Scalar(0, 0, 255), 2);
                 }
             }
         }
