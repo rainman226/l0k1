@@ -63,4 +63,12 @@ public class OthersController {
         Mat transformedImage = othersService.applyErosion(processedImage, morphValue);
         stateService.setProcessedImage(transformedImage);
     }
+
+    @FXML
+    public void cornerDetection(ActionEvent event) {
+        Mat processedImage = stateService.getProcessedImage();
+
+        Mat transformedImage = othersService.applyHarrisCorner(processedImage);
+        stateService.setProcessedImage(transformedImage);
+    }
 }
