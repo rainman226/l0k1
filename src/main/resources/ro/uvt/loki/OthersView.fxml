@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="367.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.uvt.loki.controllers.OthersController">
     <children>
         <Button layoutX="27.0" layoutY="33.0" mnemonicParsing="false" onAction="#watershedSegmentation" prefHeight="56.0" prefWidth="90.0" text="Watershed Seg" />
       <Button layoutX="135.0" layoutY="33.0" mnemonicParsing="false" onAction="#convertRGBtoHSV" prefHeight="56.0" prefWidth="90.0" text="HSV convert" />
-      <Button layoutX="26.0" layoutY="110.0" mnemonicParsing="false" onAction="#watershedSegmentation" prefHeight="56.0" prefWidth="90.0" text="Erosion" />
-      <Button layoutX="134.0" layoutY="110.0" mnemonicParsing="false" onAction="#watershedSegmentation" prefHeight="56.0" prefWidth="90.0" text="Dilation" />
-      <Button layoutX="26.0" layoutY="183.0" mnemonicParsing="false" onAction="#watershedSegmentation" prefHeight="56.0" prefWidth="90.0" text="Corner detect" />
-      <Button layoutX="134.0" layoutY="183.0" mnemonicParsing="false" onAction="#watershedSegmentation" prefHeight="56.0" prefWidth="90.0" text="Fourier" />
+      <Button layoutX="26.0" layoutY="167.0" mnemonicParsing="false" onAction="#applyErosion" prefHeight="56.0" prefWidth="90.0" text="Erosion" />
+      <Button layoutX="134.0" layoutY="167.0" mnemonicParsing="false" onAction="#applyDilation" prefHeight="56.0" prefWidth="90.0" text="Dilation" />
+      <Button layoutX="26.0" layoutY="240.0" mnemonicParsing="false" onAction="#watershedSegmentation" prefHeight="56.0" prefWidth="90.0" text="Corner detect" />
+      <Button layoutX="134.0" layoutY="240.0" mnemonicParsing="false" onAction="#watershedSegmentation" prefHeight="56.0" prefWidth="90.0" text="Fourier" />
+      <Slider fx:id="morphValue" blockIncrement="1.0" layoutX="28.0" layoutY="127.0" majorTickUnit="2.0" max="21.0" min="1.0" prefHeight="14.0" prefWidth="198.0" showTickLabels="true" showTickMarks="true" value="1.0" />
+      <Text layoutX="28.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Morphological operator kernel size:" />
     </children>
 </AnchorPane>

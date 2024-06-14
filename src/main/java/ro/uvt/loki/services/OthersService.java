@@ -4,6 +4,12 @@ import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 
 public class OthersService {
+    /**
+     * Apply the watershed algorithm to segment the image
+     *
+     * @param source The source image
+     * @return The segmented image
+     */
     public Mat applyWatershed(Mat source) {
         Mat destination
                 = new Mat(source.rows(), source.cols(),
@@ -68,6 +74,12 @@ public class OthersService {
         return destination;
     }
 
+    /**
+     * Convert the RGB image to HSV
+     *
+     * @param source The source image
+     * @return The HSV image
+     */
     public Mat convertRGBtoHSV(Mat source) {
         Mat hsvImage = new Mat(source.size(), CvType.CV_8UC3);
 
@@ -75,5 +87,43 @@ public class OthersService {
         Imgproc.cvtColor(source, hsvImage, Imgproc.COLOR_RGB2HSV);
 
         return hsvImage;
+    }
+
+    /**
+     * Applies dilation to the source image.
+     *
+     * @param src The source image as a Mat object.
+     * @param kernelSize The size of the dilation kernel.
+     * @return A Mat object containing the dilated image.
+     */
+    public Mat applyDilation(Mat src, int kernelSize) {
+        // Create a kernel (structuring element) for dilation
+        Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(kernelSize, kernelSize));
+
+        Mat result = new Mat();
+
+        // Apply dilation
+        Imgproc.dilate(src, result, kernel);
+
+        return result;
+    }
+
+    /**
+     * Applies erosion to the source image.
+     *
+     * @param src The source image as a Mat object.
+     * @param kernelSize The size of the erosion kernel.
+     * @return A Mat object containing the eroded image.
+     */
+    public Mat applyErosion(Mat src, int kernelSize) {
+        // Create a kernel (structuring element) for erosion
+        Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(kernelSize, kernelSize));
+
+        Mat result = new Mat();
+
+        // Apply erosion
+        Imgproc.erode(src, result, kernel);
+
+        return result;
     }
 }
