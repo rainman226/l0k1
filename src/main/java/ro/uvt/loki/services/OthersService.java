@@ -3,6 +3,9 @@ package ro.uvt.loki.services;
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OthersService {
     /**
      * Apply the watershed algorithm to segment the image
@@ -133,7 +136,7 @@ public class OthersService {
      * @param src The source image as a Mat object.
      * @return A Mat object containing the image with detected corners highlighted.
      */
-    public static Mat applyHarrisCorner(Mat src) {
+    public Mat applyHarrisCorner(Mat src) {
         // Parameters for Harris Corner Detection
         int blockSize = 2;  // Neighborhood size
         int kSize = 3;      // Aperture parameter for Sobel operator

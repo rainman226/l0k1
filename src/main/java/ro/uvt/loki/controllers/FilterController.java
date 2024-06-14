@@ -69,4 +69,9 @@ public class FilterController {
         stateService.setProcessedImage(transformedImage);
     }
 
+    public void codeRunner(ActionEvent event) {
+        Mat processedImage = stateService.getProcessedImage();
+        Mat transformedImage = filterService.gaussianBlur(processedImage, 25);
+        stateService.setProcessedImage(transformedImage);
+    }
 }

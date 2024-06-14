@@ -3,12 +3,11 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="367.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"  stylesheets="@../../../css/views.css" fx:controller="ro.uvt.loki.controllers.RestorationController">
+<AnchorPane prefHeight="367.0" prefWidth="250.0" stylesheets="@../../../css/views.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.uvt.loki.controllers.RestorationController">
    <children>
-      <Button layoutX="27.0" layoutY="33.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="90.0" onAction="#inpaintImageMaskSelected" text="Inpaint" />
-      <Button layoutX="139.0" layoutY="33.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="90.0" onAction="#inpaintImageMaskComputed" text="Inpaint (auto)" />
-      <Button layoutX="27.0" layoutY="100.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="90.0" onAction="#applyCLAHE" text="CLAHE" />
-      <Button layoutX="139.0" layoutY="100.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="90.0" onAction="#adaptiveThresholding" text="Adaptive Tresholding" textOverrun="CLIP" wrapText="true" />
+      <Button layoutX="27.0" layoutY="33.0" mnemonicParsing="false" onAction="#inpaintImageMaskSelected" prefHeight="56.0" prefWidth="90.0" text="Inpaint" textAlignment="CENTER" wrapText="true" />
+      <Button layoutX="139.0" layoutY="33.0" mnemonicParsing="false" onAction="#inpaintImageMaskComputed" prefHeight="56.0" prefWidth="90.0" text="Inpaint (auto)" textAlignment="CENTER" wrapText="true" />
+      <Button layoutX="27.0" layoutY="100.0" mnemonicParsing="false" onAction="#applyCLAHE" prefHeight="56.0" prefWidth="90.0" text="CLAHE" textAlignment="CENTER" wrapText="true" />
+      <Button layoutX="139.0" layoutY="100.0" mnemonicParsing="false" onAction="#adaptiveThresholding" prefHeight="56.0" prefWidth="90.0" text="Adaptive Tresholding" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
    </children>
 </AnchorPane>

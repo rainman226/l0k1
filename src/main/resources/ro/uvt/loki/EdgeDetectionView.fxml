@@ -6,18 +6,18 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="367.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"  stylesheets="@../../../css/views.css" fx:controller="ro.uvt.loki.controllers.EdgeDetectionController">
+<AnchorPane prefHeight="367.0" prefWidth="250.0" stylesheets="@../../../css/views.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.uvt.loki.controllers.EdgeDetectionController">
    <children>
       <Slider fx:id="sliderIntensityScale" blockIncrement="1.0" layoutX="25.0" layoutY="24.0" majorTickUnit="1.0" max="10.0" min="1.0" minorTickCount="1" prefHeight="30.0" prefWidth="204.0" showTickLabels="true" showTickMarks="true" value="1.0" />
       <Button layoutX="17.0" layoutY="75.0" mnemonicParsing="false" onAction="#sobelEdgeDetection" prefHeight="46.0" prefWidth="98.0" text="Sobel" />
       <Button layoutX="134.0" layoutY="75.0" mnemonicParsing="false" onAction="#prewittEdgeDetection" prefHeight="46.0" prefWidth="98.0" text="Prewitt" />
       <Button layoutX="17.0" layoutY="137.0" mnemonicParsing="false" onAction="#robertsEdgeDetection" prefHeight="46.0" prefWidth="98.0" text="Roberts" />
-      <Button layoutX="134.0" layoutY="137.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="98.0" text="Button" />
       <Text layoutX="22.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Difference of Gaussians" />
       <Text layoutX="19.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Radius 1:" />
-      <Text layoutX="19.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Radius 2:" />
+      <Text layoutX="19.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Radius 2:" />
       <TextField fx:id="dogR1" layoutX="70.0" layoutY="218.0" prefHeight="26.0" prefWidth="71.0" />
-      <TextField fx:id="dogR2" layoutX="70.0" layoutY="247.0" prefHeight="26.0" prefWidth="71.0" />
-      <Button layoutX="165.0" layoutY="232.0" mnemonicParsing="false" onAction="#differenceOfGaussians" text="Apply" />
+      <TextField fx:id="dogR2" layoutX="70.0" layoutY="253.0" prefHeight="26.0" prefWidth="71.0" />
+      <Button layoutX="165.0" layoutY="235.0" mnemonicParsing="false" onAction="#differenceOfGaussians" text="Apply" />
+      <Text layoutX="25.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edge intensity scale:" />
    </children>
 </AnchorPane>

@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -87,7 +88,7 @@ public class NewFileController {
             // Load SegmentationMenu
             FXMLLoader segmentationLoader = new FXMLLoader(getClass().getResource("SegmentationMenu.fxml"));
             Menu segmentationMenu = segmentationLoader.load();
-            SegmentationController segmentationController = segmentationLoader.getController();
+            OthersController othersController = segmentationLoader.getController();
             //menuBar.getMenus().add(segmentationMenu);
 
             // Load RestorationMenu
@@ -244,5 +245,27 @@ public class NewFileController {
     @FXML
     private void loadOther() {
         loadFXML("OthersView.fxml");
+    }
+
+    @FXML
+    private void loadCodeRunner() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("CodeRunner.fxml"));
+        try {
+            Parent root = loader.load();
+
+            // Create the dialog stage
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Code Runner Dialog");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(null); // You can set the owner if needed
+            Scene scene = new Scene(root);
+            dialogStage.setScene(scene);
+
+            // Show the dialog and wait until it is closed
+            dialogStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

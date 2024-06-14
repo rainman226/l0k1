@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="367.0" prefWidth="250.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"  stylesheets="@../../../css/views.css" fx:controller="ro.uvt.loki.controllers.EnchantmentController">
+<AnchorPane prefHeight="367.0" prefWidth="250.0" stylesheets="@../../../css/views.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.uvt.loki.controllers.EnchantmentController">
    <children>
       <TextField fx:id="inputBrightness1" layoutX="71.0" layoutY="10.0" prefHeight="20.0" prefWidth="88.0" />
       <TextField fx:id="inputBrightness2" layoutX="71.0" layoutY="46.0" prefHeight="20.0" prefWidth="88.0" />
@@ -17,13 +17,13 @@
       <TextField fx:id="inputGainBlue" layoutX="177.0" layoutY="106.0" prefHeight="26.0" prefWidth="54.0" />
       <Text fx:id="txtGainRed" layoutX="37.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Red" />
       <Text fx:id="txtGainGreen" layoutX="111.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Green" />
-      <Text fx:id="txtGainBlue" layoutX="193.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Blue" />
-      <Button fx:id="btnBalance" layoutX="179.0" layoutY="136.0" mnemonicParsing="false" onAction="#colorBalanceAdjust" text="Apply" />
-      <TextField fx:id="inputSaturation" layoutX="74.0" layoutY="171.0" prefHeight="20.0" prefWidth="88.0" />
-      <Text fx:id="txtSaturation" layoutX="13.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Saturation" />
-      <Button fx:id="btnSaturation" layoutX="179.0" layoutY="171.0" mnemonicParsing="false" onAction="#changeSaturation" text="Apply" />
-      <Button fx:id="btnHistogramEqualisation" layoutX="12.0" layoutY="215.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="90.0" onAction="#setHistogramImage" text="Histogram" />
-      <Button fx:id="btnGammaCorrection" layoutX="127.0" layoutY="215.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="90.0" onAction="#gammaCorection" text="Gamma" />
-      <Button fx:id="btnWhiteBalance" layoutX="11.0" layoutY="285.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="90.0" onAction="#whiteBalance" text="WhiteCorrection" />
+      <Text fx:id="txtGainBlue" layoutX="191.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Blue" />
+      <Button fx:id="btnBalance" layoutX="179.0" layoutY="140.0" mnemonicParsing="false" onAction="#colorBalanceAdjust" text="Apply" />
+      <TextField fx:id="inputSaturation" layoutX="78.0" layoutY="181.0" prefHeight="20.0" prefWidth="88.0" />
+      <Text fx:id="txtSaturation" layoutX="17.0" layoutY="198.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Saturation" />
+      <Button fx:id="btnSaturation" layoutX="179.0" layoutY="182.0" mnemonicParsing="false" onAction="#changeSaturation" text="Apply" />
+      <Button fx:id="btnHistogramEqualisation" layoutX="26.0" layoutY="230.0" mnemonicParsing="false" onAction="#setHistogramImage" prefHeight="51.0" prefWidth="90.0" text="Histogram Eq." textAlignment="CENTER" wrapText="true" />
+      <Button fx:id="btnGammaCorrection" layoutX="141.0" layoutY="230.0" mnemonicParsing="false" onAction="#gammaCorection" prefHeight="51.0" prefWidth="90.0" text="Gamma" textAlignment="CENTER" wrapText="true" />
+      <Button fx:id="btnWhiteBalance" ellipsisString="" layoutX="25.0" layoutY="300.0" mnemonicParsing="false" onAction="#whiteBalance" prefHeight="51.0" prefWidth="90.0" text="White Corection" textAlignment="CENTER" wrapText="true" />
    </children>
 </AnchorPane>
