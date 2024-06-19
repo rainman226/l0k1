@@ -9,13 +9,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -27,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
+import static ro.uvt.loki.HelperFunctions.noImageSelectedAlert;
 import static ro.uvt.loki.HelperFunctions.toFXImage;
 
 
@@ -46,7 +46,21 @@ public class NewFileController {
     @FXML
     private ImageView histogramImage;
     @FXML
-    private MenuBar menuBar;
+    private Menu enchantmentMenu;
+
+    @FXML
+    private Menu filterMenu;
+
+    @FXML
+    private Menu edgeDetectionMenu;
+
+    @FXML
+    private Menu restorationMenu;
+
+    @FXML
+    private Menu otherMenu;
+
+
 
     private boolean showingOriginal = true;
 
@@ -60,6 +74,27 @@ public class NewFileController {
                 myImageView.setImage(toFXImage(newValue));
                 showingOriginal = false;
             }
+        });
+
+        enchantmentMenu.setOnShowing(event -> {
+            loadEnchantment();
+            enchantmentMenu.hide();
+        });
+        filterMenu.setOnShowing(event -> {
+            loadFilter();
+            filterMenu.hide();
+        });
+        edgeDetectionMenu.setOnShowing(event -> {
+            loadEdgeDetection();
+            edgeDetectionMenu.hide();
+        });
+        restorationMenu.setOnShowing(event -> {
+            loadRestoration();
+            restorationMenu.hide();
+        });
+        otherMenu.setOnShowing(event -> {
+            loadOther();
+            otherMenu.hide();
         });
         initializeControllers();
     }
@@ -165,6 +200,11 @@ public class NewFileController {
 
     @FXML
     public void undo(ActionEvent event) {
+        if(!stateService.isImageLoaded()) {
+            noImageSelectedAlert();
+            return;
+        }
+
         stateService.undo();
         myImageView.setImage(toFXImage(stateService.getProcessedImage()));
 
@@ -173,6 +213,11 @@ public class NewFileController {
 
     @FXML
     private void toggleImage(ActionEvent event) {
+        if(!stateService.isImageLoaded()) {
+            noImageSelectedAlert();
+            return;
+        }
+
         if (showingOriginal) {
             myImageView.setImage(toFXImage(stateService.getProcessedImage()));
         } else {
@@ -245,27 +290,5 @@ public class NewFileController {
     @FXML
     private void loadOther() {
         loadFXML("OthersView.fxml");
-    }
-
-    @FXML
-    private void loadCodeRunner() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("CodeRunner.fxml"));
-        try {
-            Parent root = loader.load();
-
-            // Create the dialog stage
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Code Runner Dialog");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(null); // You can set the owner if needed
-            Scene scene = new Scene(root);
-            dialogStage.setScene(scene);
-
-            // Show the dialog and wait until it is closed
-            dialogStage.showAndWait();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

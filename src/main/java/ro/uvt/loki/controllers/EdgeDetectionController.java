@@ -8,6 +8,8 @@ import org.opencv.core.Mat;
 import ro.uvt.loki.services.EdgeDetectionService;
 import ro.uvt.loki.services.StateService;
 
+import static ro.uvt.loki.HelperFunctions.noImageSelectedAlert;
+
 public class EdgeDetectionController {
     @FXML
     private Slider sliderIntensityScale;
@@ -22,6 +24,11 @@ public class EdgeDetectionController {
 
     @FXML
     public void sobelEdgeDetection(ActionEvent event) {
+        if(!stateService.isImageLoaded()) {
+            noImageSelectedAlert();
+            return;
+        }
+
         int amount = 1;
 
         try {
@@ -36,6 +43,11 @@ public class EdgeDetectionController {
 
     @FXML
     public void prewittEdgeDetection(ActionEvent event) {
+        if(!stateService.isImageLoaded()) {
+            noImageSelectedAlert();
+            return;
+        }
+
         int amount = 1;
 
         try {
@@ -50,6 +62,11 @@ public class EdgeDetectionController {
 
     @FXML
     public void robertsEdgeDetection(ActionEvent event) {
+        if(!stateService.isImageLoaded()) {
+            noImageSelectedAlert();
+            return;
+        }
+
         int amount = 1;
 
         try {
@@ -64,6 +81,11 @@ public class EdgeDetectionController {
 
     @FXML
     public void differenceOfGaussians(ActionEvent event) {
+        if(!stateService.isImageLoaded()) {
+            noImageSelectedAlert();
+            return;
+        }
+
         double radius1, radius2;
 
         try {

@@ -7,6 +7,8 @@ import org.opencv.core.Mat;
 import ro.uvt.loki.services.OthersService;
 import ro.uvt.loki.services.StateService;
 
+import static ro.uvt.loki.HelperFunctions.noImageSelectedAlert;
+
 public class OthersController {
 
     @FXML
@@ -18,6 +20,11 @@ public class OthersController {
 
     @FXML
     public void watershedSegmentation(ActionEvent event) {
+        if(!stateService.isImageLoaded()) {
+            noImageSelectedAlert();
+            return;
+        }
+
         Mat processedImage = stateService.getProcessedImage();
 
         Mat transformedImage = othersService.applyWatershed(processedImage);
@@ -26,6 +33,11 @@ public class OthersController {
 
     @FXML
     public void convertRGBtoHSV(ActionEvent event) {
+        if(!stateService.isImageLoaded()) {
+            noImageSelectedAlert();
+            return;
+        }
+
         Mat processedImage = stateService.getProcessedImage();
 
         Mat transformedImage = othersService.convertRGBtoHSV(processedImage);
@@ -34,6 +46,11 @@ public class OthersController {
 
     @FXML
     public void applyDilation(ActionEvent event) {
+        if(!stateService.isImageLoaded()) {
+            noImageSelectedAlert();
+            return;
+        }
+
         int morphValue = 1;
 
         try {
@@ -50,6 +67,11 @@ public class OthersController {
 
     @FXML
     public void applyErosion(ActionEvent event) {
+        if(!stateService.isImageLoaded()) {
+            noImageSelectedAlert();
+            return;
+        }
+
         int morphValue = 1;
 
         try {
@@ -66,6 +88,11 @@ public class OthersController {
 
     @FXML
     public void cornerDetection(ActionEvent event) {
+        if(!stateService.isImageLoaded()) {
+            noImageSelectedAlert();
+            return;
+        }
+
         Mat processedImage = stateService.getProcessedImage();
 
         Mat transformedImage = othersService.applyHarrisCorner(processedImage);

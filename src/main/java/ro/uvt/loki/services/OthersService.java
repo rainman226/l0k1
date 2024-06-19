@@ -3,9 +3,6 @@ package ro.uvt.loki.services;
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class OthersService {
     /**
      * Apply the watershed algorithm to segment the image

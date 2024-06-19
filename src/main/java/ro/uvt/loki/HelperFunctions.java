@@ -19,15 +19,6 @@ import static org.opencv.imgcodecs.Imgcodecs.imencode;
 //import org.bytedeco.opencv.opencv_core.Mat;
 
 public class HelperFunctions {
-//    public static javafx.scene.image.Image toFXImage(Mat mat) {
-//        try(OpenCVFrameConverter.ToMat openCVConverter = new OpenCVFrameConverter.ToMat()) {
-//            try(Frame frame = openCVConverter.convert(mat)){
-//                try(JavaFXFrameConverter javaFXConverter  = new JavaFXFrameConverter()) {
-//                    return javaFXConverter.convert(frame);
-//                }
-//            }
-//        }
-//    }
 
     public static javafx.scene.image.Image toFXImage(Mat mat) {
         MatOfByte byteMat = new MatOfByte();

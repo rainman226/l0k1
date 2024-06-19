@@ -25,44 +25,31 @@
                         <MenuItem mnemonicParsing="false" onAction="#switchToMain" text="Return to menu" />
                     </items>
                 </Menu>
-            <Menu mnemonicParsing="false" onAction="#loadEnchantment" text="Enchantment">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-              </items>
-            </Menu>
-            <Menu mnemonicParsing="false" onAction="#loadFilter" text="Filter">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-              </items>
-            </Menu>
-            <Menu mnemonicParsing="false" onAction="#loadEdgeDetection" text="Edge Detection">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-              </items>
-            </Menu>
-            <Menu mnemonicParsing="false" onAction="#loadRestoration" text="Restoration">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-              </items>
-            </Menu>
-            <Menu mnemonicParsing="false" onAction="#loadOther" text="Others">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-              </items>
-            </Menu>
-            <Menu mnemonicParsing="false" onAction="#loadCodeRunner" text="Run custom code">
-                <items>
-                    <MenuItem mnemonicParsing="false" text="Action 1" />
-                </items>
-            </Menu>
-                <!-- Include other views for modularity -->
-                <!--
-                <fx:include fx:id="enchantmentMenu" source="EnchantmentMenu.fxml" />
-                <fx:include fx:id="filterMenu" source="FilterMenu.fxml" />
-                <fx:include fx:id="edgeDetectionMenu" source="EdgeDetectionMenu.fxml" />
-                <fx:include fx:id="segmentationMenu" source="SegmentationMenu.fxml" />
-                <fx:include fx:id="restorationMenu" source="RestorationMenu.fxml" />
-                -->
+                <Menu fx:id="enchantmentMenu" mnemonicParsing="false" text="Enchantment">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Action 1" />
+                    </items>
+                </Menu>
+                <Menu fx:id="filterMenu" mnemonicParsing="false" text="Filter">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Action 1" />
+                    </items>
+                </Menu>
+                <Menu fx:id="edgeDetectionMenu" mnemonicParsing="false" text="Edge Detection">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Action 1" />
+                    </items>
+                </Menu>
+                <Menu fx:id="restorationMenu" mnemonicParsing="false" text="Restoration">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Action 1" />
+                    </items>
+                </Menu>
+                <Menu fx:id="otherMenu" mnemonicParsing="false" text="Others">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Action 1" />
+                    </items>
+                </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <items>
                         <MenuItem mnemonicParsing="false" text="About" />

@@ -2,17 +2,21 @@ package ro.uvt.loki.controllers;
 
 import javafx.event.ActionEvent;
 import org.opencv.core.Mat;
-import ro.uvt.loki.services.FilterService;
 import ro.uvt.loki.services.RestorationService;
 import ro.uvt.loki.services.StateService;
 
-import javax.swing.*;
+import static ro.uvt.loki.HelperFunctions.noImageSelectedAlert;
 
 public class RestorationController {
     private final StateService stateService = StateService.getInstance();
     private final RestorationService restorationService = new RestorationService();
 
     public void inpaintImageMaskSelected(ActionEvent event) {
+        if(!stateService.isImageLoaded()) {
+            noImageSelectedAlert();
+            return;
+        }
+
         Mat processedImage = stateService.getProcessedImage();
 
         Mat transformedImage = restorationService.inpaintImageMaskSelected(processedImage);
@@ -20,6 +24,11 @@ public class RestorationController {
     }
 
     public void inpaintImageMaskComputed(ActionEvent event) {
+        if(!stateService.isImageLoaded()) {
+            noImageSelectedAlert();
+            return;
+        }
+
         Mat processedImage = stateService.getProcessedImage();
 
         Mat transformedImage = restorationService.inpaintImageComputeMask(processedImage);
@@ -27,6 +36,11 @@ public class RestorationController {
     }
 
     public void applyCLAHE(ActionEvent event) {
+        if(!stateService.isImageLoaded()) {
+            noImageSelectedAlert();
+            return;
+        }
+
         Mat processedImage = stateService.getProcessedImage();
 
         Mat transformedImage = restorationService.applyCLAHE(processedImage);
@@ -34,6 +48,11 @@ public class RestorationController {
     }
 
     public void adaptiveThresholding(ActionEvent event) {
+        if(!stateService.isImageLoaded()) {
+            noImageSelectedAlert();
+            return;
+        }
+
         Mat processedImage = stateService.getProcessedImage();
 
         Mat transformedImage = restorationService.applyAdaptiveThreshold(processedImage);

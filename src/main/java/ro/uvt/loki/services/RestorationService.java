@@ -11,8 +11,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ro.uvt.loki.HelperFunctions.imshow;
-
 public class RestorationService {
     /**
      * Inpaints an image using the Telea algorithm (mask selected by the user).

@@ -48,6 +48,10 @@ public class StateService {
         this.processedImage.set(processedImage);
     }
 
+    public boolean isImageLoaded() {
+        return originalImage != null;
+    }
+
     public void undo() {
         if (!historyStack.isEmpty()) {
             processedImage.set(historyStack.pop());

@@ -7,7 +7,7 @@ import org.opencv.core.Mat;
 import ro.uvt.loki.services.FilterService;
 import ro.uvt.loki.services.StateService;
 
-import static ro.uvt.loki.dialogControllers.SaturationInputController.showSaturationInputDialog;
+import static ro.uvt.loki.HelperFunctions.noImageSelectedAlert;
 
 public class FilterController {
     @FXML
@@ -26,6 +26,11 @@ public class FilterController {
 
     @FXML
     public void blurImage(ActionEvent event) {
+            if(!stateService.isImageLoaded()) {
+                noImageSelectedAlert();
+                return;
+            }
+
             double size = 1.0;
 
             try {
@@ -41,6 +46,11 @@ public class FilterController {
 
     @FXML
     public void medianFilter(ActionEvent event) {
+        if(!stateService.isImageLoaded()) {
+            noImageSelectedAlert();
+            return;
+        }
+
         int ksize = 1;
         try {
             ksize = Integer.parseInt(inputKsize.getText());
@@ -54,6 +64,11 @@ public class FilterController {
 
     @FXML
     public void sharpen(ActionEvent event) {
+        if(!stateService.isImageLoaded()) {
+            noImageSelectedAlert();
+            return;
+        }
+
         double radius = 0.0;
         double amount = 0.0;
 
@@ -69,14 +84,13 @@ public class FilterController {
         stateService.setProcessedImage(transformedImage);
     }
 
-    public void codeRunner(ActionEvent event) {
-        Mat processedImage = stateService.getProcessedImage();
-        Mat transformedImage = filterService.gaussianBlur(processedImage, 25);
-        stateService.setProcessedImage(transformedImage);
-    }
-
     @FXML
     public void applyBilateralFilter(ActionEvent event) {
+        if(!stateService.isImageLoaded()) {
+            noImageSelectedAlert();
+            return;
+        }
+
         Mat processedImage = stateService.getProcessedImage();
         Mat transformedImage = filterService.applyBilateralFilter(processedImage);
         stateService.setProcessedImage(transformedImage);

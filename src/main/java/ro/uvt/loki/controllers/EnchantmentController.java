@@ -9,6 +9,7 @@ import org.opencv.core.Mat;
 import ro.uvt.loki.services.EnchantmentService;
 import ro.uvt.loki.services.StateService;
 
+import static ro.uvt.loki.HelperFunctions.noImageSelectedAlert;
 import static ro.uvt.loki.HelperFunctions.toFXImage;
 
 public class EnchantmentController {
@@ -42,6 +43,11 @@ public class EnchantmentController {
 
     @FXML
     public void setHistogramImage(ActionEvent event) {
+        if(!stateService.isImageLoaded()) {
+            noImageSelectedAlert();
+            return;
+        }
+
         Mat processedImage = stateService.getProcessedImage();
 
         Mat histogramMat = EnchantmentService.calculateHistogram(processedImage);
@@ -54,6 +60,11 @@ public class EnchantmentController {
 
     @FXML
     public void increaseBrightness(ActionEvent event) {
+        if(!stateService.isImageLoaded()) {
+            noImageSelectedAlert();
+            return;
+        }
+
         double alpha = 1.0; // Default value in case the user doesn't input anything
         double beta = 1.0;  // Same ideea
 
@@ -80,6 +91,11 @@ public class EnchantmentController {
 
     @FXML
     public void whiteBalance(ActionEvent event) {
+        if(!stateService.isImageLoaded()) {
+            noImageSelectedAlert();
+            return;
+        }
+
         Mat processedImage = stateService.getProcessedImage();
 
         Mat transformedImage = enchantmentService.whiteBalance(processedImage);
@@ -92,6 +108,11 @@ public class EnchantmentController {
 
     @FXML
     public void changeSaturation(ActionEvent event) {
+        if(!stateService.isImageLoaded()) {
+            noImageSelectedAlert();
+            return;
+        }
+
         double saturationAdjustment = 0; // Default value
 
         try {
@@ -114,6 +135,11 @@ public class EnchantmentController {
 
     @FXML
     public void colorBalanceAdjust(ActionEvent event) {
+        if(!stateService.isImageLoaded()) {
+            noImageSelectedAlert();
+            return;
+        }
+
         float redGain = 1.0f;
         float greenGain = 1.0f;
         float blueGain = 1.0f;
@@ -148,6 +174,11 @@ public class EnchantmentController {
 
     @FXML
     public void gammaCorection(ActionEvent event) {
+        if(!stateService.isImageLoaded()) {
+            noImageSelectedAlert();
+            return;
+        }
+
         Mat processedImage = stateService.getProcessedImage();
 
         Mat transformedImage = enchantmentService.gammaCorrection(processedImage, 0.4);
