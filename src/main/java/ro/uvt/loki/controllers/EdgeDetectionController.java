@@ -9,6 +9,7 @@ import ro.uvt.loki.services.EdgeDetectionService;
 import ro.uvt.loki.services.StateService;
 
 import static ro.uvt.loki.HelperFunctions.noImageSelectedAlert;
+import static ro.uvt.loki.HelperFunctions.showAlert;
 
 public class EdgeDetectionController {
     @FXML
@@ -91,10 +92,16 @@ public class EdgeDetectionController {
         try {
             radius1 = Double.parseDouble(dogR1.getText());
             radius2 = Double.parseDouble(dogR2.getText());
-        } catch (Exception e) {
-            // Handle exception
+        } catch (NumberFormatException e) {
+            showAlert("Invalid input", "The radius must be a number");
             return;
         }
+
+        if(radius1 < 0 || radius1 > 99 || radius2 < 0 || radius2 > 99) {
+            showAlert("Invalid input", "The radius must be between 0 and 100");
+            return;
+        }
+
         Mat processedImage = stateService.getProcessedImage();
         Mat transformedImage = edgeDetectionService.differenceOfGaussians(processedImage, radius1, radius2);
         stateService.setProcessedImage(transformedImage);

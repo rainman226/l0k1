@@ -9,8 +9,7 @@ import org.opencv.core.Mat;
 import ro.uvt.loki.services.EnchantmentService;
 import ro.uvt.loki.services.StateService;
 
-import static ro.uvt.loki.HelperFunctions.noImageSelectedAlert;
-import static ro.uvt.loki.HelperFunctions.toFXImage;
+import static ro.uvt.loki.HelperFunctions.*;
 
 public class EnchantmentController {
     @FXML
@@ -70,15 +69,11 @@ public class EnchantmentController {
 
         try {
             alpha = Double.parseDouble(inputBrightness1.getText());
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid input for brightness1. Using default value: " + alpha);
-        }
-
-        try {
             beta = Double.parseDouble(inputBrightness2.getText());
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input for brightness2. Using default value: " + beta);
+            showAlert("Invalid input", "The values must be numbers");
         }
+
 
         Mat processedImage = stateService.getProcessedImage();
         Mat transformedImage = enchantmentService.increaseBrightness(processedImage, alpha, beta);
@@ -117,11 +112,12 @@ public class EnchantmentController {
 
         try {
             saturationAdjustment = Double.parseDouble(inputSaturation.getText());
-            if (saturationAdjustment < -100 || saturationAdjustment > 100) {
-                throw new NumberFormatException("Value out of range");
-            }
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input for saturation. Using default value: " + saturationAdjustment);
+            showAlert("Invalid input", "The value must be a number");
+        }
+
+        if (saturationAdjustment < -100 || saturationAdjustment > 100) {
+            throw new NumberFormatException("Value out of range");
         }
 
         Mat processedImage = stateService.getProcessedImage();
@@ -146,21 +142,23 @@ public class EnchantmentController {
 
         try {
             redGain = Float.parseFloat(inputGainRed.getText());
-        } catch(NumberFormatException e) {
-            System.out.println("Invalid input for red gain. Using default value");
-        }
-
-        try {
             greenGain = Float.parseFloat(inputGainGreen.getText());
-        } catch(NumberFormatException e) {
-            System.out.println("Invalid input for green gain. Using default value");
-        }
-
-        try {
             blueGain = Float.parseFloat(inputGainBlue.getText());
         } catch(NumberFormatException e) {
-            System.out.println("Invalid input for saturation. Using default value");
+            showAlert("Invalid input", "The value must be a number");
         }
+
+//        try {
+//            greenGain = Float.parseFloat(inputGainGreen.getText());
+//        } catch(NumberFormatException e) {
+//            System.out.println("Invalid input for green gain. Using default value");
+//        }
+//
+//        try {
+//            blueGain = Float.parseFloat(inputGainBlue.getText());
+//        } catch(NumberFormatException e) {
+//            System.out.println("Invalid input for saturation. Using default value");
+//        }
 
         Mat processedImage = stateService.getProcessedImage();
         System.out.println("Red Gain: " + redGain + " Green Gain: " + greenGain + " Blue Gain: " + blueGain);

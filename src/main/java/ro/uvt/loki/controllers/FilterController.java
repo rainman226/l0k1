@@ -8,6 +8,7 @@ import ro.uvt.loki.services.FilterService;
 import ro.uvt.loki.services.StateService;
 
 import static ro.uvt.loki.HelperFunctions.noImageSelectedAlert;
+import static ro.uvt.loki.HelperFunctions.showAlert;
 
 public class FilterController {
     @FXML
@@ -26,6 +27,7 @@ public class FilterController {
 
     @FXML
     public void blurImage(ActionEvent event) {
+        //TODO change to slider that goes from 2 to 2
             if(!stateService.isImageLoaded()) {
                 noImageSelectedAlert();
                 return;
@@ -36,7 +38,12 @@ public class FilterController {
             try {
                 size = Double.parseDouble(inputBlur.getText());
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input for the size");
+                showAlert("Invalid input", "The size must be a number");
+            }
+
+            if(size < 0 || size > 99) {
+                showAlert("Invalid input", "The size must be between 0 and 100");
+                return;
             }
 
             Mat processedImage = stateService.getProcessedImage();
@@ -55,8 +62,18 @@ public class FilterController {
         try {
             ksize = Integer.parseInt(inputKsize.getText());
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input for the ksize");
+            showAlert("Invalid input", "The ksize must be a number");
         }
+
+        if(ksize < 0 || ksize > 99) {
+            showAlert("Invalid input", "The ksize must be between 0 and 100");
+            return;
+        }
+
+        if(ksize % 2 == 0) {
+            ksize -= 1;
+        }
+        System.out.println(ksize);
         Mat processedImage = stateService.getProcessedImage();
         Mat transformedImage = filterService.medianFilter(processedImage, ksize);
         stateService.setProcessedImage(transformedImage);
@@ -76,7 +93,17 @@ public class FilterController {
             radius = Double.parseDouble(inputSharpenRadius.getText());
             amount = Double.parseDouble(inputSharpenAmount.getText());
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input for the amount/radius");
+            showAlert("Invalid input", "The radius and amount must be numbers");
+        }
+
+        if(radius < 0 || radius > 99 || amount < 0 || amount > 99) {
+            showAlert("Invalid input", "The radius and amount must be between 0 and 100");
+            return;
+        }
+
+        // Workaround for the radius being even
+        if(radius % 2 == 0) {
+            radius -= 1;
         }
 
         Mat processedImage = stateService.getProcessedImage();

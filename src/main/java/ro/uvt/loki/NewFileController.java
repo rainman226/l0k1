@@ -1,5 +1,6 @@
 package ro.uvt.loki;
 
+import javafx.animation.PauseTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -16,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
 import ro.uvt.loki.controllers.*;
@@ -76,29 +78,20 @@ public class NewFileController {
             }
         });
 
-        enchantmentMenu.setOnShowing(event -> {
-            loadEnchantment();
-            enchantmentMenu.hide();
-        });
-        filterMenu.setOnShowing(event -> {
-            loadFilter();
-            filterMenu.hide();
-        });
-        edgeDetectionMenu.setOnShowing(event -> {
-            loadEdgeDetection();
-            edgeDetectionMenu.hide();
-        });
-        restorationMenu.setOnShowing(event -> {
-            loadRestoration();
-            restorationMenu.hide();
-        });
-        otherMenu.setOnShowing(event -> {
-            loadOther();
-            otherMenu.hide();
-        });
+        enchantmentMenu.setOnShowing(event -> handleMenuAction(enchantmentMenu, this::loadEnchantment));
+        filterMenu.setOnShowing(event -> handleMenuAction(filterMenu, this::loadFilter));
+        edgeDetectionMenu.setOnShowing(event -> handleMenuAction(edgeDetectionMenu, this::loadEdgeDetection));
+        restorationMenu.setOnShowing(event -> handleMenuAction(restorationMenu, this::loadRestoration));
+        otherMenu.setOnShowing(event -> handleMenuAction(otherMenu, this::loadOther));
         initializeControllers();
     }
 
+    private void handleMenuAction(Menu menu, Runnable action) {
+        action.run();
+        PauseTransition pause = new PauseTransition(Duration.millis(20)); // Adjust duration as needed
+        pause.setOnFinished(e -> menu.hide());
+        pause.play();
+    }
     private void initializeControllers() {
         try {
             // Load EnchantmentMenu
