@@ -2,21 +2,11 @@
     -fx-font-family: 'Inter';
     -fx-background-color: #f0f0f0;
 }
-
-.anchor-pane {
-    -fx-background-image: url('../images/chibibg1.png');
-    -fx-background-repeat: stretch;
-    -fx-background-size: cover;
-    -fx-background-position: center center;
-    -fx-box-shadow: 0 25px 121px rgba(0, 0, 0, 0.5);
+#enhancementAPane {
+    -fx-background-image: url('../images/tutorialbgs/enchantment.png');
+    -fx-background-size: cover; /* Or use contain, or specific dimensions */
+    -fx-background-repeat: no-repeat;
 }
-
-.label {
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #333333;
-}
-
 .button {
     -fx-background-color: linear-gradient(#4a67d6, #3958b5);
     -fx-text-fill: white;

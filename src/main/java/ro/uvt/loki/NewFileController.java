@@ -1,9 +1,6 @@
 package ro.uvt.loki;
 
 import javafx.animation.PauseTransition;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
@@ -20,7 +16,9 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
-import ro.uvt.loki.controllers.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ro.uvt.loki.controllers.EnchantmentController;
 import ro.uvt.loki.services.EnchantmentService;
 import ro.uvt.loki.services.StateService;
 
@@ -37,12 +35,6 @@ public class NewFileController {
     private AnchorPane anchorPane;
     @FXML
     private ImageView myImageView;
-    @FXML
-    private Button uploadButton;
-    @FXML
-    private Button testButton;
-    @FXML
-    private Button toggleButton;
     @FXML
     private AnchorPane categoryContainer;
     @FXML
@@ -62,20 +54,20 @@ public class NewFileController {
     @FXML
     private Menu otherMenu;
 
-
+    @FXML
+    private Button toggleButton;
 
     private boolean showingOriginal = true;
 
-    private StateService stateService = StateService.getInstance();
+    private final StateService stateService = StateService.getInstance();
+
+    private static final Logger logger = LoggerFactory.getLogger(NewFileController.class);
 
     @FXML
     public void initialize() {
-        stateService.processedImageProperty().addListener(new ChangeListener<Mat>() {
-            @Override
-            public void changed(ObservableValue<? extends Mat> observable, Mat oldValue, Mat newValue) {
-                myImageView.setImage(toFXImage(newValue));
-                showingOriginal = false;
-            }
+        stateService.processedImageProperty().addListener((observable, oldValue, newValue) -> {
+            myImageView.setImage(toFXImage(newValue));
+            showingOriginal = false;
         });
 
         enchantmentMenu.setOnShowing(event -> handleMenuAction(enchantmentMenu, this::loadEnchantment));
@@ -83,55 +75,17 @@ public class NewFileController {
         edgeDetectionMenu.setOnShowing(event -> handleMenuAction(edgeDetectionMenu, this::loadEdgeDetection));
         restorationMenu.setOnShowing(event -> handleMenuAction(restorationMenu, this::loadRestoration));
         otherMenu.setOnShowing(event -> handleMenuAction(otherMenu, this::loadOther));
-        initializeControllers();
     }
 
     private void handleMenuAction(Menu menu, Runnable action) {
         action.run();
-        PauseTransition pause = new PauseTransition(Duration.millis(20)); // Adjust duration as needed
+        PauseTransition pause = new PauseTransition(Duration.millis(20));
         pause.setOnFinished(e -> menu.hide());
         pause.play();
     }
-    private void initializeControllers() {
-        try {
-            // Load EnchantmentMenu
-            FXMLLoader enchantmentLoader = new FXMLLoader(getClass().getResource("EnchantmentMenu.fxml"));
-            Menu enchantmentMenu = enchantmentLoader.load();
-            EnchantmentController enchantmentController = enchantmentLoader.getController();
-            enchantmentController.setHistogramImage(histogramImage);
-            //menuBar.getMenus().add(enchantmentMenu);
-
-            // Load FilterMenu
-            FXMLLoader filterLoader = new FXMLLoader(getClass().getResource("FilterMenu.fxml"));
-            Menu filterMenu = filterLoader.load();
-            FilterController filterController = filterLoader.getController();
-            //menuBar.getMenus().add(filterMenu);
-
-            // Load EdgeDetectionMenu
-            FXMLLoader edgeDetectionLoader = new FXMLLoader(getClass().getResource("EdgeDetectionMenu.fxml"));
-            Menu edgeDetectionMenu = edgeDetectionLoader.load();
-            EdgeDetectionController edgeDetectionController = edgeDetectionLoader.getController();
-            //menuBar.getMenus().add(edgeDetectionMenu);
-
-            // Load SegmentationMenu
-            FXMLLoader segmentationLoader = new FXMLLoader(getClass().getResource("SegmentationMenu.fxml"));
-            Menu segmentationMenu = segmentationLoader.load();
-            OthersController othersController = segmentationLoader.getController();
-            //menuBar.getMenus().add(segmentationMenu);
-
-            // Load RestorationMenu
-            FXMLLoader restorationLoader = new FXMLLoader(getClass().getResource("RestorationMenu.fxml"));
-            Menu restorationMenu = restorationLoader.load();
-            RestorationController restorationController = restorationLoader.getController();
-            //menuBar.getMenus().add(restorationMenu);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     @FXML
-    public void openImage(ActionEvent event) throws IOException {
+    public void openImage() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Image File");
         fileChooser.getExtensionFilters().addAll(
@@ -161,7 +115,7 @@ public class NewFileController {
     }
 
     @FXML
-    public void saveImage(ActionEvent event) {
+    public void saveImage() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Image File");
         fileChooser.getExtensionFilters().addAll(
@@ -175,7 +129,7 @@ public class NewFileController {
             Mat processedImage = stateService.getProcessedImage();
             String filePath = file.getAbsolutePath();
 
-            // Ensure the file extension matches the chosen filter
+            // Verify if the file extension is correct
             if (!filePath.endsWith(".png") && !filePath.endsWith(".jpg") && !filePath.endsWith(".bmp")) {
                 FileChooser.ExtensionFilter selectedExtensionFilter = fileChooser.getSelectedExtensionFilter();
                 if (selectedExtensionFilter != null) {
@@ -192,7 +146,7 @@ public class NewFileController {
     }
 
     @FXML
-    public void undo(ActionEvent event) {
+    public void undo() {
         if(!stateService.isImageLoaded()) {
             noImageSelectedAlert();
             return;
@@ -205,7 +159,7 @@ public class NewFileController {
     }
 
     @FXML
-    private void toggleImage(ActionEvent event) {
+    private void toggleImage() {
         if(!stateService.isImageLoaded()) {
             noImageSelectedAlert();
             return;
@@ -213,14 +167,16 @@ public class NewFileController {
 
         if (showingOriginal) {
             myImageView.setImage(toFXImage(stateService.getProcessedImage()));
+            toggleButton.setText("Show Original");
         } else {
             myImageView.setImage(toFXImage(stateService.getOriginalImage()));
+            toggleButton.setText("Show Modified");
         }
         showingOriginal = !showingOriginal;
     }
 
     @FXML
-    public void switchToMain(ActionEvent event) throws IOException {
+    public void switchToMain() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
             Parent root = loader.load();
@@ -228,14 +184,10 @@ public class NewFileController {
             Stage stage = (Stage) anchorPane.getScene().getWindow();
             stage.setScene(new Scene(root));
 
-            // Access the MainController if needed
-            MainController mainController = loader.getController();
-            // Add any logic or data passing between controllers
             root.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/main.css")).toExternalForm());
 
         } catch (IOException e) {
-            e.printStackTrace();
-            // Handle exception
+            logger.error("An error occurred", e);
         }
     }
 
@@ -246,17 +198,16 @@ public class NewFileController {
             categoryContainer.getChildren().clear();
             categoryContainer.getChildren().add(newLoadedPane);
 
-            // Get the controller instance
+
             Object controller = loader.getController();
 
-            // EnchentmentController needs the histogram image
-            if (controller instanceof EnchantmentController) {
-                EnchantmentController enchantmentController = (EnchantmentController) controller;
-                
+            // Need the histogram image in the EnchantmentController
+            if (controller instanceof EnchantmentController enchantmentController) {
+
                 enchantmentController.setHistogramImage(histogramImage);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("An error occurred", e);
         }
     }
 

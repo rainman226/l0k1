@@ -1,6 +1,7 @@
 /* General styling for the application */
 .root {
     -fx-background-color: #f0f0f0;
+    -fx-font-family: 'Inter';
 }
 
 /* Styling for buttons */

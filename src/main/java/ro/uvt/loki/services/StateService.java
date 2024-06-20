@@ -10,7 +10,7 @@ public class StateService {
     private static StateService instance;
 
     private Mat originalImage;
-    private final ObjectProperty<Mat> processedImage = new SimpleObjectProperty<>();    // The processed image property
+    private final ObjectProperty<Mat> processedImage = new SimpleObjectProperty<>();
     private final Stack<Mat> historyStack = new Stack<>();
 
     private StateService() {}
