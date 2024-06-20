@@ -11,9 +11,7 @@ public class OthersService {
      * @return The segmented image
      */
     public Mat applyWatershed(Mat source) {
-        Mat destination
-                = new Mat(source.rows(), source.cols(),
-                source.type());
+        Mat destination;
         // Convert the image to grayscale
         Mat gray = new Mat();
         Imgproc.cvtColor(source, gray, Imgproc.COLOR_BGR2GRAY);
@@ -66,7 +64,7 @@ public class OthersService {
         for (int i = 0; i < markers.rows(); i++) {
             for (int j = 0; j < markers.cols(); j++) {
                 if (markers.get(i, j)[0] == -1) {
-                    destination.put(i, j, new double[]{0, 0, 255}); // Mark boundaries in red
+                    destination.put(i, j, 0, 0, 255); // Mark boundaries in red
                 }
             }
         }

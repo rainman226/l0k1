@@ -1,6 +1,5 @@
 package ro.uvt.loki.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -41,7 +40,7 @@ public class EnchantmentController {
     }
 
     @FXML
-    public void setHistogramImage(ActionEvent event) {
+    public void setHistogramImage() {
         if(!stateService.isImageLoaded()) {
             noImageSelectedAlert();
             return;
@@ -58,7 +57,7 @@ public class EnchantmentController {
     }
 
     @FXML
-    public void increaseBrightness(ActionEvent event) {
+    public void increaseBrightness() {
         if(!stateService.isImageLoaded()) {
             noImageSelectedAlert();
             return;
@@ -85,7 +84,7 @@ public class EnchantmentController {
     }
 
     @FXML
-    public void whiteBalance(ActionEvent event) {
+    public void whiteBalance() {
         if(!stateService.isImageLoaded()) {
             noImageSelectedAlert();
             return;
@@ -102,7 +101,7 @@ public class EnchantmentController {
     }
 
     @FXML
-    public void changeSaturation(ActionEvent event) {
+    public void changeSaturation() {
         if(!stateService.isImageLoaded()) {
             noImageSelectedAlert();
             return;
@@ -130,7 +129,7 @@ public class EnchantmentController {
     }
 
     @FXML
-    public void colorBalanceAdjust(ActionEvent event) {
+    public void colorBalanceAdjust() {
         if(!stateService.isImageLoaded()) {
             noImageSelectedAlert();
             return;
@@ -148,18 +147,6 @@ public class EnchantmentController {
             showAlert("Invalid input", "The value must be a number");
         }
 
-//        try {
-//            greenGain = Float.parseFloat(inputGainGreen.getText());
-//        } catch(NumberFormatException e) {
-//            System.out.println("Invalid input for green gain. Using default value");
-//        }
-//
-//        try {
-//            blueGain = Float.parseFloat(inputGainBlue.getText());
-//        } catch(NumberFormatException e) {
-//            System.out.println("Invalid input for saturation. Using default value");
-//        }
-
         Mat processedImage = stateService.getProcessedImage();
         System.out.println("Red Gain: " + redGain + " Green Gain: " + greenGain + " Blue Gain: " + blueGain);
         Mat transformedImage = enchantmentService.colourBalanceAdjustment(processedImage, redGain, greenGain, blueGain);
@@ -171,7 +158,7 @@ public class EnchantmentController {
     }
 
     @FXML
-    public void gammaCorection(ActionEvent event) {
+    public void gammaCorection() {
         if(!stateService.isImageLoaded()) {
             noImageSelectedAlert();
             return;

@@ -1,6 +1,5 @@
 package ro.uvt.loki.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
@@ -24,7 +23,7 @@ public class EdgeDetectionController {
     private final EdgeDetectionService edgeDetectionService = new EdgeDetectionService();
 
     @FXML
-    public void sobelEdgeDetection(ActionEvent event) {
+    public void sobelEdgeDetection() {
         if(!stateService.isImageLoaded()) {
             noImageSelectedAlert();
             return;
@@ -43,7 +42,7 @@ public class EdgeDetectionController {
     }
 
     @FXML
-    public void prewittEdgeDetection(ActionEvent event) {
+    public void prewittEdgeDetection() {
         if(!stateService.isImageLoaded()) {
             noImageSelectedAlert();
             return;
@@ -62,7 +61,7 @@ public class EdgeDetectionController {
     }
 
     @FXML
-    public void robertsEdgeDetection(ActionEvent event) {
+    public void robertsEdgeDetection() {
         if(!stateService.isImageLoaded()) {
             noImageSelectedAlert();
             return;
@@ -81,7 +80,7 @@ public class EdgeDetectionController {
     }
 
     @FXML
-    public void differenceOfGaussians(ActionEvent event) {
+    public void differenceOfGaussians() {
         if(!stateService.isImageLoaded()) {
             noImageSelectedAlert();
             return;

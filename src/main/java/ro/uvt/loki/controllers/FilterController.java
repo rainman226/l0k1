@@ -1,6 +1,5 @@
 package ro.uvt.loki.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import org.opencv.core.Mat;
@@ -26,7 +25,7 @@ public class FilterController {
     private final FilterService filterService = new FilterService();
 
     @FXML
-    public void blurImage(ActionEvent event) {
+    public void blurImage() {
         //TODO change to slider that goes from 2 to 2
             if(!stateService.isImageLoaded()) {
                 noImageSelectedAlert();
@@ -52,7 +51,7 @@ public class FilterController {
     }
 
     @FXML
-    public void medianFilter(ActionEvent event) {
+    public void medianFilter() {
         if(!stateService.isImageLoaded()) {
             noImageSelectedAlert();
             return;
@@ -80,7 +79,7 @@ public class FilterController {
     }
 
     @FXML
-    public void sharpen(ActionEvent event) {
+    public void sharpen() {
         if(!stateService.isImageLoaded()) {
             noImageSelectedAlert();
             return;
@@ -112,7 +111,7 @@ public class FilterController {
     }
 
     @FXML
-    public void applyBilateralFilter(ActionEvent event) {
+    public void applyBilateralFilter() {
         if(!stateService.isImageLoaded()) {
             noImageSelectedAlert();
             return;

@@ -1,6 +1,5 @@
 package ro.uvt.loki.controllers;
 
-import javafx.event.ActionEvent;
 import org.opencv.core.Mat;
 import ro.uvt.loki.services.RestorationService;
 import ro.uvt.loki.services.StateService;
@@ -11,7 +10,7 @@ public class RestorationController {
     private final StateService stateService = StateService.getInstance();
     private final RestorationService restorationService = new RestorationService();
 
-    public void inpaintImageMaskSelected(ActionEvent event) {
+    public void inpaintImageMaskSelected() {
         if(!stateService.isImageLoaded()) {
             noImageSelectedAlert();
             return;
@@ -23,7 +22,7 @@ public class RestorationController {
         stateService.setProcessedImage(transformedImage);
     }
 
-    public void inpaintImageMaskComputed(ActionEvent event) {
+    public void inpaintImageMaskComputed() {
         if(!stateService.isImageLoaded()) {
             noImageSelectedAlert();
             return;
@@ -35,7 +34,7 @@ public class RestorationController {
         stateService.setProcessedImage(transformedImage);
     }
 
-    public void applyCLAHE(ActionEvent event) {
+    public void applyCLAHE() {
         if(!stateService.isImageLoaded()) {
             noImageSelectedAlert();
             return;
@@ -47,7 +46,7 @@ public class RestorationController {
         stateService.setProcessedImage(transformedImage);
     }
 
-    public void adaptiveThresholding(ActionEvent event) {
+    public void adaptiveThresholding() {
         if(!stateService.isImageLoaded()) {
             noImageSelectedAlert();
             return;

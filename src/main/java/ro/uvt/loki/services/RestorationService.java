@@ -107,8 +107,7 @@ public class RestorationService {
         clahe.setClipLimit(2.0);
         clahe.setTilesGridSize(new Size(8, 8));
 
-        for (int i = 0; i < channels.size(); i++) {
-            Mat channel = channels.get(i);
+        for (Mat channel : channels) {
             clahe.apply(channel, channel);
         }
 

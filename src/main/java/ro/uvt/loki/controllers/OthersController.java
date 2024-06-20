@@ -1,6 +1,5 @@
 package ro.uvt.loki.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Slider;
 import org.opencv.core.Mat;
@@ -19,7 +18,7 @@ public class OthersController {
 
 
     @FXML
-    public void watershedSegmentation(ActionEvent event) {
+    public void watershedSegmentation() {
         if(!stateService.isImageLoaded()) {
             noImageSelectedAlert();
             return;
@@ -32,7 +31,7 @@ public class OthersController {
     }
 
     @FXML
-    public void convertRGBtoHSV(ActionEvent event) {
+    public void convertRGBtoHSV() {
         if(!stateService.isImageLoaded()) {
             noImageSelectedAlert();
             return;
@@ -45,7 +44,7 @@ public class OthersController {
     }
 
     @FXML
-    public void applyDilation(ActionEvent event) {
+    public void applyDilation() {
         if(!stateService.isImageLoaded()) {
             noImageSelectedAlert();
             return;
@@ -66,7 +65,7 @@ public class OthersController {
     }
 
     @FXML
-    public void applyErosion(ActionEvent event) {
+    public void applyErosion() {
         if(!stateService.isImageLoaded()) {
             noImageSelectedAlert();
             return;
@@ -87,7 +86,7 @@ public class OthersController {
     }
 
     @FXML
-    public void cornerDetection(ActionEvent event) {
+    public void cornerDetection() {
         if(!stateService.isImageLoaded()) {
             noImageSelectedAlert();
             return;
