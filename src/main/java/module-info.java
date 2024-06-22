@@ -1,7 +1,7 @@
 module ro.uvt.loki {
     requires javafx.controls;
     requires javafx.fxml;
-    requires org.bytedeco.javacv;
+
     requires org.bytedeco.opencv;
     requires java.desktop;
     requires org.slf4j;

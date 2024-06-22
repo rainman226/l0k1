@@ -2,8 +2,6 @@ package ro.uvt.loki;
 
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
-import org.bytedeco.javacv.CanvasFrame;
-import org.bytedeco.javacv.OpenCVFrameConverter;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 
@@ -17,13 +15,6 @@ public class HelperFunctions {
         MatOfByte byteMat = new MatOfByte();
         imencode(".bmp", mat, byteMat);
         return new Image(new ByteArrayInputStream(byteMat.toArray()));
-    }
-
-    public static void imshow(String txt, Mat img) {
-        CanvasFrame canvasFrame = new CanvasFrame(txt);
-        canvasFrame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-        canvasFrame.setCanvasSize(img.cols(), img.rows());
-        canvasFrame.showImage(new OpenCVFrameConverter.ToMat().convert(img));
     }
 
     public static void noImageSelectedAlert() {
