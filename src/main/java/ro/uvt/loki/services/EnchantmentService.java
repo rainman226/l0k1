@@ -123,7 +123,7 @@ public class EnchantmentService {
                 double green = pixel[1] * greenGain;
                 double red = pixel[2] * redGain;
 
-                // Ensure pixel values are within the valid range [0, 255]
+                // Check for valid pixel values
                 blue = Math.min(255, Math.max(0, blue));
                 green = Math.min(255, Math.max(0, green));
                 red = Math.min(255, Math.max(0, red));
@@ -142,26 +142,25 @@ public class EnchantmentService {
      * @return the image with adjusted saturation
      */
     public Mat saturation(Mat src, double saturationAdjustment) {
-        // Convert image from BGR to HSV color space
+        // convert from BGR to HSV color space
         Mat hsvImage = new Mat();
         Imgproc.cvtColor(src, hsvImage, Imgproc.COLOR_BGR2HSV);
 
-        // Split the HSV image into separate channels
+        // split into channels
         List<Mat> hsvChannels = new ArrayList<>(3);
         Core.split(hsvImage, hsvChannels);
 
         // Adjust the saturation channel (index 1)
-        // You can adjust the saturation factor here (e.g., multiply by a scalar)
         Mat saturationChannel = hsvChannels.get(1);
 
         double saturationFactor = (100.0 + saturationAdjustment) / 100.0;
         System.out.println(saturationFactor);
         saturationChannel.convertTo(saturationChannel, -1, saturationFactor, 0);
 
-        // Merge the channels back into the HSV image
+        // merge the channels back into the HSV image
         Core.merge(hsvChannels, hsvImage);
 
-        // Convert the image from HSV back to BGR color space
+        // Convert back
         Mat result = new Mat();
         Imgproc.cvtColor(hsvImage, result, Imgproc.COLOR_HSV2BGR);
 
@@ -175,7 +174,7 @@ public class EnchantmentService {
      * @return the image with gamma correction applied
      */
     public Mat gammaCorrection(Mat src, double gamma) {
-        // Create a lookup table for gamma correction
+        // lookup table
         Mat lut = new Mat(1, 256, CvType.CV_8U);
         lut.setTo(new Scalar(0));
 
@@ -185,7 +184,7 @@ public class EnchantmentService {
         }
         lut.put(0, 0, lutData);
 
-        // Apply the lookup table to the source image
+        // apply the loockup table
         Mat result = new Mat();
         Core.LUT(src, lut, result);
 
@@ -201,21 +200,21 @@ public class EnchantmentService {
         Mat result
                 = new Mat(src.rows(), src.cols(),
                 src.type());
-        // Calculate the average values for each color channel
+        // avg values
         Scalar avg = Core.mean(src);
         double avg_B = avg.val[0];
         double avg_G = avg.val[1];
         double avg_R = avg.val[2];
 
-        // Calculate the average grayscale value
+        // avg grayscale
         double avg_gray = (avg_B + avg_G + avg_R) / 3;
 
-        // Compute scaling factors for each channel
+        // scaling factor
         double scale_B = avg_gray / avg_B;
         double scale_G = avg_gray / avg_G;
         double scale_R = avg_gray / avg_R;
 
-        // Apply the scaling factors to each channel
+        // apply them
         Core.multiply(src, new Scalar(scale_B, scale_G, scale_R), result);
 
         return result;

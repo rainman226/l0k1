@@ -20,7 +20,6 @@ public class RestorationService {
     public Mat inpaintImageMaskSelected(Mat source) {
         Mat output = new Mat();
 
-        // Select mask file
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Mask file");
         fileChooser.getExtensionFilters().addAll(
@@ -32,7 +31,6 @@ public class RestorationService {
         if (maskFile != null) {
             String maskPath = maskFile.toURI().getPath().substring(1);      // Get the path of the selected file
             Mat mask = Imgcodecs.imread(maskPath, Imgcodecs.IMREAD_GRAYSCALE);        // Read the mask file
-            //imshow("Mask", mask);
             if (mask.empty()) {
                 System.err.println("Cannot read image: " + maskPath );
                 System.exit(0);
@@ -67,9 +65,8 @@ public class RestorationService {
      * @return The mask as a Mat object.
      */
     public Mat createMaskForInpainting(Mat sourceImage) {
-        Mat mask = new Mat(sourceImage.size(), CvType.CV_8UC1, new Scalar(0)); // Initialize mask with zeros
+        Mat mask = new Mat(sourceImage.size(), CvType.CV_8UC1, new Scalar(0)); // Create a black mask
 
-        // Convert to grayscale to simplify analysis
         Mat gray = new Mat();
         Imgproc.cvtColor(sourceImage, gray, Imgproc.COLOR_BGR2GRAY);
 
@@ -77,17 +74,15 @@ public class RestorationService {
         gray.get(0, 0, grayData);
 
         for (int i = 0; i < grayData.length; i++) {
-            int pixelValue = grayData[i] & 0xFF; // Get pixel value (unsigned)
+            int pixelValue = grayData[i] & 0xFF;
 
-            // Adjust this threshold according to the specifics of damage
-            if (pixelValue < 30 || pixelValue > 225) { // Assume very dark or very light pixels might be damaged
+            if (pixelValue < 30 || pixelValue > 225) {
                 grayData[i] = (byte) 255;
             } else {
                 grayData[i] = 0;
             }
         }
         mask.put(0, 0, grayData);
-        //imshow("Mask", mask);
         return mask;
     }
 
@@ -97,11 +92,10 @@ public class RestorationService {
      * @return The image with CLAHE applied.
      */
     public Mat applyCLAHE(Mat sourceImage) {
-        // We split the image into its channels
         List<Mat> channels = new ArrayList<>();
         Core.split(sourceImage, channels);
 
-        // Apply CLAHE to each channel
+        // apply CLAHE to each channel
         CLAHE clahe = Imgproc.createCLAHE();
         // TODO Adjust the clip limit and tile grid size as needed
         clahe.setClipLimit(2.0);
@@ -111,11 +105,11 @@ public class RestorationService {
             clahe.apply(channel, channel);
         }
 
-        // Merge the channels back to form the final image
+        // merge back
         Mat outputImage = new Mat();
         Core.merge(channels, outputImage);
 
-        // Clean up
+        // clean up
         for (Mat mat : channels) {
             mat.release();
         }
@@ -132,11 +126,10 @@ public class RestorationService {
     public Mat applyAdaptiveThreshold(Mat sourceImage) {
         Mat grayImage = new Mat();
 
-        // Check if the image is already in grayscale
         if (sourceImage.channels() > 1) {
             Imgproc.cvtColor(sourceImage, grayImage, Imgproc.COLOR_BGR2GRAY);
         } else {
-            grayImage = sourceImage.clone(); // Use the original if it's already grayscale
+            grayImage = sourceImage.clone();
         }
 
         Mat outputImage = new Mat();

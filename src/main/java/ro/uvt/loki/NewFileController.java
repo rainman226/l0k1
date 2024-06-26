@@ -84,6 +84,7 @@ public class NewFileController {
         helpMenu.setOnShowing(event -> openHelp());
     }
 
+    // to make the menu close after clicking an item
     private void handleMenuAction(Menu menu, Runnable action) {
         action.run();
         PauseTransition pause = new PauseTransition(Duration.millis(20));
@@ -111,7 +112,6 @@ public class NewFileController {
                 System.exit(0);
             }
             stateService.setOriginalImage(originalImage);
-            //initialize();
             myImageView.setImage(toFXImage(originalImage));
             showingOriginal = true;
 
@@ -136,7 +136,6 @@ public class NewFileController {
             Mat processedImage = stateService.getProcessedImage();
             String filePath = file.getAbsolutePath();
 
-            // Verify if the file extension is correct
             if (!filePath.endsWith(".png") && !filePath.endsWith(".jpg") && !filePath.endsWith(".bmp")) {
                 FileChooser.ExtensionFilter selectedExtensionFilter = fileChooser.getSelectedExtensionFilter();
                 if (selectedExtensionFilter != null) {
@@ -183,33 +182,26 @@ public class NewFileController {
     }
 
     public void openHelp() {
-        // Create a new stage for the help window
         Stage helpStage = new Stage();
 
-        // Set the stage as a utility window with modality
         helpStage.initModality(Modality.APPLICATION_MODAL);
         helpStage.initStyle(StageStyle.UTILITY);
         helpStage.setTitle("Help");
 
-        // Load the image and set it to the ImageView
         ImageView imageView = new ImageView();
         Image helpImage = new Image("file:///D:/Projects/l0k1/loki/src/main/resources/images/helpmenu.png");
         imageView.setImage(helpImage);
 
-        // Ensure the ImageView fits within the window dimensions
         imageView.setPreserveRatio(true);
         imageView.setFitWidth(1280);
         imageView.setFitHeight(720);
 
-        // Create a StackPane and add the ImageView to it
         StackPane rootPane = new StackPane();
         rootPane.getChildren().add(imageView);
 
-        // Create a scene with the specified dimensions and add it to the stage
         Scene scene = new Scene(rootPane, 1280, 720);
         helpStage.setScene(scene);
 
-        // Show the window and wait for it to be closed
         helpStage.showAndWait();
     }
 

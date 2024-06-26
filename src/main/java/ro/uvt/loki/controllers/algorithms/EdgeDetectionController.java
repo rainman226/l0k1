@@ -34,7 +34,7 @@ public class EdgeDetectionController {
         try {
             amount = (int) sliderIntensityScale.getValue();
         } catch (Exception e) {
-            // Handle exception
+            // something
         }
         Mat processedImage = stateService.getProcessedImage();
         Mat transformedImage = edgeDetectionService.sobel(processedImage, amount);
@@ -53,7 +53,7 @@ public class EdgeDetectionController {
         try {
             amount = (int) sliderIntensityScale.getValue();
         } catch (Exception e) {
-            // Handle exception
+            // something
         }
         Mat processedImage = stateService.getProcessedImage();
         Mat transformedImage = edgeDetectionService.prewitt(processedImage, amount);
@@ -72,7 +72,7 @@ public class EdgeDetectionController {
         try {
             amount = (int) sliderIntensityScale.getValue();
         } catch (Exception e) {
-            // Handle exception
+            // something
         }
         Mat processedImage = stateService.getProcessedImage();
         Mat transformedImage = edgeDetectionService.robertsCross(processedImage, amount);

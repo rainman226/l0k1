@@ -12,23 +12,23 @@ public class OthersService {
      */
     public Mat applyWatershed(Mat source) {
         Mat destination;
-        // Convert the image to grayscale
+
         Mat gray = new Mat();
         Imgproc.cvtColor(source, gray, Imgproc.COLOR_BGR2GRAY);
 
-        // Apply Gaussian blur to reduce noise
+        // reduce noise
         Imgproc.GaussianBlur(gray, gray, new Size(5, 5), 0);
 
-        // Apply binary thresholding
+        // binary tresholding
         Mat binary = new Mat();
         Imgproc.threshold(gray, binary, 0, 255, Imgproc.THRESH_BINARY_INV + Imgproc.THRESH_OTSU);
 
-        // Noise removal with morphological operations
+        // noise removal with morphological operations
         Mat kernel = Mat.ones(new Size(3, 3), CvType.CV_8U);
         Mat sureBg = new Mat();
         Imgproc.dilate(binary, sureBg, kernel, new Point(-1, -1), 3);
 
-        // Finding sure foreground area using distance transform
+        // find sure foreground area using distance transform
         Mat distTransform = new Mat();
         Imgproc.distanceTransform(binary, distTransform, Imgproc.DIST_L2, 5);
         Core.normalize(distTransform, distTransform, 0, 1.0, Core.NORM_MINMAX);
@@ -37,18 +37,18 @@ public class OthersService {
         Imgproc.threshold(distTransform, sureFg, 0.7, 1.0, Imgproc.THRESH_BINARY);
         sureFg.convertTo(sureFg, CvType.CV_8U);
 
-        // Finding unknown region
+        // unknown region
         Mat unknown = new Mat();
         Core.subtract(sureBg, sureFg, unknown);
 
-        // Marker labelling
+        // labelling
         Mat markers = new Mat();
         Imgproc.connectedComponents(sureFg, markers);
 
-        // Add one to all labels so that sure background is not 0, but 1
+        // add one to all labels so that sure background is not 0, but 1
         Core.add(markers, Scalar.all(1), markers);
 
-        // Now, mark the region of unknown with zero
+        // mark unknown region with 0
         for (int i = 0; i < markers.rows(); i++) {
             for (int j = 0; j < markers.cols(); j++) {
                 if (unknown.get(i, j)[0] == 255) {
@@ -57,10 +57,10 @@ public class OthersService {
             }
         }
         destination = source.clone();
-        // Apply the watershed algorithm
+
         Imgproc.watershed(destination, markers);
 
-        // Mark the boundaries
+        // Mmark the boundaries in the image
         for (int i = 0; i < markers.rows(); i++) {
             for (int j = 0; j < markers.cols(); j++) {
                 if (markers.get(i, j)[0] == -1) {
@@ -94,12 +94,10 @@ public class OthersService {
      * @return A Mat object containing the dilated image.
      */
     public Mat applyDilation(Mat src, int kernelSize) {
-        // Create a kernel (structuring element) for dilation
         Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(kernelSize, kernelSize));
 
         Mat result = new Mat();
 
-        // Apply dilation
         Imgproc.dilate(src, result, kernel);
 
         return result;
@@ -113,12 +111,10 @@ public class OthersService {
      * @return A Mat object containing the eroded image.
      */
     public Mat applyErosion(Mat src, int kernelSize) {
-        // Create a kernel (structuring element) for erosion
         Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(kernelSize, kernelSize));
 
         Mat result = new Mat();
 
-        // Apply erosion
         Imgproc.erode(src, result, kernel);
 
         return result;
@@ -132,35 +128,32 @@ public class OthersService {
      */
     public Mat applyHarrisCorner(Mat src) {
         // Parameters for Harris Corner Detection
-        int blockSize = 2;  // Neighborhood size
-        int kSize = 3;      // Aperture parameter for Sobel operator
-        double k = 0.04;    // Harris detector free parameter
-        double threshold = 150;  // Threshold for detecting corners
+        int blockSize = 2;          // Neighborhood size
+        int kSize = 3;              // Aperture parameter for Sobel operator
+        double k = 0.04;            // Harris detector free parameter
+        double threshold = 150;     // Threshold for detecting corners
 
-        // Convert the source image to grayscale
         Mat gray = new Mat();
         Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
 
-        // Convert to float type
         Mat grayFloat = new Mat();
         gray.convertTo(grayFloat, CvType.CV_32FC1);
 
-        // Apply the Harris corner detector
         Mat harrisCorners = new Mat();
         Imgproc.cornerHarris(grayFloat, harrisCorners, blockSize, kSize, k);
 
-        // Normalize the result to [0, 255]
+        // normalize the output
         Mat harrisCornersNorm = new Mat();
         Core.normalize(harrisCorners, harrisCornersNorm, 0, 255, Core.NORM_MINMAX);
 
-        // Convert to 8-bit type
+        // convert to 8-bit type
         Mat harrisCornersNormScaled = new Mat();
         Core.convertScaleAbs(harrisCornersNorm, harrisCornersNormScaled);
 
-        // Create a copy of the source image to draw corners
+        // create a copy of the source image
         Mat dst = src.clone();
 
-        // Threshold for an optimal value; it may vary depending on the image.
+        // threshold for an optimal value; it may vary depending on the image.
         for (int j = 0; j < harrisCornersNorm.rows(); j++) {
             for (int i = 0; i < harrisCornersNorm.cols(); i++) {
                 if ((int) harrisCornersNorm.get(j, i)[0] > threshold) {

@@ -55,7 +55,7 @@ public class OthersController {
         try {
             morphValue = (int) this.morphValue.getValue();
         } catch (Exception e) {
-            // Handle exception
+            // something
         }
 
         Mat processedImage = stateService.getProcessedImage();
@@ -76,7 +76,7 @@ public class OthersController {
         try {
             morphValue = (int) this.morphValue.getValue();
         } catch (Exception e) {
-            // Handle exception
+            // something
         }
 
         Mat processedImage = stateService.getProcessedImage();

@@ -31,10 +31,8 @@ public class FilterService {
         Mat blurred = new Mat();
         Mat dst = new Mat();
 
-        // Apply Gaussian blur to the source image
         Imgproc.GaussianBlur(source, blurred, new Size(0, 0), radius);
 
-        // Use addWeighted to blend the original and the blurred image
         Core.addWeighted(source, 1.0 + amount , blurred, -amount, 0, dst);
 
         return dst;
@@ -58,9 +56,9 @@ public class FilterService {
 
     public Mat applyBilateralFilter(Mat src) {
         // Parameters for Bilateral Filtering
-        int d = 15;  // Diameter of each pixel neighborhood
-        double sigmaColor = 75;  // Filter sigma in the color space
-        double sigmaSpace = 75;  // Filter sigma in the coordinate space
+        int d = 15;                 // Diameter of each pixel neighborhood
+        double sigmaColor = 75;     // Filter sigma in the color space
+        double sigmaSpace = 75;     // Filter sigma in the coordinate space
         Mat dst = new Mat();
         Imgproc.bilateralFilter(src, dst, d, sigmaColor, sigmaSpace, Core.BORDER_DEFAULT);
         return dst;
