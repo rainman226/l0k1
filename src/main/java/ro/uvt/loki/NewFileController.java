@@ -11,8 +11,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -55,6 +58,9 @@ public class NewFileController {
     private Menu otherMenu;
 
     @FXML
+    private Menu helpMenu;
+
+    @FXML
     private Button toggleButton;
 
     private boolean showingOriginal = true;
@@ -75,6 +81,7 @@ public class NewFileController {
         edgeDetectionMenu.setOnShowing(event -> handleMenuAction(edgeDetectionMenu, this::loadEdgeDetection));
         restorationMenu.setOnShowing(event -> handleMenuAction(restorationMenu, this::loadRestoration));
         otherMenu.setOnShowing(event -> handleMenuAction(otherMenu, this::loadOther));
+        helpMenu.setOnShowing(event -> openHelp());
     }
 
     private void handleMenuAction(Menu menu, Runnable action) {
@@ -173,6 +180,37 @@ public class NewFileController {
             toggleButton.setText("Show Modified");
         }
         showingOriginal = !showingOriginal;
+    }
+
+    public void openHelp() {
+        // Create a new stage for the help window
+        Stage helpStage = new Stage();
+
+        // Set the stage as a utility window with modality
+        helpStage.initModality(Modality.APPLICATION_MODAL);
+        helpStage.initStyle(StageStyle.UTILITY);
+        helpStage.setTitle("Help");
+
+        // Load the image and set it to the ImageView
+        ImageView imageView = new ImageView();
+        Image helpImage = new Image("file:///D:/Projects/l0k1/loki/src/main/resources/images/helpmenu.png");
+        imageView.setImage(helpImage);
+
+        // Ensure the ImageView fits within the window dimensions
+        imageView.setPreserveRatio(true);
+        imageView.setFitWidth(1280);
+        imageView.setFitHeight(720);
+
+        // Create a StackPane and add the ImageView to it
+        StackPane rootPane = new StackPane();
+        rootPane.getChildren().add(imageView);
+
+        // Create a scene with the specified dimensions and add it to the stage
+        Scene scene = new Scene(rootPane, 1280, 720);
+        helpStage.setScene(scene);
+
+        // Show the window and wait for it to be closed
+        helpStage.showAndWait();
     }
 
     @FXML

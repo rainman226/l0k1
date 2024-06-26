@@ -81,7 +81,6 @@ public class OthersService {
     public Mat convertRGBtoHSV(Mat source) {
         Mat hsvImage = new Mat(source.size(), CvType.CV_8UC3);
 
-        // Convert the RGB image to HSV
         Imgproc.cvtColor(source, hsvImage, Imgproc.COLOR_RGB2HSV);
 
         return hsvImage;

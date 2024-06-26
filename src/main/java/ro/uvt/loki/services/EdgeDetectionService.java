@@ -226,9 +226,6 @@ public class EdgeDetectionService {
         // Convert to absolute values to emphasize edges
         Core.convertScaleAbs(dog, dog);
 
-//        // Apply the "amount" parameter to scale the edge intensities
-//        Core.multiply(dog, new Mat(dog.size(), dog.type(), new Scalar(amount)), dog);
-
         return dog;
     }
 }
