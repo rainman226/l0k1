@@ -7,6 +7,29 @@
     -fx-background-size: cover; /* Or use contain, or specific dimensions */
     -fx-background-repeat: no-repeat;
 }
+
+#filterAPane {
+    -fx-background-image: url('../images/tutorialbgs/filter.png');
+    -fx-background-size: cover; /* Or use contain, or specific dimensions */
+    -fx-background-repeat: no-repeat;
+}
+
+#edgeAPane {
+    -fx-background-image: url('../images/tutorialbgs/edge.png');
+    -fx-background-size: cover; /* Or use contain, or specific dimensions */
+    -fx-background-repeat: no-repeat;
+}
+
+#restorationAPane {
+    -fx-background-image: url('../images/tutorialbgs/restoration.png');
+    -fx-background-size: cover; /* Or use contain, or specific dimensions */
+    -fx-background-repeat: no-repeat;
+}
+#otherAPane {
+    -fx-background-image: url('../images/tutorialbgs/others.png');
+    -fx-background-size: cover; /* Or use contain, or specific dimensions */
+    -fx-background-repeat: no-repeat;
+}
 .button {
     -fx-background-color: linear-gradient(#4a67d6, #3958b5);
     -fx-text-fill: white;

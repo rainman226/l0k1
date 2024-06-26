@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="edgeAPane" prefHeight="720.0" prefWidth="1080.0" stylesheets="/css/tutorialstyle.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.uvt.loki.controllers.tutorial.EdgeDetectionTutorialsViewController">
+    <children>
+        <Button layoutX="483.0" layoutY="166.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="140.0" text="Start" />
+        <Button layoutX="160.0" layoutY="336.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="140.0" text="Start" />
+        <Button layoutX="483.0" layoutY="336.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="140.0" text="Start" />
+        <Button layoutX="806.0" layoutY="336.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="140.0" text="Start" />
+        <Button layoutX="483.0" layoutY="536.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="140.0" text="Start" />
+    </children>
+</AnchorPane>

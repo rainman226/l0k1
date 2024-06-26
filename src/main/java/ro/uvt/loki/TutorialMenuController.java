@@ -63,4 +63,24 @@ public class TutorialMenuController {
     public void loadEnchantment() {
         loadFXML("tutorial views/EnhancementTutorialsView.fxml");
     }
+
+    @FXML
+    public void loadFilter() {
+        loadFXML("tutorial views/FilterTutorialsView.fxml");
+    }
+
+    @FXML
+    public void loadEdgeDetection() {
+        loadFXML("tutorial views/EdgeDetectionTutorialsView.fxml");
+    }
+
+    @FXML
+    public void loadRestoration() {
+        loadFXML("tutorial views/RestorationTutorialsView.fxml");
+    }
+
+    @FXML
+    public void loadOthers() {
+        loadFXML("tutorial views/OthersTutorialsView.fxml");
+    }
 }

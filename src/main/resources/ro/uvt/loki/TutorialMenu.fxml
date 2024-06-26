@@ -7,10 +7,10 @@
    <children>
       <AnchorPane fx:id="tutorialMenuContainer" layoutX="200.0" prefHeight="720.0" prefWidth="1080.0" />
       <Button mnemonicParsing="false" onAction="#loadEnchantment" prefHeight="50.0" prefWidth="200.0" text="Enchantment" />
-      <Button layoutY="65.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Filtering" />
-      <Button layoutY="130.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Edge detection" />
-      <Button layoutY="195.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Restoration" />
-      <Button layoutY="260.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Misc" />
+      <Button layoutY="65.0" onAction="#loadFilter" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Filtering" />
+      <Button layoutY="130.0" onAction="#loadEdgeDetection" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Edge detection" />
+      <Button layoutY="195.0" onAction="#loadRestoration" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Restoration" />
+      <Button layoutY="260.0" onAction="#loadOthers" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Misc" />
       <Button layoutY="325.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" onAction="#switchToMain" text="Go back" />
    </children>
 </AnchorPane>
