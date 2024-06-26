@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="367.0" prefWidth="250.0" stylesheets="@../../../css/views.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.uvt.loki.controllers.FilterController">
+<AnchorPane prefHeight="367.0" prefWidth="250.0" stylesheets="@../../../css/views.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.uvt.loki.controllers.algorithms.FilterController">
    <children>
       <Text layoutX="27.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Blur:" />
       <TextField fx:id="inputBlur" layoutX="59.0" layoutY="20.0" prefHeight="26.0" prefWidth="109.0" />

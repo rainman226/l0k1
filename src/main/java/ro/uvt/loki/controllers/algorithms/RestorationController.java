@@ -1,4 +1,4 @@
-package ro.uvt.loki.controllers;
+package ro.uvt.loki.controllers.algorithms;
 
 import org.opencv.core.Mat;
 import ro.uvt.loki.services.RestorationService;

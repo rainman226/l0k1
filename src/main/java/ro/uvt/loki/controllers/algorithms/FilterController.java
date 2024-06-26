@@ -1,4 +1,4 @@
-package ro.uvt.loki.controllers;
+package ro.uvt.loki.controllers.algorithms;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;

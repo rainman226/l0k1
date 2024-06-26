@@ -8,8 +8,9 @@ module ro.uvt.loki {
 
 
     opens ro.uvt.loki to javafx.fxml;
-    opens ro.uvt.loki.controllers to javafx.fxml;
+    //opens ro.uvt.loki.controllers to javafx.fxml;
     opens ro.uvt.loki.controllers.tutorial to javafx.fxml;
     exports ro.uvt.loki;
+    opens ro.uvt.loki.controllers.algorithms to javafx.fxml;
 }
 

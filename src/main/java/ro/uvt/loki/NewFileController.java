@@ -21,7 +21,7 @@ import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ro.uvt.loki.controllers.EnchantmentController;
+import ro.uvt.loki.controllers.algorithms.EnchantmentController;
 import ro.uvt.loki.services.EnchantmentService;
 import ro.uvt.loki.services.StateService;
 
